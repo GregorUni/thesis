@@ -2566,4 +2566,1137 @@ static int dump_secy(struct macsec_secy *secy, struct net_device *dev,
 	attr = nla_nest_start(skb, MACSEC_ATTR_SECY_STATS);
 	if (!attr)
 		goto nla_put_failure;
-	if (copy_secy_stat
+	if (copy_secy_stat(skb, macsec_priv(dev)->stats)) {
+		nla_nest_cancel(skb, attr);
+		goto nla_put_failure;
+	}
+	nla_nest_end(skb, attr);
+
+	txsa_list = nla_nest_start(skb, MACSEC_ATTR_TXSA_LIST);
+	if (!txsa_list)
+		goto nla_put_failure;
+	for (i = 0, j = 1; i < MACSEC_NUM_AN; i++) {
+		struct macsec_tx_sa *tx_sa = rtnl_dereference(tx_sc->sa[i]);
+		struct nlattr *txsa_nest;
+
+		if (!tx_sa)
+			continue;
+
+		txsa_nest = nla_nest_start(skb, j++);
+		if (!txsa_nest) {
+			nla_nest_cancel(skb, txsa_list);
+			goto nla_put_failure;
+		}
+
+		if (nla_put_u8(skb, MACSEC_SA_ATTR_AN, i) ||
+		    nla_put_u32(skb, MACSEC_SA_ATTR_PN, tx_sa->next_pn) ||
+		    nla_put(skb, MACSEC_SA_ATTR_KEYID, MACSEC_KEYID_LEN, tx_sa->key.id) ||
+		    nla_put_u8(skb, MACSEC_SA_ATTR_ACTIVE, tx_sa->active)) {
+			nla_nest_cancel(skb, txsa_nest);
+			nla_nest_cancel(skb, txsa_list);
+			goto nla_put_failure;
+		}
+
+		attr = nla_nest_start(skb, MACSEC_SA_ATTR_STATS);
+		if (!attr) {
+			nla_nest_cancel(skb, txsa_nest);
+			nla_nest_cancel(skb, txsa_list);
+			goto nla_put_failure;
+		}
+		if (copy_tx_sa_stats(skb, tx_sa->stats)) {
+			nla_nest_cancel(skb, attr);
+			nla_nest_cancel(skb, txsa_nest);
+			nla_nest_cancel(skb, txsa_list);
+			goto nla_put_failure;
+		}
+		nla_nest_end(skb, attr);
+
+		nla_nest_end(skb, txsa_nest);
+	}
+	nla_nest_end(skb, txsa_list);
+
+	rxsc_list = nla_nest_start(skb, MACSEC_ATTR_RXSC_LIST);
+	if (!rxsc_list)
+		goto nla_put_failure;
+
+	j = 1;
+	for_each_rxsc_rtnl(secy, rx_sc) {
+		int k;
+		struct nlattr *rxsa_list;
+		struct nlattr *rxsc_nest = nla_nest_start(skb, j++);
+
+		if (!rxsc_nest) {
+			nla_nest_cancel(skb, rxsc_list);
+			goto nla_put_failure;
+		}
+
+		if (nla_put_u8(skb, MACSEC_RXSC_ATTR_ACTIVE, rx_sc->active) ||
+		    nla_put_sci(skb, MACSEC_RXSC_ATTR_SCI, rx_sc->sci,
+				MACSEC_RXSC_ATTR_PAD)) {
+			nla_nest_cancel(skb, rxsc_nest);
+			nla_nest_cancel(skb, rxsc_list);
+			goto nla_put_failure;
+		}
+
+		attr = nla_nest_start(skb, MACSEC_RXSC_ATTR_STATS);
+		if (!attr) {
+			nla_nest_cancel(skb, rxsc_nest);
+			nla_nest_cancel(skb, rxsc_list);
+			goto nla_put_failure;
+		}
+		if (copy_rx_sc_stats(skb, rx_sc->stats)) {
+			nla_nest_cancel(skb, attr);
+			nla_nest_cancel(skb, rxsc_nest);
+			nla_nest_cancel(skb, rxsc_list);
+			goto nla_put_failure;
+		}
+		nla_nest_end(skb, attr);
+
+		rxsa_list = nla_nest_start(skb, MACSEC_RXSC_ATTR_SA_LIST);
+		if (!rxsa_list) {
+			nla_nest_cancel(skb, rxsc_nest);
+			nla_nest_cancel(skb, rxsc_list);
+			goto nla_put_failure;
+		}
+
+		for (i = 0, k = 1; i < MACSEC_NUM_AN; i++) {
+			struct macsec_rx_sa *rx_sa = rtnl_dereference(rx_sc->sa[i]);
+			struct nlattr *rxsa_nest;
+
+			if (!rx_sa)
+				continue;
+
+			rxsa_nest = nla_nest_start(skb, k++);
+			if (!rxsa_nest) {
+				nla_nest_cancel(skb, rxsa_list);
+				nla_nest_cancel(skb, rxsc_nest);
+				nla_nest_cancel(skb, rxsc_list);
+				goto nla_put_failure;
+			}
+
+			attr = nla_nest_start(skb, MACSEC_SA_ATTR_STATS);
+			if (!attr) {
+				nla_nest_cancel(skb, rxsa_list);
+				nla_nest_cancel(skb, rxsc_nest);
+				nla_nest_cancel(skb, rxsc_list);
+				goto nla_put_failure;
+			}
+			if (copy_rx_sa_stats(skb, rx_sa->stats)) {
+				nla_nest_cancel(skb, attr);
+				nla_nest_cancel(skb, rxsa_list);
+				nla_nest_cancel(skb, rxsc_nest);
+				nla_nest_cancel(skb, rxsc_list);
+				goto nla_put_failure;
+			}
+			nla_nest_end(skb, attr);
+
+			if (nla_put_u8(skb, MACSEC_SA_ATTR_AN, i) ||
+			    nla_put_u32(skb, MACSEC_SA_ATTR_PN, rx_sa->next_pn) ||
+			    nla_put(skb, MACSEC_SA_ATTR_KEYID, MACSEC_KEYID_LEN, rx_sa->key.id) ||
+			    nla_put_u8(skb, MACSEC_SA_ATTR_ACTIVE, rx_sa->active)) {
+				nla_nest_cancel(skb, rxsa_nest);
+				nla_nest_cancel(skb, rxsc_nest);
+				nla_nest_cancel(skb, rxsc_list);
+				goto nla_put_failure;
+			}
+			nla_nest_end(skb, rxsa_nest);
+		}
+
+		nla_nest_end(skb, rxsa_list);
+		nla_nest_end(skb, rxsc_nest);
+	}
+
+	nla_nest_end(skb, rxsc_list);
+
+	genlmsg_end(skb, hdr);
+	printk("dump_secy ende");
+	return 0;
+
+nla_put_failure:
+	genlmsg_cancel(skb, hdr);
+	printk("dump_secy fehlgeschlagen");
+	return -EMSGSIZE;
+}
+
+static int macsec_generation = 1; /* protected by RTNL */
+
+static int macsec_dump_txsc(struct sk_buff *skb, struct netlink_callback *cb)
+{
+	struct net *net = sock_net(skb->sk);
+	struct net_device *dev;
+	int dev_idx, d;
+
+	printk("macsec_dump_txsc start");
+	dev_idx = cb->args[0];
+
+	d = 0;
+	rtnl_lock();
+
+	cb->seq = macsec_generation;
+
+	for_each_netdev(net, dev) {
+		struct macsec_secy *secy;
+
+		if (d < dev_idx)
+			goto next;
+
+		if (!netif_is_macsec(dev))
+			goto next;
+
+		secy = &macsec_priv(dev)->secy;
+		if (dump_secy(secy, dev, skb, cb) < 0)
+			goto done;
+next:
+		d++;
+	}
+
+done:
+	rtnl_unlock();
+	cb->args[0] = d;
+	printk("macsec_dump_txsc ende");
+	return skb->len;
+}
+
+static const struct genl_ops macsec_genl_ops[] = {
+	{
+		.cmd = MACSEC_CMD_GET_TXSC,
+		.dumpit = macsec_dump_txsc,
+		.policy = macsec_genl_policy,
+	},
+	{
+		.cmd = MACSEC_CMD_ADD_RXSC,
+		.doit = macsec_add_rxsc,
+		.policy = macsec_genl_policy,
+		.flags = GENL_ADMIN_PERM,
+	},
+	{
+		.cmd = MACSEC_CMD_DEL_RXSC,
+		.doit = macsec_del_rxsc,
+		.policy = macsec_genl_policy,
+		.flags = GENL_ADMIN_PERM,
+	},
+	{
+		.cmd = MACSEC_CMD_UPD_RXSC,
+		.doit = macsec_upd_rxsc,
+		.policy = macsec_genl_policy,
+		.flags = GENL_ADMIN_PERM,
+	},
+	{
+		.cmd = MACSEC_CMD_ADD_TXSA,
+		.doit = macsec_add_txsa,
+		.policy = macsec_genl_policy,
+		.flags = GENL_ADMIN_PERM,
+	},
+	{
+		.cmd = MACSEC_CMD_DEL_TXSA,
+		.doit = macsec_del_txsa,
+		.policy = macsec_genl_policy,
+		.flags = GENL_ADMIN_PERM,
+	},
+	{
+		.cmd = MACSEC_CMD_UPD_TXSA,
+		.doit = macsec_upd_txsa,
+		.policy = macsec_genl_policy,
+		.flags = GENL_ADMIN_PERM,
+	},
+	{
+		.cmd = MACSEC_CMD_ADD_RXSA,
+		.doit = macsec_add_rxsa,
+		.policy = macsec_genl_policy,
+		.flags = GENL_ADMIN_PERM,
+	},
+	{
+		.cmd = MACSEC_CMD_DEL_RXSA,
+		.doit = macsec_del_rxsa,
+		.policy = macsec_genl_policy,
+		.flags = GENL_ADMIN_PERM,
+	},
+	{
+		.cmd = MACSEC_CMD_UPD_RXSA,
+		.doit = macsec_upd_rxsa,
+		.policy = macsec_genl_policy,
+		.flags = GENL_ADMIN_PERM,
+	},
+};
+
+static struct genl_family macsec_fam __ro_after_init = {
+	.name		= MACSEC_GENL_NAME,
+	.hdrsize	= 0,
+	.version	= MACSEC_GENL_VERSION,
+	.maxattr	= MACSEC_ATTR_MAX,
+	.netnsok	= true,
+	.module		= THIS_MODULE,
+	.ops		= macsec_genl_ops,
+	.n_ops		= ARRAY_SIZE(macsec_genl_ops),
+};
+
+static netdev_tx_t macsec_start_xmit(struct sk_buff *skb,
+				     struct net_device *dev)
+{
+	struct macsec_dev *macsec = netdev_priv(dev);
+	struct macsec_secy *secy = &macsec->secy;
+	struct pcpu_secy_stats *secy_stats;
+	int ret, len;
+	printk("netdev_tx_t macsec_start_xmit start");
+	/* 10.5 */
+	if (!secy->protect_frames) {
+		secy_stats = this_cpu_ptr(macsec->stats);
+		u64_stats_update_begin(&secy_stats->syncp);
+		secy_stats->stats.OutPktsUntagged++;
+		u64_stats_update_end(&secy_stats->syncp);
+		skb->dev = macsec->real_dev;
+		len = skb->len;
+		ret = dev_queue_xmit(skb);
+		count_tx(dev, ret, len);
+		printk("netdev_tx_t macsec_start_xmit ende1");
+		return ret;
+	}
+
+	if (!secy->operational) {
+		kfree_skb(skb);
+		dev->stats.tx_dropped++;
+		printk("netdev_tx_t macsec_start_xmit ende2");
+		return NETDEV_TX_OK;
+	}
+	printk("%p", (void *)skb);
+	printk("%p", (void *)dev);
+	skb = macsec_encrypt(skb, dev);
+	if (IS_ERR(skb)) {
+		printk("%p", (void *)skb);
+		if (PTR_ERR(skb) != -EINPROGRESS){
+			printk("%c",-EINPROGRESS);
+			dev->stats.tx_dropped++;
+		}
+		printk("netdev_tx_t macsec_start_xmit ende3");
+		return NETDEV_TX_OK;
+	}
+
+	macsec_count_tx(skb, &macsec->secy.tx_sc, macsec_skb_cb(skb)->tx_sa);
+
+	macsec_encrypt_finish(skb, dev);
+	len = skb->len;
+	ret = dev_queue_xmit(skb);
+	count_tx(dev, ret, len);
+	printk("netdev_tx_t macsec_start_xmit ende4");
+	return ret;
+}
+
+#define MACSEC_FEATURES \
+	(NETIF_F_SG | NETIF_F_HIGHDMA | NETIF_F_FRAGLIST)
+static struct lock_class_key macsec_netdev_addr_lock_key;
+
+static int macsec_dev_init(struct net_device *dev)
+{
+
+	struct macsec_dev *macsec = macsec_priv(dev);
+	struct net_device *real_dev = macsec->real_dev;
+	int err;
+	printk("macsec_dev_init start");
+	dev->tstats = netdev_alloc_pcpu_stats(struct pcpu_sw_netstats);
+	if (!dev->tstats)
+		return -ENOMEM;
+
+	err = gro_cells_init(&macsec->gro_cells, dev);
+	if (err) {
+		free_percpu(dev->tstats);
+		return err;
+	}
+
+	dev->features = real_dev->features & MACSEC_FEATURES;
+	dev->features |= NETIF_F_LLTX | NETIF_F_GSO_SOFTWARE;
+
+	dev->needed_headroom = real_dev->needed_headroom +
+			       MACSEC_NEEDED_HEADROOM;
+	dev->needed_tailroom = real_dev->needed_tailroom +
+			       MACSEC_NEEDED_TAILROOM;
+
+	if (is_zero_ether_addr(dev->dev_addr))
+		eth_hw_addr_inherit(dev, real_dev);
+	if (is_zero_ether_addr(dev->broadcast))
+		memcpy(dev->broadcast, real_dev->broadcast, dev->addr_len);
+
+	printk("macsec_dev_init ende");
+	return 0;
+}
+
+static void macsec_dev_uninit(struct net_device *dev)
+{
+	struct macsec_dev *macsec = macsec_priv(dev);
+	printk("macsec_dev_uninit start");
+	gro_cells_destroy(&macsec->gro_cells);
+	free_percpu(dev->tstats);
+	printk("macsec_dev_uninit ende");
+}
+
+static netdev_features_t macsec_fix_features(struct net_device *dev,
+					     netdev_features_t features)
+{
+	struct macsec_dev *macsec = macsec_priv(dev);
+	struct net_device *real_dev = macsec->real_dev;
+	printk("macsec_fix_features start");
+	features &= (real_dev->features & MACSEC_FEATURES) |
+		    NETIF_F_GSO_SOFTWARE | NETIF_F_SOFT_FEATURES;
+	features |= NETIF_F_LLTX;
+	printk("macsec_fix_features ende");
+	return features;
+}
+
+static int macsec_dev_open(struct net_device *dev)
+{
+	struct macsec_dev *macsec = macsec_priv(dev);
+	struct net_device *real_dev = macsec->real_dev;
+	int err;
+	printk("macsec_dev_open start");
+	if (!(real_dev->flags & IFF_UP))
+		return -ENETDOWN;
+
+	err = dev_uc_add(real_dev, dev->dev_addr);
+	if (err < 0)
+		return err;
+
+	if (dev->flags & IFF_ALLMULTI) {
+		err = dev_set_allmulti(real_dev, 1);
+		if (err < 0)
+			goto del_unicast;
+	}
+
+	if (dev->flags & IFF_PROMISC) {
+		err = dev_set_promiscuity(real_dev, 1);
+		if (err < 0)
+			goto clear_allmulti;
+	}
+
+	if (netif_carrier_ok(real_dev))
+		netif_carrier_on(dev);
+
+	printk("macsec_dev_open ende");
+	return 0;
+clear_allmulti:
+	if (dev->flags & IFF_ALLMULTI)
+		dev_set_allmulti(real_dev, -1);
+del_unicast:
+	dev_uc_del(real_dev, dev->dev_addr);
+	netif_carrier_off(dev);
+	return err;
+}
+
+static int macsec_dev_stop(struct net_device *dev)
+{
+	struct macsec_dev *macsec = macsec_priv(dev);
+	struct net_device *real_dev = macsec->real_dev;
+	printk("macsec_dev_stop start");
+	netif_carrier_off(dev);
+
+	dev_mc_unsync(real_dev, dev);
+	dev_uc_unsync(real_dev, dev);
+
+	if (dev->flags & IFF_ALLMULTI)
+		dev_set_allmulti(real_dev, -1);
+
+	if (dev->flags & IFF_PROMISC)
+		dev_set_promiscuity(real_dev, -1);
+
+	dev_uc_del(real_dev, dev->dev_addr);
+	printk("macsec_dev_stop ende");
+	return 0;
+}
+
+static void macsec_dev_change_rx_flags(struct net_device *dev, int change)
+{
+	struct net_device *real_dev = macsec_priv(dev)->real_dev;
+	printk("macsec_dev_change_rx_flags start");
+	if (!(dev->flags & IFF_UP))
+		return;
+
+	if (change & IFF_ALLMULTI)
+		dev_set_allmulti(real_dev, dev->flags & IFF_ALLMULTI ? 1 : -1);
+
+	if (change & IFF_PROMISC)
+		dev_set_promiscuity(real_dev,
+				    dev->flags & IFF_PROMISC ? 1 : -1);
+	printk("macsec_dev_change_rx_flags ende");
+}
+
+static void macsec_dev_set_rx_mode(struct net_device *dev)
+{
+	struct net_device *real_dev = macsec_priv(dev)->real_dev;
+	printk("macsec_dev_set_rx_mode start");
+	dev_mc_sync(real_dev, dev);
+	dev_uc_sync(real_dev, dev);
+	printk("macsec_dev_set_rx_mode ende");
+}
+
+static int macsec_set_mac_address(struct net_device *dev, void *p)
+{
+	struct macsec_dev *macsec = macsec_priv(dev);
+	struct net_device *real_dev = macsec->real_dev;
+	struct sockaddr *addr = p;
+	int err;
+	printk("macsec_set_mac_address start");
+	if (!is_valid_ether_addr(addr->sa_data))
+		return -EADDRNOTAVAIL;
+
+	if (!(dev->flags & IFF_UP))
+		goto out;
+
+	err = dev_uc_add(real_dev, addr->sa_data);
+	if (err < 0)
+		return err;
+
+	dev_uc_del(real_dev, dev->dev_addr);
+
+out:
+	ether_addr_copy(dev->dev_addr, addr->sa_data);
+	printk("macsec_set_mac_address ende");
+	return 0;
+}
+
+static int macsec_change_mtu(struct net_device *dev, int new_mtu)
+{
+	struct macsec_dev *macsec = macsec_priv(dev);
+	unsigned int extra = macsec->secy.icv_len + macsec_extra_len(true);
+	printk("macsec_change_mtu start");
+	if (macsec->real_dev->mtu - extra < new_mtu)
+		return -ERANGE;
+
+	dev->mtu = new_mtu;
+	printk("macsec_change_mtu ende");
+	return 0;
+}
+
+static void macsec_get_stats64(struct net_device *dev,
+			       struct rtnl_link_stats64 *s)
+{
+	int cpu;
+
+	if (!dev->tstats)
+		return;
+
+	for_each_possible_cpu(cpu) {
+		struct pcpu_sw_netstats *stats;
+		struct pcpu_sw_netstats tmp;
+		int start;
+
+		stats = per_cpu_ptr(dev->tstats, cpu);
+		do {
+			start = u64_stats_fetch_begin_irq(&stats->syncp);
+			tmp.rx_packets = stats->rx_packets;
+			tmp.rx_bytes   = stats->rx_bytes;
+			tmp.tx_packets = stats->tx_packets;
+			tmp.tx_bytes   = stats->tx_bytes;
+		} while (u64_stats_fetch_retry_irq(&stats->syncp, start));
+
+		s->rx_packets += tmp.rx_packets;
+		s->rx_bytes   += tmp.rx_bytes;
+		s->tx_packets += tmp.tx_packets;
+		s->tx_bytes   += tmp.tx_bytes;
+	}
+
+	s->rx_dropped = dev->stats.rx_dropped;
+	s->tx_dropped = dev->stats.tx_dropped;
+}
+
+static int macsec_get_iflink(const struct net_device *dev)
+{
+	return macsec_priv(dev)->real_dev->ifindex;
+}
+
+
+static int macsec_get_nest_level(struct net_device *dev)
+{
+	return macsec_priv(dev)->nest_level;
+}
+
+
+static const struct net_device_ops macsec_netdev_ops = {
+	.ndo_init		= macsec_dev_init,
+	.ndo_uninit		= macsec_dev_uninit,
+	.ndo_open		= macsec_dev_open,
+	.ndo_stop		= macsec_dev_stop,
+	.ndo_fix_features	= macsec_fix_features,
+	.ndo_change_mtu		= macsec_change_mtu,
+	.ndo_set_rx_mode	= macsec_dev_set_rx_mode,
+	.ndo_change_rx_flags	= macsec_dev_change_rx_flags,
+	.ndo_set_mac_address	= macsec_set_mac_address,
+	.ndo_start_xmit		= macsec_start_xmit,
+	.ndo_get_stats64	= macsec_get_stats64,
+	.ndo_get_iflink		= macsec_get_iflink,
+	.ndo_get_lock_subclass  = macsec_get_nest_level,
+};
+
+static const struct device_type macsec_type = {
+	.name = "macsec",
+};
+
+static const struct nla_policy macsec_rtnl_policy[IFLA_MACSEC_MAX + 1] = {
+	[IFLA_MACSEC_SCI] = { .type = NLA_U64 },
+	[IFLA_MACSEC_ICV_LEN] = { .type = NLA_U8 },
+	[IFLA_MACSEC_CIPHER_SUITE] = { .type = NLA_U64 },
+	[IFLA_MACSEC_WINDOW] = { .type = NLA_U32 },
+	[IFLA_MACSEC_ENCODING_SA] = { .type = NLA_U8 },
+	[IFLA_MACSEC_ENCRYPT] = { .type = NLA_U8 },
+	[IFLA_MACSEC_PROTECT] = { .type = NLA_U8 },
+	[IFLA_MACSEC_INC_SCI] = { .type = NLA_U8 },
+	[IFLA_MACSEC_ES] = { .type = NLA_U8 },
+	[IFLA_MACSEC_SCB] = { .type = NLA_U8 },
+	[IFLA_MACSEC_REPLAY_PROTECT] = { .type = NLA_U8 },
+	[IFLA_MACSEC_VALIDATION] = { .type = NLA_U8 },
+};
+
+static void macsec_free_netdev(struct net_device *dev)
+{
+	struct macsec_dev *macsec = macsec_priv(dev);
+	struct net_device *real_dev = macsec->real_dev;
+
+	free_percpu(macsec->stats);
+	free_percpu(macsec->secy.tx_sc.stats);
+
+	dev_put(real_dev);
+}
+
+static void macsec_setup(struct net_device *dev)
+{
+	ether_setup(dev);
+	dev->min_mtu = 0;
+	dev->max_mtu = ETH_MAX_MTU;
+	dev->priv_flags |= IFF_NO_QUEUE;
+	dev->netdev_ops = &macsec_netdev_ops;
+	dev->needs_free_netdev = true;
+	dev->priv_destructor = macsec_free_netdev;
+	SET_NETDEV_DEVTYPE(dev, &macsec_type);
+
+	eth_zero_addr(dev->broadcast);
+}
+
+static void macsec_changelink_common(struct net_device *dev,
+				     struct nlattr *data[])
+{
+	struct macsec_secy *secy;
+	struct macsec_tx_sc *tx_sc;
+	printk("macsec_changelink_common start");
+	secy = &macsec_priv(dev)->secy;
+	tx_sc = &secy->tx_sc;
+
+	if (data[IFLA_MACSEC_ENCODING_SA]) {
+		struct macsec_tx_sa *tx_sa;
+
+		tx_sc->encoding_sa = nla_get_u8(data[IFLA_MACSEC_ENCODING_SA]);
+		tx_sa = rtnl_dereference(tx_sc->sa[tx_sc->encoding_sa]);
+
+		secy->operational = tx_sa && tx_sa->active;
+	}
+
+	if (data[IFLA_MACSEC_WINDOW])
+		secy->replay_window = nla_get_u32(data[IFLA_MACSEC_WINDOW]);
+
+	if (data[IFLA_MACSEC_ENCRYPT])
+		tx_sc->encrypt = !!nla_get_u8(data[IFLA_MACSEC_ENCRYPT]);
+
+	if (data[IFLA_MACSEC_PROTECT])
+		secy->protect_frames = !!nla_get_u8(data[IFLA_MACSEC_PROTECT]);
+
+	if (data[IFLA_MACSEC_INC_SCI])
+		tx_sc->send_sci = !!nla_get_u8(data[IFLA_MACSEC_INC_SCI]);
+
+	if (data[IFLA_MACSEC_ES])
+		tx_sc->end_station = !!nla_get_u8(data[IFLA_MACSEC_ES]);
+
+	if (data[IFLA_MACSEC_SCB])
+		tx_sc->scb = !!nla_get_u8(data[IFLA_MACSEC_SCB]);
+
+	if (data[IFLA_MACSEC_REPLAY_PROTECT])
+		secy->replay_protect = !!nla_get_u8(data[IFLA_MACSEC_REPLAY_PROTECT]);
+
+	if (data[IFLA_MACSEC_VALIDATION])
+		secy->validate_frames = nla_get_u8(data[IFLA_MACSEC_VALIDATION]);
+
+	printk("macsec_changelink_common ende");
+}
+
+static int macsec_changelink(struct net_device *dev, struct nlattr *tb[],
+			     struct nlattr *data[],
+			     struct netlink_ext_ack *extack)
+{
+	printk("macsec_changelink start");
+	if (!data)
+		return 0;
+
+	if (data[IFLA_MACSEC_CIPHER_SUITE] ||
+	    data[IFLA_MACSEC_ICV_LEN] ||
+	    data[IFLA_MACSEC_SCI] ||
+	    data[IFLA_MACSEC_PORT])
+		return -EINVAL;
+
+	macsec_changelink_common(dev, data);
+	printk("macsec_changelink ende");
+	return 0;
+}
+
+static void macsec_del_dev(struct macsec_dev *macsec)
+{
+	int i;
+	printk("macsec_del_dev start");
+	while (macsec->secy.rx_sc) {
+		struct macsec_rx_sc *rx_sc = rtnl_dereference(macsec->secy.rx_sc);
+
+		rcu_assign_pointer(macsec->secy.rx_sc, rx_sc->next);
+		free_rx_sc(rx_sc);
+	}
+
+	for (i = 0; i < MACSEC_NUM_AN; i++) {
+		struct macsec_tx_sa *sa = rtnl_dereference(macsec->secy.tx_sc.sa[i]);
+
+		if (sa) {
+			RCU_INIT_POINTER(macsec->secy.tx_sc.sa[i], NULL);
+			clear_tx_sa(sa);
+		}
+	}
+	printk("macsec_del_dev ende");
+}
+
+static void macsec_common_dellink(struct net_device *dev, struct list_head *head)
+{
+	struct macsec_dev *macsec = macsec_priv(dev);
+	struct net_device *real_dev = macsec->real_dev;
+	printk("macsec_common_dellink start");
+	unregister_netdevice_queue(dev, head);
+	list_del_rcu(&macsec->secys);
+	macsec_del_dev(macsec);
+	netdev_upper_dev_unlink(real_dev, dev);
+
+	macsec_generation++;
+	printk("macsec_common_dellink ende");
+}
+
+static void macsec_dellink(struct net_device *dev, struct list_head *head)
+{
+	struct macsec_dev *macsec = macsec_priv(dev);
+	struct net_device *real_dev = macsec->real_dev;
+	struct macsec_rxh_data *rxd = macsec_data_rtnl(real_dev);
+
+	printk("macsec_common_delllink start");
+	macsec_common_dellink(dev, head);
+
+	if (list_empty(&rxd->secys)) {
+		netdev_rx_handler_unregister(real_dev);
+		kfree(rxd);
+	}
+	printk("macsec_common_dellink ende");
+}
+
+static int register_macsec_dev(struct net_device *real_dev,
+			       struct net_device *dev)
+{
+	struct macsec_dev *macsec = macsec_priv(dev);
+	struct macsec_rxh_data *rxd = macsec_data_rtnl(real_dev);
+	printk("register_macsec_dev start");
+	if (!rxd) {
+		int err;
+
+		rxd = kmalloc(sizeof(*rxd), GFP_KERNEL);
+		if (!rxd)
+			return -ENOMEM;
+
+		INIT_LIST_HEAD(&rxd->secys);
+
+		err = netdev_rx_handler_register(real_dev, macsec_handle_frame,
+						 rxd);
+		if (err < 0) {
+			kfree(rxd);
+			return err;
+		}
+	}
+
+	list_add_tail_rcu(&macsec->secys, &rxd->secys);
+	printk("register_macsec_dev ende");
+	return 0;
+}
+
+static bool sci_exists(struct net_device *dev, sci_t sci)
+{
+	struct macsec_rxh_data *rxd = macsec_data_rtnl(dev);
+	struct macsec_dev *macsec;
+
+	list_for_each_entry(macsec, &rxd->secys, secys) {
+		if (macsec->secy.sci == sci)
+			return true;
+	}
+
+	return false;
+}
+
+static sci_t dev_to_sci(struct net_device *dev, __be16 port)
+{
+	return make_sci(dev->dev_addr, port);
+}
+
+static int macsec_add_dev(struct net_device *dev, sci_t sci, u8 icv_len)
+{
+	struct macsec_dev *macsec = macsec_priv(dev);
+	struct macsec_secy *secy = &macsec->secy;
+	printk("macsec_add_dev start");
+	macsec->stats = netdev_alloc_pcpu_stats(struct pcpu_secy_stats);
+	if (!macsec->stats)
+		return -ENOMEM;
+
+	secy->tx_sc.stats = netdev_alloc_pcpu_stats(struct pcpu_tx_sc_stats);
+	if (!secy->tx_sc.stats) {
+		free_percpu(macsec->stats);
+		return -ENOMEM;
+	}
+
+	if (sci == MACSEC_UNDEF_SCI)
+		sci = dev_to_sci(dev, MACSEC_PORT_ES);
+
+	secy->netdev = dev;
+	secy->operational = true;
+	secy->key_len = DEFAULT_SAK_LEN;
+	secy->icv_len = icv_len;
+	secy->validate_frames = MACSEC_VALIDATE_DEFAULT;
+	secy->protect_frames = true;
+	secy->replay_protect = false;
+
+	secy->sci = sci;
+	secy->tx_sc.active = true;
+	secy->tx_sc.encoding_sa = DEFAULT_ENCODING_SA;
+	secy->tx_sc.encrypt = DEFAULT_ENCRYPT;
+	secy->tx_sc.send_sci = DEFAULT_SEND_SCI;
+	secy->tx_sc.end_station = false;
+	secy->tx_sc.scb = false;
+	printk("macsec_add_dev ende");
+	return 0;
+}
+
+static int macsec_newlink(struct net *net, struct net_device *dev,
+			  struct nlattr *tb[], struct nlattr *data[],
+			  struct netlink_ext_ack *extack)
+{
+	struct macsec_dev *macsec = macsec_priv(dev);
+	struct net_device *real_dev;
+	int err;
+	sci_t sci;
+	u8 icv_len = DEFAULT_ICV_LEN;
+	rx_handler_func_t *rx_handler;
+
+	printk("macsec_newlink start");
+	if (!tb[IFLA_LINK])
+		return -EINVAL;
+	real_dev = __dev_get_by_index(net, nla_get_u32(tb[IFLA_LINK]));
+	if (!real_dev)
+		return -ENODEV;
+
+	dev->priv_flags |= IFF_MACSEC;
+
+	macsec->real_dev = real_dev;
+
+	if (data && data[IFLA_MACSEC_ICV_LEN])
+		icv_len = nla_get_u8(data[IFLA_MACSEC_ICV_LEN]);
+	dev->mtu = real_dev->mtu - icv_len - macsec_extra_len(true);
+
+	rx_handler = rtnl_dereference(real_dev->rx_handler);
+	if (rx_handler && rx_handler != macsec_handle_frame)
+		return -EBUSY;
+
+	err = register_netdevice(dev);
+	if (err < 0)
+		return err;
+
+	dev_hold(real_dev);
+
+	macsec->nest_level = dev_get_nest_level(real_dev) + 1;
+	netdev_lockdep_set_classes(dev);
+	lockdep_set_class_and_subclass(&dev->addr_list_lock,
+				       &macsec_netdev_addr_lock_key,
+				       macsec_get_nest_level(dev));
+
+	err = netdev_upper_dev_link(real_dev, dev);
+	if (err < 0)
+		goto unregister;
+
+	/* need to be already registered so that ->init has run and
+	 * the MAC addr is set
+	 */
+	if (data && data[IFLA_MACSEC_SCI])
+		sci = nla_get_sci(data[IFLA_MACSEC_SCI]);
+	else if (data && data[IFLA_MACSEC_PORT])
+		sci = dev_to_sci(dev, nla_get_be16(data[IFLA_MACSEC_PORT]));
+	else
+		sci = dev_to_sci(dev, MACSEC_PORT_ES);
+
+	if (rx_handler && sci_exists(real_dev, sci)) {
+		err = -EBUSY;
+		goto unlink;
+	}
+
+	err = macsec_add_dev(dev, sci, icv_len);
+	if (err)
+		goto unlink;
+
+	if (data)
+		macsec_changelink_common(dev, data);
+
+	err = register_macsec_dev(real_dev, dev);
+	if (err < 0)
+		goto del_dev;
+
+	macsec_generation++;
+	printk("macsec_newlink ende1");
+	return 0;
+
+del_dev:
+printk("macsec_newlink ende2");
+	macsec_del_dev(macsec);
+unlink:
+printk("macsec_newlink ende3");
+	netdev_upper_dev_unlink(real_dev, dev);
+unregister:
+	unregister_netdevice(dev);
+	return err;
+}
+
+static int macsec_validate_attr(struct nlattr *tb[], struct nlattr *data[],
+				struct netlink_ext_ack *extack)
+{
+	u64 csid = MACSEC_DEFAULT_CIPHER_ID;
+	u8 icv_len = DEFAULT_ICV_LEN;
+	int flag;
+	bool es, scb, sci;
+	printk("macsec_validate_attr start");
+	if (!data)
+		return 0;
+
+	if (data[IFLA_MACSEC_CIPHER_SUITE])
+		csid = nla_get_u64(data[IFLA_MACSEC_CIPHER_SUITE]);
+
+	if (data[IFLA_MACSEC_ICV_LEN]) {
+		icv_len = nla_get_u8(data[IFLA_MACSEC_ICV_LEN]);
+		if (icv_len != DEFAULT_ICV_LEN) {
+			char dummy_key[DEFAULT_SAK_LEN] = { 0 };
+			struct crypto_aead *dummy_tfm;
+
+			dummy_tfm = macsec_alloc_tfm(dummy_key,
+						     DEFAULT_SAK_LEN,
+						     icv_len);
+			if (IS_ERR(dummy_tfm))
+				return PTR_ERR(dummy_tfm);
+			crypto_free_aead(dummy_tfm);
+		}
+	}
+
+	switch (csid) {
+	case MACSEC_DEFAULT_CIPHER_ID:
+	case MACSEC_DEFAULT_CIPHER_ALT:
+		if (icv_len < MACSEC_MIN_ICV_LEN ||
+		    icv_len > MACSEC_STD_ICV_LEN)
+			return -EINVAL;
+		break;
+	default:
+		return -EINVAL;
+	}
+
+	if (data[IFLA_MACSEC_ENCODING_SA]) {
+		if (nla_get_u8(data[IFLA_MACSEC_ENCODING_SA]) >= MACSEC_NUM_AN)
+			return -EINVAL;
+	}
+
+	for (flag = IFLA_MACSEC_ENCODING_SA + 1;
+	     flag < IFLA_MACSEC_VALIDATION;
+	     flag++) {
+		if (data[flag]) {
+			if (nla_get_u8(data[flag]) > 1)
+				return -EINVAL;
+		}
+	}
+
+	es  = data[IFLA_MACSEC_ES] ? nla_get_u8(data[IFLA_MACSEC_ES]) : false;
+	sci = data[IFLA_MACSEC_INC_SCI] ? nla_get_u8(data[IFLA_MACSEC_INC_SCI]) : false;
+	scb = data[IFLA_MACSEC_SCB] ? nla_get_u8(data[IFLA_MACSEC_SCB]) : false;
+
+	if ((sci && (scb || es)) || (scb && es))
+		return -EINVAL;
+
+	if (data[IFLA_MACSEC_VALIDATION] &&
+	    nla_get_u8(data[IFLA_MACSEC_VALIDATION]) > MACSEC_VALIDATE_MAX)
+		return -EINVAL;
+
+	if ((data[IFLA_MACSEC_REPLAY_PROTECT] &&
+	     nla_get_u8(data[IFLA_MACSEC_REPLAY_PROTECT])) &&
+	    !data[IFLA_MACSEC_WINDOW])
+		return -EINVAL;
+	printk("macsec_validate_attr ende");
+	return 0;
+}
+
+static struct net *macsec_get_link_net(const struct net_device *dev)
+{
+	return dev_net(macsec_priv(dev)->real_dev);
+}
+
+static size_t macsec_get_size(const struct net_device *dev)
+{
+	return  nla_total_size_64bit(8) + /* IFLA_MACSEC_SCI */
+		nla_total_size(1) + /* IFLA_MACSEC_ICV_LEN */
+		nla_total_size_64bit(8) + /* IFLA_MACSEC_CIPHER_SUITE */
+		nla_total_size(4) + /* IFLA_MACSEC_WINDOW */
+		nla_total_size(1) + /* IFLA_MACSEC_ENCODING_SA */
+		nla_total_size(1) + /* IFLA_MACSEC_ENCRYPT */
+		nla_total_size(1) + /* IFLA_MACSEC_PROTECT */
+		nla_total_size(1) + /* IFLA_MACSEC_INC_SCI */
+		nla_total_size(1) + /* IFLA_MACSEC_ES */
+		nla_total_size(1) + /* IFLA_MACSEC_SCB */
+		nla_total_size(1) + /* IFLA_MACSEC_REPLAY_PROTECT */
+		nla_total_size(1) + /* IFLA_MACSEC_VALIDATION */
+		0;
+}
+
+static int macsec_fill_info(struct sk_buff *skb,
+			    const struct net_device *dev)
+{
+	struct macsec_secy *secy = &macsec_priv(dev)->secy;
+	struct macsec_tx_sc *tx_sc = &secy->tx_sc;
+
+	printk("macsec_fill_info start");
+	if (nla_put_sci(skb, IFLA_MACSEC_SCI, secy->sci,
+			IFLA_MACSEC_PAD) ||
+	    nla_put_u8(skb, IFLA_MACSEC_ICV_LEN, secy->icv_len) ||
+	    nla_put_u64_64bit(skb, IFLA_MACSEC_CIPHER_SUITE,
+			      MACSEC_DEFAULT_CIPHER_ID, IFLA_MACSEC_PAD) ||
+	    nla_put_u8(skb, IFLA_MACSEC_ENCODING_SA, tx_sc->encoding_sa) ||
+	    nla_put_u8(skb, IFLA_MACSEC_ENCRYPT, tx_sc->encrypt) ||
+	    nla_put_u8(skb, IFLA_MACSEC_PROTECT, secy->protect_frames) ||
+	    nla_put_u8(skb, IFLA_MACSEC_INC_SCI, tx_sc->send_sci) ||
+	    nla_put_u8(skb, IFLA_MACSEC_ES, tx_sc->end_station) ||
+	    nla_put_u8(skb, IFLA_MACSEC_SCB, tx_sc->scb) ||
+	    nla_put_u8(skb, IFLA_MACSEC_REPLAY_PROTECT, secy->replay_protect) ||
+	    nla_put_u8(skb, IFLA_MACSEC_VALIDATION, secy->validate_frames) ||
+	    0)
+		goto nla_put_failure;
+
+	if (secy->replay_protect) {
+		if (nla_put_u32(skb, IFLA_MACSEC_WINDOW, secy->replay_window))
+			goto nla_put_failure;
+	}
+
+	printk("macsec_fill_info ende");
+	return 0;
+
+nla_put_failure:
+printk("macsec_fill_info fehlgeschlagen");
+	return -EMSGSIZE;
+}
+
+static struct rtnl_link_ops macsec_link_ops __read_mostly = {
+	.kind		= "macsec",
+	.priv_size	= sizeof(struct macsec_dev),
+	.maxtype	= IFLA_MACSEC_MAX,
+	.policy		= macsec_rtnl_policy,
+	.setup		= macsec_setup,
+	.validate	= macsec_validate_attr,
+	.newlink	= macsec_newlink,
+	.changelink	= macsec_changelink,
+	.dellink	= macsec_dellink,
+	.get_size	= macsec_get_size,
+	.fill_info	= macsec_fill_info,
+	.get_link_net	= macsec_get_link_net,
+};
+
+static bool is_macsec_master(struct net_device *dev)
+{
+	return rcu_access_pointer(dev->rx_handler) == macsec_handle_frame;
+}
+
+static int macsec_notify(struct notifier_block *this, unsigned long event,
+			 void *ptr)
+{
+	struct net_device *real_dev = netdev_notifier_info_to_dev(ptr);
+	LIST_HEAD(head);
+
+	if (!is_macsec_master(real_dev))
+		return NOTIFY_DONE;
+
+	switch (event) {
+	case NETDEV_UNREGISTER: {
+		struct macsec_dev *m, *n;
+		struct macsec_rxh_data *rxd;
+
+		rxd = macsec_data_rtnl(real_dev);
+		list_for_each_entry_safe(m, n, &rxd->secys, secys) {
+			macsec_common_dellink(m->secy.netdev, &head);
+		}
+
+		netdev_rx_handler_unregister(real_dev);
+		kfree(rxd);
+
+		unregister_netdevice_many(&head);
+		break;
+	}
+	case NETDEV_CHANGEMTU: {
+		struct macsec_dev *m;
+		struct macsec_rxh_data *rxd;
+
+		rxd = macsec_data_rtnl(real_dev);
+		list_for_each_entry(m, &rxd->secys, secys) {
+			struct net_device *dev = m->secy.netdev;
+			unsigned int mtu = real_dev->mtu - (m->secy.icv_len +
+							    macsec_extra_len(true));
+
+			if (dev->mtu > mtu)
+				dev_set_mtu(dev, mtu);
+		}
+	}
+	}
+
+	return NOTIFY_OK;
+}
+
+static struct notifier_block macsec_notifier = {
+	.notifier_call = macsec_notify,
+};
+
+static int __init macsec_init(void)
+{
+	int err;
+	printk("init_macsec_initt startstartstartstartstartstart");
+	pr_info("MACsec IEEE 802.1AE\n");
+	err = register_netdevice_notifier(&macsec_notifier);
+	if (err)
+		return err;
+
+	err = rtnl_link_register(&macsec_link_ops);
+	if (err)
+		goto notifier;
+
+	err = genl_register_family(&macsec_fam);
+	if (err)
+		goto rtnl;
+	printk("init_macsec_init ende");
+	return 0;
+
+rtnl:
+printk("init_macsec_init ende2");
+	rtnl_link_unregister(&macsec_link_ops);
+notifier:
+printk("init_macsec_init ende3");
+	unregister_netdevice_notifier(&macsec_notifier);
+	return err;
+}
+
+static void __exit macsec_exit(void)
+{
+	printk("exit_macsec_exit start");
+	genl_unregister_family(&macsec_fam);
+	rtnl_link_unregister(&macsec_link_ops);
+	unregister_netdevice_notifier(&macsec_notifier);
+	rcu_barrier();
+	printk("exit_macsec_exit ende");
+}
+
+module_init(macsec_init);
+module_exit(macsec_exit);
+
+MODULE_ALIAS_RTNL_LINK("macsec");
+MODULE_ALIAS_GENL_FAMILY("macsec");
+
+MODULE_DESCRIPTION("MACsec IEEE 802.1AE");
+MODULE_LICENSE("GPL v2");
+
