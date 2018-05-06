@@ -60,7 +60,7 @@ struct macsec_eth_header {
 
 /* minimum secure data length deemed "not short", see IEEE 802.1AE-2006 9.7 */
 #define MIN_NON_SHORT_LEN 48
-///// initialisierungs vektor auf gcm-aes-aesni  angepasst xxx
+///// initialisierungs vektor auf ccm-aes  angepasst xxx
 #define GCM_AES_IV_LEN 16
 #define DEFAULT_ICV_LEN 16
 
@@ -563,7 +563,7 @@ static void macsec_fill_iv(unsigned char *iv, sci_t sci, u32 pn)
 	gcm_iv->sci = sci;
 	gcm_iv->pn = htonl(pn);
 	printk("gcm_iv->sci %lld ", gcm_iv->sci);
-	printk("gcm_iv->pn %d",htonl(pn) );
+	printk("gcm_iv->pn %d",htonl(pn));
 	iv[0]= 7;
 	printk("wert von iv %d,%d,%d,%d %d %d %d %d\n", iv[0],iv[1],iv[2],iv[3],iv[4],iv[5],iv[6],iv[7]);
 	printk("Macsec_fill_iv erfolreich");
@@ -599,11 +599,16 @@ static void macsec_encrypt_finish(struct sk_buff *skb, struct net_device *dev)
 {
 
 	struct macsec_dev *macsec = netdev_priv(dev);
+	struct macsec_eth_header *hdr;
 	printk("macsec_encrypt_finish start\n");
 
 	skb->dev = macsec->real_dev;
 	skb_reset_mac_header(skb);
 	skb->protocol = eth_hdr(skb)->h_proto;
+	printk("wert von eth in encrypt finish %d",eth_hdr(skb)->h_proto);
+	hdr =macsec_ethhdr(skb);
+	printk("wert von htons in encrypt finish %d", htons(ETH_P_MACSEC));
+	printk("wert von hdr->eth in encrypt finish %d",hdr->eth.h_proto);
 	printk("macsec_encrypt_finish erfolgreich");
 }
 
@@ -1075,11 +1080,11 @@ static struct sk_buff *macsec_decrypt(struct sk_buff *skb,
 		if (ret != -EBADMSG) {
 			kfree_skb(skb);
 			skb = ERR_PTR(ret);
-			printk("sk_buff macsec_decrypt fehlgeschlagen");
+			printk("sk_buff macsec_decrypt error6");
 		}
 	} else {
 		macsec_skb_cb(skb)->valid = true;
-		printk("sk_buff macsec_decrypt erfolgreich");
+		printk("sk_buff macsec_decrypt error7");
 	}
 	dev_put(dev);
 
@@ -1132,20 +1137,23 @@ static void handle_not_macsec(struct sk_buff *skb)
 			u64_stats_update_begin(&secy_stats->syncp);
 			secy_stats->stats.InPktsNoTag++;
 			u64_stats_update_end(&secy_stats->syncp);
+			printk("handle_not_macsec ausgang1\n");
 			continue;
 		}
 
 		/* deliver on this port */
 		nskb = skb_clone(skb, GFP_ATOMIC);
-		if (!nskb)
+		if (!nskb){
+			printk("handle_not_macsec ausgang2\n");
 			break;
-
+		}
 		nskb->dev = macsec->secy.netdev;
 
 		if (netif_rx(nskb) == NET_RX_SUCCESS) {
 			u64_stats_update_begin(&secy_stats->syncp);
 			secy_stats->stats.InPktsUntagged++;
 			u64_stats_update_end(&secy_stats->syncp);
+			printk("handle_not_macsec ausgang3\n");
 		}
 	}
 
@@ -1155,6 +1163,7 @@ static void handle_not_macsec(struct sk_buff *skb)
 
 static rx_handler_result_t macsec_handle_frame(struct sk_buff **pskb)
 {
+	//xxx
 	struct sk_buff *skb = *pskb;
 	struct net_device *dev = skb->dev;
 	struct macsec_eth_header *hdr;
@@ -1175,23 +1184,28 @@ static rx_handler_result_t macsec_handle_frame(struct sk_buff **pskb)
 		goto drop_direct;
 
 	hdr = macsec_ethhdr(skb);
+	printk("wert von htons %d", htons(ETH_P_MACSEC));
+	printk("wert von hdr->eth %d",hdr->eth.h_proto);
 	if (hdr->eth.h_proto != htons(ETH_P_MACSEC)) {
 		handle_not_macsec(skb);
 
 		/* and deliver to the uncontrolled port */
+		printk("macsec_handle_frame ausgang1\n");
 		return RX_HANDLER_PASS;
 	}
 
 	skb = skb_unshare(skb, GFP_ATOMIC);
 	if (!skb) {
 		*pskb = NULL;
+		printk("macsec_handle_frame ausgang2\n");
 		return RX_HANDLER_CONSUMED;
 	}
 
 	pulled_sci = pskb_may_pull(skb, macsec_extra_len(true));
 	if (!pulled_sci) {
-		if (!pskb_may_pull(skb, macsec_extra_len(false)))
-			goto drop_direct;
+		if (!pskb_may_pull(skb, macsec_extra_len(false))){
+			printk("macsec_handle_frame ausgang3\n");
+			goto drop_direct;}
 	}
 
 	hdr = macsec_ethhdr(skb);
@@ -1201,13 +1215,15 @@ static rx_handler_result_t macsec_handle_frame(struct sk_buff **pskb)
 	 * to identify frames with a SecTAG that are not to be
 	 * delivered to the Controlled Port.
 	 */
-	if ((hdr->tci_an & (MACSEC_TCI_C | MACSEC_TCI_E)) == MACSEC_TCI_E)
-		return RX_HANDLER_PASS;
+	if ((hdr->tci_an & (MACSEC_TCI_C | MACSEC_TCI_E)) == MACSEC_TCI_E){
+		printk("macsec_handle_frame ausgang4\n");
+		return RX_HANDLER_PASS;}
 
 	/* now, pull the extra length */
 	if (hdr->tci_an & MACSEC_TCI_SC) {
-		if (!pulled_sci)
-			goto drop_direct;
+		if (!pulled_sci){
+			printk("macsec_handle_frame ausgang5\n");
+			goto drop_direct;}
 	}
 
 	/* ethernet header is part of crypto processing */
@@ -1227,12 +1243,14 @@ static rx_handler_result_t macsec_handle_frame(struct sk_buff **pskb)
 		if (sc) {
 			secy = &macsec->secy;
 			rx_sc = sc;
+			printk("macsec_handle_frame ausgang6\n");
 			break;
 		}
 	}
 
-	if (!secy)
-		goto nosci;
+	if (!secy){
+		printk("macsec_handle_frame ausgang7\n");
+		goto nosci;}
 
 	dev = secy->netdev;
 	macsec = macsec_priv(dev);
@@ -1243,6 +1261,7 @@ static rx_handler_result_t macsec_handle_frame(struct sk_buff **pskb)
 		u64_stats_update_begin(&secy_stats->syncp);
 		secy_stats->stats.InPktsBadTag++;
 		u64_stats_update_end(&secy_stats->syncp);
+		printk("macsec_handle_frame ausgang8\n");
 		goto drop_nosa;
 	}
 
@@ -1258,6 +1277,7 @@ static rx_handler_result_t macsec_handle_frame(struct sk_buff **pskb)
 			u64_stats_update_begin(&rxsc_stats->syncp);
 			rxsc_stats->stats.InPktsNotUsingSA++;
 			u64_stats_update_end(&rxsc_stats->syncp);
+			printk("macsec_handle_frame ausgang9\n");
 			goto drop_nosa;
 		}
 
@@ -1267,6 +1287,7 @@ static rx_handler_result_t macsec_handle_frame(struct sk_buff **pskb)
 		u64_stats_update_begin(&rxsc_stats->syncp);
 		rxsc_stats->stats.InPktsUnusedSA++;
 		u64_stats_update_end(&rxsc_stats->syncp);
+		printk("macsec_handle_frame ausgang10\n");
 		goto deliver;
 	}
 
@@ -1284,6 +1305,7 @@ static rx_handler_result_t macsec_handle_frame(struct sk_buff **pskb)
 			u64_stats_update_begin(&rxsc_stats->syncp);
 			rxsc_stats->stats.InPktsLate++;
 			u64_stats_update_end(&rxsc_stats->syncp);
+			printk("macsec_handle_frame ausgang11\n");
 			goto drop;
 		}
 	}
@@ -1303,12 +1325,14 @@ static rx_handler_result_t macsec_handle_frame(struct sk_buff **pskb)
 		}
 		rcu_read_unlock();
 		*pskb = NULL;
+		printk("macsec_handle_frame ausgang12\n");
 		return RX_HANDLER_CONSUMED;
 	}
 
-	if (!macsec_post_decrypt(skb, secy, pn))
+	if (!macsec_post_decrypt(skb, secy, pn)){
+		printk("macsec_handle_frame ausgang13\n");
 		goto drop;
-
+	}
 deliver:
 	macsec_finalize_skb(skb, secy->icv_len,
 			    macsec_extra_len(macsec_skb_cb(skb)->has_sci));
@@ -1338,6 +1362,7 @@ drop_nosa:
 drop_direct:
 	kfree_skb(skb);
 	*pskb = NULL;
+	printk("macsec_handle_frame ausgang14\n");
 	return RX_HANDLER_CONSUMED;
 
 nosci:
@@ -1360,6 +1385,7 @@ nosci:
 			u64_stats_update_begin(&secy_stats->syncp);
 			secy_stats->stats.InPktsNoSCI++;
 			u64_stats_update_end(&secy_stats->syncp);
+			printk("macsec_handle_frame ausgang15\n");
 			continue;
 		}
 
@@ -1367,8 +1393,9 @@ nosci:
 		 * removed) is delivered to the Controlled Port.
 		 */
 		nskb = skb_clone(skb, GFP_ATOMIC);
-		if (!nskb)
-			break;
+		if (!nskb){
+			printk("macsec_handle_frame ausgang16\n");
+			break;}
 
 		macsec_reset_skb(nskb, macsec->secy.netdev);
 
