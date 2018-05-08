@@ -313,13 +313,14 @@ struct macsec_cb {
 static struct macsec_rx_sa *macsec_rxsa_get(struct macsec_rx_sa __rcu *ptr)
 {
 	struct macsec_rx_sa *sa = rcu_dereference_bh(ptr);
-
-	if (!sa || !sa->active)
+	printk("macsec_rxsa_get start");
+	if (!sa || !sa->active){
 		return NULL;
-
-	if (!atomic_inc_not_zero(&sa->refcnt))
+	}
+	if (!atomic_inc_not_zero(&sa->refcnt)){
 		return NULL;
-
+	}
+	printk("macsec_rxsa_get ende");
 	return sa;
 }
 
@@ -564,7 +565,8 @@ static void macsec_fill_iv(unsigned char *iv, sci_t sci, u32 pn)
 	gcm_iv->pn = htonl(pn);
 	printk("gcm_iv->sci %lld ", gcm_iv->sci);
 	printk("gcm_iv->pn %d",htonl(pn));
-	iv[0]= 7;
+	//ccm änderung
+	iv[0]= 6;
 	printk("wert von iv %d,%d,%d,%d %d %d %d %d\n", iv[0],iv[1],iv[2],iv[3],iv[4],iv[5],iv[6],iv[7]);
 	printk("Macsec_fill_iv erfolreich");
 }
@@ -817,9 +819,11 @@ static struct sk_buff *macsec_encrypt(struct sk_buff *skb,
 	if (tx_sc->encrypt) {
 		int len = skb->len - macsec_hdr_len(sci_present) -
 			  secy->icv_len;
+		printk("ENCRYPTION ENABLED");
 		aead_request_set_crypt(req, sg, sg, len, iv);
 		aead_request_set_ad(req, macsec_hdr_len(sci_present));
 	} else {
+		printk("ENCRYPTION DISABLED");
 		aead_request_set_crypt(req, sg, sg, 0, iv);
 		aead_request_set_ad(req, skb->len - secy->icv_len);
 	}
@@ -895,6 +899,7 @@ static bool macsec_post_decrypt(struct sk_buff *skb, struct macsec_secy *secy, u
 			u64_stats_update_begin(&rxsc_stats->syncp);
 			rxsc_stats->stats.InPktsNotValid++;
 			u64_stats_update_end(&rxsc_stats->syncp);
+			printk("macsec_post_decrypt fehlgeschlagen2");
 			return false;
 		}
 
@@ -970,14 +975,16 @@ static void macsec_decrypt_done(struct crypto_async_request *base, int err)
 	printk("macsec_decrypt_done start\n");
 	aead_request_free(macsec_skb_cb(skb)->req);
 
-	if (!err)
+	if (!err){
+		printk("macsec_decrypt_done validiert\n");
 		macsec_skb_cb(skb)->valid = true;
-
+	}
 	rcu_read_lock_bh();
 	pn = ntohl(macsec_ethhdr(skb)->packet_number);
 	if (!macsec_post_decrypt(skb, &macsec->secy, pn)) {
 		rcu_read_unlock_bh();
 		kfree_skb(skb);
+		printk("macsec_decrypt_done ausgang1\n");
 		goto out;
 	}
 
@@ -986,16 +993,18 @@ static void macsec_decrypt_done(struct crypto_async_request *base, int err)
 	macsec_reset_skb(skb, macsec->secy.netdev);
 
 	len = skb->len;
-	if (gro_cells_receive(&macsec->gro_cells, skb) == NET_RX_SUCCESS)
+	if (gro_cells_receive(&macsec->gro_cells, skb) == NET_RX_SUCCESS){
 		count_rx(dev, len);
-
+		printk("macsec_decrypt_done ausgang2");
+	}
 	rcu_read_unlock_bh();
+	printk("macsec_decrypt_done erfolgreich\n");
 
 out:
 	macsec_rxsa_put(rx_sa);
 	macsec_rxsc_put(rx_sc);
 	dev_put(dev);
-	printk("macsec_decrypt_done erfolgreich");
+	printk("macsec_decrypt_done ende\n");
 }
 
 static struct sk_buff *macsec_decrypt(struct sk_buff *skb,
@@ -1055,8 +1064,8 @@ static struct sk_buff *macsec_decrypt(struct sk_buff *skb,
 		skb = skb_unshare(skb, GFP_ATOMIC);
 		if (!skb) {
 			aead_request_free(req);
-			return ERR_PTR(-ENOMEM);
 			printk("sk_buff *macsec_decrypt error4");
+			return ERR_PTR(-ENOMEM);
 		}
 	} else {
 		/* integrity only: all headers + data authenticated */
@@ -1070,6 +1079,7 @@ static struct sk_buff *macsec_decrypt(struct sk_buff *skb,
 
 	dev_hold(dev);
 	ret = crypto_aead_decrypt(req);
+	printk("return of aead_decrypt %d", ret);
 	if (ret == -EINPROGRESS) {
 		return ERR_PTR(ret);
 		printk("sk_buff macsec_decrypt error5");
@@ -1180,16 +1190,23 @@ static rx_handler_result_t macsec_handle_frame(struct sk_buff **pskb)
 	bool pulled_sci;
 	int ret;
 	printk("macsec_handle_frame start\n");
-	if (skb_headroom(skb) < ETH_HLEN)
+	if (skb_headroom(skb) < ETH_HLEN){
+		printk("macsec_handle_frame fehlgeschlagen\n");
 		goto drop_direct;
-
+	}
+	/// zeile hinzugefügt
+	//skb->protocol = eth_hdr(skb)->h_proto;
 	hdr = macsec_ethhdr(skb);
 	printk("wert von htons %d", htons(ETH_P_MACSEC));
 	printk("wert von hdr->eth %d",hdr->eth.h_proto);
+	printk("wert von hdr->eth.h_source %hhn",hdr->eth.h_source);
+	printk("wert von hdr->eth.H_dest %hhn",hdr->eth.h_dest);
+
+
 	if (hdr->eth.h_proto != htons(ETH_P_MACSEC)) {
 		handle_not_macsec(skb);
 
-		/* and deliver to the uncontrolled port */
+		// and deliver to the uncontrolled port
 		printk("macsec_handle_frame ausgang1\n");
 		return RX_HANDLER_PASS;
 	}
@@ -1239,7 +1256,7 @@ static rx_handler_result_t macsec_handle_frame(struct sk_buff **pskb)
 	list_for_each_entry_rcu(macsec, &rxd->secys, secys) {
 		struct macsec_rx_sc *sc = find_rx_sc(&macsec->secy, sci);
 		sc = sc ? macsec_rxsc_get(sc) : NULL;
-
+		printk("wert von sc %d",sc->active);
 		if (sc) {
 			secy = &macsec->secy;
 			rx_sc = sc;
@@ -1247,7 +1264,7 @@ static rx_handler_result_t macsec_handle_frame(struct sk_buff **pskb)
 			break;
 		}
 	}
-
+	printk("macsec_handle_frame ich war hier1\n");
 	if (!secy){
 		printk("macsec_handle_frame ausgang7\n");
 		goto nosci;}
@@ -1256,7 +1273,7 @@ static rx_handler_result_t macsec_handle_frame(struct sk_buff **pskb)
 	macsec = macsec_priv(dev);
 	secy_stats = this_cpu_ptr(macsec->stats);
 	rxsc_stats = this_cpu_ptr(rx_sc->stats);
-
+	printk("macsec_handle_frame ich war hier2\n");
 	if (!macsec_validate_skb(skb, secy->icv_len)) {
 		u64_stats_update_begin(&secy_stats->syncp);
 		secy_stats->stats.InPktsBadTag++;
@@ -1309,7 +1326,7 @@ static rx_handler_result_t macsec_handle_frame(struct sk_buff **pskb)
 			goto drop;
 		}
 	}
-
+	printk("macsec_handle_frame ich war hier3\n");
 	macsec_skb_cb(skb)->rx_sa = rx_sa;
 
 	/* Disabled && !changed text => skip validation */
@@ -1351,6 +1368,7 @@ deliver:
 	rcu_read_unlock();
 
 	*pskb = NULL;
+	printk("macsec_handle_frame ich war hier4\n");
 	printk("macsec_handle_frame ende\n");
 	return RX_HANDLER_CONSUMED;
 
@@ -1411,6 +1429,7 @@ nosci:
 
 	rcu_read_unlock();
 	*pskb = skb;
+	printk("macsec_handle_frame ich war hier5\n");
 	printk("macsec_handle_frame ende\n");
 	return RX_HANDLER_PASS;
 }
@@ -1421,6 +1440,8 @@ static struct crypto_aead *macsec_alloc_tfm(char *key, int key_len, int icv_len)
 	struct crypto_aead *tfm;
 	int ret;
 	printk("crypto_aead *macsec_alloc_tfm start\n");
+	//ccm änderung
+	//tfm = crypto_alloc_aead("gcm(aes)", 0, 0);
 	tfm = crypto_alloc_aead("ccm(aes)", 0, 0);
 	if (IS_ERR(tfm)){
 		printk("crypto_aead *macsec_alloc_tfm fehlgeschlagen1");
@@ -3286,7 +3307,7 @@ static int register_macsec_dev(struct net_device *real_dev,
 			return -ENOMEM;
 
 		INIT_LIST_HEAD(&rxd->secys);
-
+		printk("ich war hier in register_macsec_dev");
 		err = netdev_rx_handler_register(real_dev, macsec_handle_frame,
 						 rxd);
 		if (err < 0) {
