@@ -61,7 +61,7 @@ struct macsec_eth_header {
 /* minimum secure data length deemed "not short", see IEEE 802.1AE-2006 9.7 */
 #define MIN_NON_SHORT_LEN 48
 ///// initialisierungs vektor auf ccm-aes  angepasst xxx
-#define GCM_AES_IV_LEN 16
+#define GCM_AES_IV_LEN 12
 #define DEFAULT_ICV_LEN 16
 
 #define MACSEC_NUM_AN 4 /* 2 bits for the association number */
@@ -283,6 +283,8 @@ struct macsec_dev {
 struct macsec_rxh_data {
 	struct list_head secys;
 };
+//csid wird als globale variable definiert
+u64 csid;
 
 static struct macsec_dev *macsec_priv(const struct net_device *dev)
 {
@@ -566,7 +568,7 @@ static void macsec_fill_iv(unsigned char *iv, sci_t sci, u32 pn)
 	printk("gcm_iv->sci %lld ", gcm_iv->sci);
 	printk("gcm_iv->pn %d",htonl(pn));
 	//ccm änderung
-	iv[0]= 6;
+	//iv[0]= 6;
 	printk("wert von iv %d,%d,%d,%d %d %d %d %d\n", iv[0],iv[1],iv[2],iv[3],iv[4],iv[5],iv[6],iv[7]);
 	printk("Macsec_fill_iv erfolreich");
 }
@@ -677,11 +679,15 @@ static struct aead_request *macsec_alloc_req(struct crypto_aead *tfm,
 	size_t size, iv_offset, sg_offset;
 	struct aead_request *req;
 	void *tmp;
+	u64 csid;
 	printk("aead_request  *macsec_alloc_req start\n");
 	size = sizeof(struct aead_request) + crypto_aead_reqsize(tfm);
 	iv_offset = size;
 
-	size += GCM_AES_IV_LEN;
+	if(MACSEC_DEFAULT_CIPHER_ALT == csid)
+		size += GCM_AES_IV_LEN+4;
+	else
+		size += GCM_AES_IV_LEN;
 
 	size = ALIGN(size, __alignof__(struct scatterlist));
 	sg_offset = size;
@@ -1440,9 +1446,21 @@ static struct crypto_aead *macsec_alloc_tfm(char *key, int key_len, int icv_len)
 	struct crypto_aead *tfm;
 	int ret;
 	printk("crypto_aead *macsec_alloc_tfm start\n");
-	//ccm änderung
+
+	switch (csid) {
+			case MACSEC_DEFAULT_CIPHER_ID :
+				tfm = crypto_alloc_aead("gcm(aes)", 0, 0);
+				break;
+			case MACSEC_DEFAULT_CIPHER_ALT:
+				tfm = crypto_alloc_aead("ccm(aes)", 0, 0);
+				break;
+			default:
+				tfm = crypto_alloc_aead("gcm(aes)", 0, 0);
+				break;
+	}
+
 	//tfm = crypto_alloc_aead("gcm(aes)", 0, 0);
-	tfm = crypto_alloc_aead("ccm(aes)", 0, 0);
+	//tfm = crypto_alloc_aead("ccm(aes)", 0, 0);
 	if (IS_ERR(tfm)){
 		printk("crypto_aead *macsec_alloc_tfm fehlgeschlagen1");
 
@@ -2509,9 +2527,26 @@ static int nla_put_secy(struct macsec_secy *secy, struct sk_buff *skb)
 {
 	struct macsec_tx_sc *tx_sc = &secy->tx_sc;
 	struct nlattr *secy_nest = nla_nest_start(skb, MACSEC_ATTR_SECY);
+	//änderung
+	//u64 csid;
 	printk("nla_put_secy start\n");
 	if (!secy_nest)
 		return 1;
+
+	//csid holen
+//	csid = nla_get_u64(data[IFLA_MACSEC_CIPHER_SUITE]);
+/*
+	switch (csid) {
+		case DEFAULT_ICV_LEN:
+			csid = MACSEC_DEFAULT_CIPHER_ID;
+			break;
+		case MACSEC_GCM_AES_256_SAK_LEN:
+			csid = MACSEC_DEFAULT_CIPHER_ALT;
+			break;
+		default:
+			goto cancel;
+	}
+*/
 
 	if (nla_put_sci(skb, MACSEC_SECY_ATTR_SCI, secy->sci,
 			MACSEC_SECY_ATTR_PAD) ||
@@ -3473,10 +3508,11 @@ static int macsec_validate_attr(struct nlattr *tb[], struct nlattr *data[],
 	printk("macsec_validate_attr start\n");
 	if (!data)
 		return 0;
-
-	if (data[IFLA_MACSEC_CIPHER_SUITE])
+	// ccm
+	if (data[IFLA_MACSEC_CIPHER_SUITE]){
 		csid = nla_get_u64(data[IFLA_MACSEC_CIPHER_SUITE]);
-
+		printk("csid %lld",csid);
+		}
 	if (data[IFLA_MACSEC_ICV_LEN]) {
 		icv_len = nla_get_u8(data[IFLA_MACSEC_ICV_LEN]);
 		if (icv_len != DEFAULT_ICV_LEN) {
