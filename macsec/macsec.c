@@ -1438,7 +1438,7 @@ nosci:
 
 	rcu_read_unlock();
 	*pskb = skb;
-	printk("macsec_handle_frame ich war hier5\n");
+
 	printk("macsec_handle_frame ende\n");
 	return RX_HANDLER_PASS;
 }
@@ -3261,11 +3261,12 @@ static void macsec_changelink_common(struct net_device *dev,
 	if (data[IFLA_MACSEC_VALIDATION])
 		secy->validate_frames = nla_get_u8(data[IFLA_MACSEC_VALIDATION]);
 
-	//csid wird initialisiert
+	//csid wird initialisiert ccm
 	if (data[IFLA_MACSEC_CIPHER_SUITE])
 		csid = nla_get_u64(data[IFLA_MACSEC_CIPHER_SUITE]);
-		else
-			csid = MACSEC_DEFAULT_CIPHER_ID;
+
+	else
+		csid = MACSEC_DEFAULT_CIPHER_ID;
 	printk("macsec_changelink_common ende\n");
 }
 
@@ -3521,10 +3522,10 @@ static int macsec_validate_attr(struct nlattr *tb[], struct nlattr *data[],
 	if (!data)
 		return 0;
 	// ccm
-	if (data[IFLA_MACSEC_CIPHER_SUITE]){
+	if (data[IFLA_MACSEC_CIPHER_SUITE])
 		csid = nla_get_u64(data[IFLA_MACSEC_CIPHER_SUITE]);
-		printk("csid %lld",csid);
-		}
+	else
+		csid = MACSEC_DEFAULT_CIPHER_ID;
 	if (data[IFLA_MACSEC_ICV_LEN]) {
 		icv_len = nla_get_u8(data[IFLA_MACSEC_ICV_LEN]);
 		if (icv_len != DEFAULT_ICV_LEN) {
