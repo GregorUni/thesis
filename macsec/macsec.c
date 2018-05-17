@@ -567,8 +567,9 @@ static void macsec_fill_iv(unsigned char *iv, sci_t sci, u32 pn)
 	gcm_iv->pn = htonl(pn);
 	printk("gcm_iv->sci %lld ", gcm_iv->sci);
 	printk("gcm_iv->pn %d",htonl(pn));
-	//ccm änderung
-	//iv[0]= 6;
+	//ccm änderug
+	if(MACSEC_DEFAULT_CIPHER_ALT == csid)
+		iv[0]= 6;
 	printk("wert von iv %d,%d,%d,%d %d %d %d %d\n", iv[0],iv[1],iv[2],iv[3],iv[4],iv[5],iv[6],iv[7]);
 	printk("Macsec_fill_iv erfolreich");
 }
@@ -679,16 +680,20 @@ static struct aead_request *macsec_alloc_req(struct crypto_aead *tfm,
 	size_t size, iv_offset, sg_offset;
 	struct aead_request *req;
 	void *tmp;
-	u64 csid;
 	printk("aead_request  *macsec_alloc_req start\n");
 	size = sizeof(struct aead_request) + crypto_aead_reqsize(tfm);
 	iv_offset = size;
-
-	if(MACSEC_DEFAULT_CIPHER_ALT == csid)
+	printk("MACSEC_DEFAULT_CIPHER_ALT %lld",MACSEC_DEFAULT_CIPHER_ALT);
+	printk("MACSEC_DEFAULT_CIPHER_ID %lld",MACSEC_DEFAULT_CIPHER_ID);
+	printk("csid %lld", csid);
+	if(MACSEC_DEFAULT_CIPHER_ALT == csid){
+		printk("ich war hier ccm");
 		size += GCM_AES_IV_LEN+4;
-	else
+	}
+	else{
+		printk("ich war hier gcm");
 		size += GCM_AES_IV_LEN;
-
+	}
 	size = ALIGN(size, __alignof__(struct scatterlist));
 	sg_offset = size;
 	size += sizeof(struct scatterlist) * num_frags;
@@ -1270,7 +1275,7 @@ static rx_handler_result_t macsec_handle_frame(struct sk_buff **pskb)
 			break;
 		}
 	}
-	printk("macsec_handle_frame ich war hier1\n");
+
 	if (!secy){
 		printk("macsec_handle_frame ausgang7\n");
 		goto nosci;}
@@ -1279,7 +1284,6 @@ static rx_handler_result_t macsec_handle_frame(struct sk_buff **pskb)
 	macsec = macsec_priv(dev);
 	secy_stats = this_cpu_ptr(macsec->stats);
 	rxsc_stats = this_cpu_ptr(rx_sc->stats);
-	printk("macsec_handle_frame ich war hier2\n");
 	if (!macsec_validate_skb(skb, secy->icv_len)) {
 		u64_stats_update_begin(&secy_stats->syncp);
 		secy_stats->stats.InPktsBadTag++;
@@ -1332,7 +1336,7 @@ static rx_handler_result_t macsec_handle_frame(struct sk_buff **pskb)
 			goto drop;
 		}
 	}
-	printk("macsec_handle_frame ich war hier3\n");
+
 	macsec_skb_cb(skb)->rx_sa = rx_sa;
 
 	/* Disabled && !changed text => skip validation */
@@ -1374,7 +1378,6 @@ deliver:
 	rcu_read_unlock();
 
 	*pskb = NULL;
-	printk("macsec_handle_frame ich war hier4\n");
 	printk("macsec_handle_frame ende\n");
 	return RX_HANDLER_CONSUMED;
 
@@ -1449,12 +1452,15 @@ static struct crypto_aead *macsec_alloc_tfm(char *key, int key_len, int icv_len)
 
 	switch (csid) {
 			case MACSEC_DEFAULT_CIPHER_ID :
+				printk("ich war hier gcm1");
 				tfm = crypto_alloc_aead("gcm(aes)", 0, 0);
 				break;
 			case MACSEC_DEFAULT_CIPHER_ALT:
+				printk("ich war hier ccm1");
 				tfm = crypto_alloc_aead("ccm(aes)", 0, 0);
 				break;
 			default:
+				printk("ich war hier gcm2");
 				tfm = crypto_alloc_aead("gcm(aes)", 0, 0);
 				break;
 	}
@@ -3217,6 +3223,7 @@ static void macsec_changelink_common(struct net_device *dev,
 {
 	struct macsec_secy *secy;
 	struct macsec_tx_sc *tx_sc;
+	u64 csid;
 	printk("macsec_changelink_common start\n");
 	secy = &macsec_priv(dev)->secy;
 	tx_sc = &secy->tx_sc;
@@ -3254,6 +3261,11 @@ static void macsec_changelink_common(struct net_device *dev,
 	if (data[IFLA_MACSEC_VALIDATION])
 		secy->validate_frames = nla_get_u8(data[IFLA_MACSEC_VALIDATION]);
 
+	//csid wird initialisiert
+	if (data[IFLA_MACSEC_CIPHER_SUITE])
+		csid = nla_get_u64(data[IFLA_MACSEC_CIPHER_SUITE]);
+		else
+			csid = MACSEC_DEFAULT_CIPHER_ID;
 	printk("macsec_changelink_common ende\n");
 }
 
@@ -3501,7 +3513,7 @@ unregister:
 static int macsec_validate_attr(struct nlattr *tb[], struct nlattr *data[],
 				struct netlink_ext_ack *extack)
 {
-	u64 csid = MACSEC_DEFAULT_CIPHER_ID;
+	//u64 csid = MACSEC_DEFAULT_CIPHER_ID;
 	u8 icv_len = DEFAULT_ICV_LEN;
 	int flag;
 	bool es, scb, sci;
