@@ -3223,7 +3223,7 @@ static void macsec_changelink_common(struct net_device *dev,
 {
 	struct macsec_secy *secy;
 	struct macsec_tx_sc *tx_sc;
-	u64 csid;
+	//u64 csid;
 	printk("macsec_changelink_common start\n");
 	secy = &macsec_priv(dev)->secy;
 	tx_sc = &secy->tx_sc;
@@ -3262,11 +3262,11 @@ static void macsec_changelink_common(struct net_device *dev,
 		secy->validate_frames = nla_get_u8(data[IFLA_MACSEC_VALIDATION]);
 
 	//csid wird initialisiert ccm
-	if (data[IFLA_MACSEC_CIPHER_SUITE])
+	/*if (data[IFLA_MACSEC_CIPHER_SUITE])
 		csid = nla_get_u64(data[IFLA_MACSEC_CIPHER_SUITE]);
 
 	else
-		csid = MACSEC_DEFAULT_CIPHER_ID;
+		csid = MACSEC_DEFAULT_CIPHER_ID;*/
 	printk("macsec_changelink_common ende\n");
 }
 
@@ -3522,10 +3522,14 @@ static int macsec_validate_attr(struct nlattr *tb[], struct nlattr *data[],
 	if (!data)
 		return 0;
 	// ccm
-	if (data[IFLA_MACSEC_CIPHER_SUITE])
+	if (data[IFLA_MACSEC_CIPHER_SUITE]){
 		csid = nla_get_u64(data[IFLA_MACSEC_CIPHER_SUITE]);
-	else
+					printk("ich bin csid %lld", csid);
+	}
+	if(csid == 0)
+	{
 		csid = MACSEC_DEFAULT_CIPHER_ID;
+	}
 	if (data[IFLA_MACSEC_ICV_LEN]) {
 		icv_len = nla_get_u8(data[IFLA_MACSEC_ICV_LEN]);
 		if (icv_len != DEFAULT_ICV_LEN) {
