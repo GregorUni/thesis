@@ -1,0 +1,24 @@
+library("rjson")
+library(jsonlite)
+json_file <- "~/eva/final-1527016360-4-macsec-iperf.json"
+json_data <- fromJSON(json_file)
+js2 <- as.character(toJSON(json_data))
+OutputDataSet <- data.frame(fromJSON(js2))
+gg <- ggplot(OutputDataSet...
+g1<-g[[1]][[3]][[2]][[4]]
+g2<-g[[1]][[4]][[1]][[1]]
+ggplot(OutputDataSet, aes(x=g1, y=g2)) + geom_point()
+ggplot(OutputDataSet, aes(x=g2, y=g1)) + geom_bar(stat = "identity") 
+
+x<- seq(1,4,by=1)
+ggplot(OutputDataSet, aes(x=x, y=g1)) + geom_bar(stat = "identity") 
+
+library(gdata) for humanreadable
+g1<-humanReadable(g[[1]][[3]][[2]][[4]])
+g3 <- mean(g[[1]][[3]][[2]][[4]])
+
+
+
+###############################
+gcc -Wall -c norx.c
+
