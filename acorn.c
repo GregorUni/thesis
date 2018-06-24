@@ -34,6 +34,13 @@
 #define maj(x,y,z)   ( ((x) & (y)) ^ ((x) & (z)) ^ ((y) & (z)) )
 #define ch(x,y,z)    ( ((x) & (y)) ^ ((~x) & (z)) )
 
+/* Notizen: Es wird nur die Msglen-adlen encrypted
+im testvektor sind irgendwie ad[i] und msg[i] vertauscht
+
+warum ist cipherword auf 28 und mac auf 29 initialisiert??
+
+*/
+
 struct acorn_block {
 	u32 word; ///////////// keine ahnung was mit dem schlüssel passiert
 };
@@ -351,6 +358,21 @@ static void encrypt_8bits(unsigned long long *state, unsigned int plaintextword,
     return;
 }
 
+static void acorn128_padding_256(unsigned long long *state, unsigned int cb)
+{
+    unsigned int i, plaintextword, ciphertextword, ca;
+
+    plaintextword = 1;
+    ca = 0xffffffff;
+    encrypt_32bits(state, plaintextword, &ciphertextword, ca, cb);
+
+    plaintextword = 0;
+    for (i = 1; i <= 3; i++) encrypt_32bits(state, plaintextword, &ciphertextword, ca, cb);
+
+    ca = 0;
+    for (i = 4; i <= 7; i++) encrypt_32bits(state, plaintextword, &ciphertextword, ca, cb);
+
+}
 
 
 static void crypto_acorn_load_ak(struct acorn_ctx *dst, const u8 *src)
@@ -386,9 +408,10 @@ static void crypto_acorn_load_k(struct acorn_ctx *dst, const u8 *src)
 static void crypto_acorn_load_a(struct acorn_block *dst, const u8 *src)
 {
 	unsigned int i;
-	for (i = 0; i < 2; i++) {
-		printk("%d load_a",dst->word);		///////////////optiermieren! gerade funktionierts!
+	for (i = 0; i < 1; i++) {
+				///////////////optiermieren! gerade funktionierts!
 		dst->word = le32_to_cpu(*(const __le32 *)src);//ergibt keinen sinn man muss irgendwie über den state gehen|||||||||||ergibt sinn um den schlüssel zu laden
+		printk("%d load_a",dst->word);		
 		src += 4;
 	}
 }
@@ -396,9 +419,9 @@ static void crypto_acorn_load_a(struct acorn_block *dst, const u8 *src)
 static void crypto_acorn_load_u(struct acorn_block *dst, const u8 *src)
 {
 	unsigned int i;
-	for (i = 0; i < 7; i++) {
-		printk("%d load_u",dst->word);
+	for (i = 0; i < 1; i++) {
 		dst->word = get_unaligned_le32(src);
+		printk("%d load_u",dst->word);	
 		src += 4;
 	}
 }
@@ -412,16 +435,18 @@ static void crypto_acorn_load(struct acorn_block *dst, const u8 *src)
 }
 
 static void crypto_acorn_ad(unsigned long long *state, const u8 *src,
-			       unsigned int size,unsigned int ca ,unsigned int cb)
+			       unsigned int size,unsigned int ca ,unsigned int cb,struct acorn_block *c)
 {
-	struct acorn_block m, c;
+	struct acorn_block m;
 	printk("anfang crypto_acorn_ad");
-	
+	c->word=28;
 	if (ACORN_ALIGNED(src)) {
 		while (size >= ACORN_BLOCK_SIZE) {
 			//müssen noch geladen werden
 			crypto_acorn_load_a(&m,src);
-			encrypt_32bits(state,m.word, &c.word, ca, cb); /// m.word c.word????? irgendwie muss man an das richtige kommen!
+			printk("m.word in acorn_ad %d\n",m.word);
+			printk("c.word in acorn_ad %d\n",c->word);
+			encrypt_32bits(state,m.word, &c->word, ca, cb); /// m.word c.word????? irgendwie muss man an das richtige kommen!
 
 			size -= ACORN_BLOCK_SIZE;	//////welche größe?!?!?!?
 			src += ACORN_BLOCK_SIZE;
@@ -431,7 +456,7 @@ static void crypto_acorn_ad(unsigned long long *state, const u8 *src,
 		while (size >= ACORN_BLOCK_SIZE) {
 			//müssen  noch geladen werden
 			crypto_acorn_load_u(&m,src);
-			encrypt_32bits(state,m.word,&c.word, ca, cb);
+			encrypt_32bits(state,m.word,&c->word, ca, cb);
 
 			size -= ACORN_BLOCK_SIZE;	//////welche größe?!?!?!?
 			src += ACORN_BLOCK_SIZE;
@@ -443,9 +468,11 @@ static void crypto_acorn_ad(unsigned long long *state, const u8 *src,
 static void crypto_acorn_encrypt_chunk(unsigned long long *state, u8 *dst,
 					  const u8 *src, unsigned int size)
 {
-	struct acorn_block c, m;
+	struct acorn_block m,c;
 	unsigned int ca = 0xffffffff;
     	unsigned int cb = 0;
+	int i;
+	c.word=0;
 	printk("anfang crypto_acorn_encrypt_chunk");
 	if (ACORN_ALIGNED(src) && ACORN_ALIGNED(dst)) {
 		while (size >= ACORN_BLOCK_SIZE) {
@@ -455,9 +482,16 @@ static void crypto_acorn_encrypt_chunk(unsigned long long *state, u8 *dst,
 			crypto_morus640_store_a(dst, &c);
 			crypto_morus640_update(state, &m);
 			*/
+			
 			crypto_acorn_load_a(&m,src);
-			encrypt_32bits_fast(state,m.word, &c.word, ca, cb); 
-
+			//crypto_acorn_load_a(&c,dst);
+			printk("m.word %d",m.word);
+			printk("c.word %d",c.word);
+			encrypt_32bits_fast(state,m.word,&c.word, ca, cb); 
+			
+			printk("src %d",*src);
+			printk("dst %d",*dst);
+			printk("size %d",size);
 			src += ACORN_BLOCK_SIZE;
 			dst += ACORN_BLOCK_SIZE;
 			size -= ACORN_BLOCK_SIZE;
@@ -473,14 +507,23 @@ printk("ende crypto_acorn_encrypt_chunk1");
 			crypto_morus640_store_u(dst, &c);
 			crypto_morus640_update(state, &m);
 			*/
+			
+			
 			crypto_acorn_load_u(&m,src);
-			encrypt_32bits_fast(state,m.word, &c.word, ca, cb); 
+			//crypto_acorn_load_u(&c,dst);
+printk("m.word %d",m.word);
+printk("c.word %d",c.word);
+			encrypt_32bits_fast(state,m.word,&c.word, ca, cb); 
 
 			src += ACORN_BLOCK_SIZE;
 			dst += ACORN_BLOCK_SIZE;
 			size -= ACORN_BLOCK_SIZE;
 printk("ende crypto_acorn_encrypt_chunk2");
 		}
+	for (i = 0; i <= 6; i++){
+                   	printk("State nach encryption ENDE %d %lld \n",i, state[i]);
+                   	}
+		
 	}
 
 	if (size > 0) {
@@ -495,9 +538,20 @@ printk("ende crypto_acorn_encrypt_chunk2");
 		crypto_morus640_store_a(tail.bytes, &c);
 		crypto_morus640_update(state, &m);
 		*/
+
+		crypto_acorn_load_a(&m,tail.bytes);
+		encrypt_8bits(state,m.word, &c.word, ca, cb);
+		for (i = 0; i <= 6; i++){
+                   	printk("State encryption 8bit ENDE %d %lld \n",i, state[i]);
+                   	}
 		memcpy(dst, tail.bytes, size);
 		printk("ende crypto_acorn_encrypt_chunk3");
 	}
+		acorn128_padding_256(state,cb);
+			for (i = 0; i <= 6; i++){
+                   	printk("State encryption mit padding ENDE %d %lld \n",i, state[i]);
+                   	}
+		
 }
 
 static void crypto_acorn_decrypt_chunk(struct acorn_state *state, u8 *dst,
@@ -541,7 +595,10 @@ static void crypto_acorn_decrypt_chunk(struct acorn_state *state, u8 *dst,
 		memset(tail.bytes + size, 0, ACORN_BLOCK_SIZE - size);
 		//crypto_morus640_load_a(&m, tail.bytes);
 		//crypto_morus640_update(state, &m);
-
+		
+		//crypto_acorn_load_a(&m,tail.bytes);
+		//encrypt_8bits(state,m.word, &c.word, ca, cb);
+		
 		memcpy(dst, tail.bytes, size);
 	printk("ende crypto_acorn_decrypt_chunk3");
 	}
@@ -657,14 +714,16 @@ static void crypto_acorn_process_ad(unsigned long long *state,
 				src += fill;
 				printk("ende crypto_acorn_process_ad1");
 			}
-			printk("source %d",src);	
-			crypto_acorn_ad(state, src, left,ca,cb);  // funktionalität
+			printk("source %d",*src);	
+			printk("left %d", left);
+			crypto_acorn_ad(state, src, left,ca,cb,&c);  // funktionalität
 			src += left & ~(ACORN_BLOCK_SIZE - 1);
 			left &= ACORN_BLOCK_SIZE - 1;
 		printk("ende crypto_acorn_process_ad2");
 		}
 
 		memcpy(buf.bytes + pos, src, left);
+			
 
 		pos += left;
 		assoclen -= size;
@@ -678,17 +737,25 @@ static void crypto_acorn_process_ad(unsigned long long *state,
 		printk("pos %d", pos);
 		memset(buf.bytes + pos, 0, ACORN_BLOCK_SIZE - pos);
 		printk("ich war hier");
-		crypto_acorn_load_a(&m,buf.bytes);
+		printk("buf.bytes %hhn",buf.bytes);////klappt nicht
+		//crypto_acorn_load_a(&m,buf.bytes);
 		for (j = 0; j <= 6; j++){
-              			printk("State %d %lld \n",j, state[j]);
+              			printk("State nach acorn_ad %d %lld \n",j, state[j]);
              			}
 				printk("m.word: %d",m.word);
 				printk("c.word: %d",c.word);
-		encrypt_8bits(state,m.word, &c.word, ca, cb);
+		//encrypt_8bits(state,m.word, &c.word, ca, cb);
 		printk("ende crypto_acorn_process_ad3");
 		//crypto_morus640_load_a(&m, buf.bytes); /// funktionalität
 		//crypto_morus640_update(state, &m);   // funktionalität
 	}
+	for (j = 0; j <= 6; j++){
+              			printk("State vor padding %d %lld \n",j, state[j]);
+             			}
+	acorn128_padding_256(state,cb);
+	for (j = 0; j <= 6; j++){
+              			printk("State nach padding %d %lld \n",j, state[j]);
+             			}
 	printk("ende crypto_acorn_process_ad4");
 }
 
@@ -721,10 +788,11 @@ static void crypto_acorn_final(unsigned long long *state,
 	int i;
     	//unsigned int ksword = 0;
 	unsigned char mac[16];
-	tag_xor->word =0;
+	unsigned int plaintextword  = 0;
+    	unsigned int ciphertextword = 0;
 	//u64 assocbits = assoclen * 8;
 	//u64 cryptbits = cryptlen * 8;
-
+	unsigned int ksword=0;
 
 
 	/*struct acorn_block tmp;
@@ -738,11 +806,17 @@ static void crypto_acorn_final(unsigned long long *state,
 	//tag.....
 
 	printk("anfang crypto_acorn_final");
+	 for (i = 0; i <= 6; i++){
+                   printk("State ENDE %d %lld \n",i, state[i]);
+                   }
     for (i = 0; i < 768/32; i++)
     {
-        encrypt_32bits(state, tag_xor->word, &tag_xor->word, 0xffffffff, 0xffffffff);
+        encrypt_32bits(state,plaintextword,&ciphertextword, 0xffffffff, 0xffffffff);
         if ( i >= (768/32 - 4) ) { ((unsigned int*)mac)[i-(768/32-4)] = tag_xor->word; }
     }
+	   for (i = 0; i <= 6; i++){
+                   printk("State ENDE %d %lld \n",i, state[i]);
+                   }
 	printk("ende crypto_acorn_final");
 }
 //adlen=assoclen msglen=cryptlen
@@ -759,13 +833,11 @@ static void crypto_acorn_crypt(struct aead_request *req,
 	printk("anfang crypto_acorn_crypt\n");
 	crypto_acorn_init(state, ctx->key, req->iv);
 	crypto_acorn_process_ad(state, req->src, req->assoclen);
-	   for (i = 0; i <= 6; i++){
-                   printk("State ENDE %d %lld \n",i, state[i]);
-                   }
 
-	/*crypto_acorn_process_crypt(state, req, ops);
+
+	crypto_acorn_process_crypt(state, req, ops);
 	crypto_acorn_final(state, tag_xor, req->assoclen, cryptlen);
-	*/printk("ende crypto_acorn_crypt");
+	printk("ende crypto_acorn_crypt");
 	
 }
 
