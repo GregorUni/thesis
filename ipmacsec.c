@@ -24,6 +24,8 @@
 #include "libgenl.h"
 
 #define MACSEC_CIPHER_ID_CHACHA_POLY_256 0x0080C20001000003ULL
+#define MACSEC_CIPHER_ID_AEGIS128L_128 0x0080C20001000004ULL
+#define MACSEC_CIPHER_ID_MORUS640_128 0x0080C20001000005ULL
 
 static const char * const values_on_off[] = { "off", "on" };
 
@@ -591,6 +593,8 @@ static void print_key(struct rtattr *key)
 #define DEFAULT_CIPHER_NAME "GCM-AES-128"
 //ccm
 #define CHACHA20POLY1305_CIPHER_NAME "CHACHA20POLY1305-256"
+#define AEGIS128L_CIPHER_NAME "AEGIS128L-128"
+#define MORUS640_CIPHER_NAME "MORUS640-128"
 
 static const char *cs_id_to_name(__u64 cid)
 {
@@ -600,6 +604,10 @@ static const char *cs_id_to_name(__u64 cid)
 	case MACSEC_DEFAULT_CIPHER_ID:
 	//case MACSEC_DEFAULT_CIPHER_ALT:
 		return DEFAULT_CIPHER_NAME;
+	case MACSEC_CIPHER_ID_AEGIS128L_128 :
+		return AEGIS128L_CIPHER_NAME;
+	case MACSEC_CIPHER_ID_MORUS640_128 :
+		return MORUS640_CIPHER_NAME;
 	default:
 		return "(unknown)";
 	}
@@ -1178,7 +1186,7 @@ static void usage(FILE *f)
 	//ccm
 	fprintf(f,
 		"Usage: ... macsec [ [ address <lladdr> ] port { 1..2^16-1 } | sci <u64> ]\n"
-		"                  [ cipher { default | gcm-aes-128 | chacha-poly-256} ]\n"
+		"                  [ cipher { default | gcm-aes-128 | chacha-poly-256 | aegis128l-128 | morus640-128} ]\n"
 		"                  [ icvlen { 8..16 } ]\n"
 		"                  [ encrypt { on | off } ]\n"
 		"                  [ send_sci { on | off } ]\n"
@@ -1233,8 +1241,15 @@ static int macsec_parse_opt(struct link_util *lu, int argc, char **argv,
 			else if (strcmp(*argv, "CHACHA-POLY-256") == 0 ||
 			    strcmp(*argv, "chacha-poly-256") == 0)
 				cipher.id = MACSEC_CIPHER_ID_CHACHA_POLY_256;
+
+			else if (strcmp(*argv, "AEGIS128L-128") == 0 ||
+			    strcmp(*argv, "aegis128l-128") == 0)
+				cipher.id = MACSEC_CIPHER_ID_AEGIS128L_128;
+			else if (strcmp(*argv, "MORUS640-128") == 0 ||
+			    strcmp(*argv, "morus640-128") == 0)
+				cipher.id = MACSEC_CIPHER_ID_MORUS640_128;
 			else
-				invarg("expected: default, gcm-aes-128, chacha-poly-256",
+				invarg("expected: default, gcm-aes-128, chacha-poly-256, morus640-128, aegis128l-128",
 				       *argv);
 		} else if (strcmp(*argv, "icvlen") == 0) {
 			NEXT_ARG();
