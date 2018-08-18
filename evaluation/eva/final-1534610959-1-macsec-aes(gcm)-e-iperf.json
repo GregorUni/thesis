@@ -1,0 +1,38 @@
+[{
+	"start":	{
+		"connected":	[],
+		"version":	"iperf 3.1.3",
+		"system_info":	"Linux test1-HP-ProDesk-600-G1-TWR 4.15.0-32-generic #35-Ubuntu SMP Fri Aug 10 17:58:07 UTC 2018 x86_64"
+	},
+	"intervals":	[{
+			"streams":	[]
+		}],
+	"end":	{
+		"streams":	[],
+		"sum_sent":	{
+			"start":	0,
+			"end":	0,
+			"seconds":	0,
+			"bytes":	0,
+			"bits_per_second":	0,
+			"retransmits":	0
+		},
+		"sum_received":	{
+			"start":	0,
+			"end":	0,
+			"seconds":	0,
+			"bytes":	0,
+			"bits_per_second":	0
+		},
+		"cpu_utilization_percent":	{
+			"host_total":	2.828078e-11,
+			"host_user":	2.841111e-11,
+			"host_system":	0,
+			"remote_total":	0,
+			"remote_user":	0,
+			"remote_system":	0
+		}
+	},
+	"error":	"interrupt - the client has terminated"
+}
+]

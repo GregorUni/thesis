@@ -1,6 +1,6 @@
 sudo modprobe -r macsec
 sudo modprobe -v macsec
-sudo ip link add link enp0s3 macsec0 type macsec
+sudo ip link add link eno1 macsec0 type macsec
 sudo ip macsec add macsec0 tx sa 0 pn 1 on key 02 09876543210987654321098765432109
 sudo ip macsec add macsec0 rx address 08:00:27:a2:f3:a8 port 1
 sudo ip macsec add macsec0 rx address 08:00:27:a2:f3:a8 port 1 sa 0 pn 1 on key 01 12345678901234567890123456789012
