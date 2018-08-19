@@ -1,3 +1,0 @@
-qdisc noqueue 0: dev lo root refcnt 2 
-qdisc fq_codel 0: dev eno1 root refcnt 2 limit 10240p flows 1024 quantum 1514 target 5.0ms interval 100.0ms memory_limit 32Mb ecn 
-qdisc fq_codel 0: dev enx18d6c70c16d3 root refcnt 2 limit 10240p flows 1024 quantum 1514 target 5.0ms interval 100.0ms memory_limit 32Mb ecn 
