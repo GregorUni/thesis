@@ -382,9 +382,9 @@ init
 #eva $1 "macsec-aes(gcm)-we" 1000 1468 mwe
 #eva $1 "macsec-aes(gcm)-e" 1000 1468 med
 #eva $1 "macsec-chachapoly-we" 1000 1468 cwe
-#eva $1 "macsec-chachapoly-e" 1000 1468 mce
+#teva $1 "macsec-chachapoly-e" 1000 1468 mce
 #eva $1 "no-macsec" 1000 1468
 #eva $1 "macsec-aegis128l-e" 1500 1514 ae
-eva $1 "macsec-aegis128l-we" 1500 1514 awe
+#eva $1 "macsec-aegis128l-we" 1500 1514 awe
 eva $1 "macsec-morus640-e" 1500 1514 mme
 eva $1 "macsec-morus640-we" 1500 1514 mmwe
