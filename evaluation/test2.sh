@@ -202,7 +202,7 @@ eva() {
 	else    #case no macsec no encryption
 	        IP=169.254.234.92
                 make_info $2 $4
-                #eva_ping $2 $4 169.254.234.92
+                eva_ping $2 $4 169.254.234.92
                 #sudo ip link set dev eno1 mtu 60
                 #eva_iperf $1 $2 60 $DEST_IP
 		mtu_config_for_iperf3 $1 $2 128 169.254.234.92
@@ -220,8 +220,11 @@ mtu_config_for_iperf3()
 {
 #third value + 32 if the mtu of macsec0 is changed
 sudo ip link set dev eno1 mtu $3
+echo -m "hi"
 ssh root@$REMOTE_IP "sudo ip link set dev eno1 mtu $3"
+echo -m "hi"
 sudo ip link set dev macsec0 mtu $((( $3 - 32 )))
+echo -m "hi"
 ssh root@$REMOTE_IP "sudo ip link set dev macsec0 mtu $((( $3 - 32 )))"
 eva_iperf $1 $2 $3 $4
 }
@@ -379,12 +382,12 @@ config_macsec_morus640_without_encryption()
 # fourth parameter gives the packet size
 init
 #make_info
-#eva $1 "macsec-aes(gcm)-we" 1000 1468 mwe
-#eva $1 "macsec-aes(gcm)-e" 1000 1468 med
-#eva $1 "macsec-chachapoly-we" 1000 1468 cwe
-#teva $1 "macsec-chachapoly-e" 1000 1468 mce
-#eva $1 "no-macsec" 1000 1468
-#eva $1 "macsec-aegis128l-e" 1500 1514 ae
-#eva $1 "macsec-aegis128l-we" 1500 1514 awe
-eva $1 "macsec-morus640-e" 1500 1514 mme
-eva $1 "macsec-morus640-we" 1500 1514 mmwe
+eva $1 "macsec-aes(gcm)-we" 1000 1468 mwe
+eva $1 "macsec-aes(gcm)-e" 1000 1468 med
+eva $1 "macsec-chachapoly-we" 1000 1468 cwe
+eva $1 "macsec-chachapoly-e" 1000 1468 mce
+eva $1 "no-macsec" 1000 1468
+eva $1 "macsec-aegis128l-e" 1000 1468 ae
+eva $1 "macsec-aegis128l-we" 1000 1468 awe
+eva $1 "macsec-morus640-e" 1000 1468 mme
+eva $1 "macsec-morus640-we" 1000 1468 mmwe
