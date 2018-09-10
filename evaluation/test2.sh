@@ -301,7 +301,7 @@ config_macsec_aegis128l_without_encryption()
 	sudo modprobe -v macsec
 	#sudo modprobe -v aegis128l
 	sudo ip link add link eno1 macsec0 type macsec cipher aegis128l-128
-	sudo ip macsec add macsec0 tx sa 0 pn 1 on key 01 12345678901234567890123456789012
+	sudo ip macsec add macsec0 tx sa 0 pn 1 on key 01 12345678901234567890123456789012	
 	sudo ip macsec add macsec0 rx address ec:b1:d7:4b:bc:fd port 1
 	sudo ip macsec add macsec0 rx address ec:b1:d7:4b:bc:fd port 1 sa 0 pn 1 on key 02 09876543210987654321098765432109
 	sudo ip link set dev macsec0 up
@@ -320,6 +320,7 @@ sudo modprobe -r macsec
 	#sudo cd ~
 	sudo modprobe -v macsec
 	#sudo modprobe -v aegis128l
+
 	sudo ip link add link eno1 macsec0 type macsec cipher aegis128l-128
 	sudo ip macsec add macsec0 tx sa 0 pn 1 on key 01 12345678901234567890123456789012
 	sudo ip macsec add macsec0 rx address ec:b1:d7:4b:bc:fd port 1
@@ -328,6 +329,7 @@ sudo modprobe -r macsec
 	sudo ip link set dev macsec0 mtu 1514
 	sudo ifconfig macsec0 10.10.12.1/24
 	sudo ip link set macsec0 type macsec encrypt on
+
 }
 
 config_macsec_morus640_encryption()
@@ -382,7 +384,7 @@ init
 #eva $1 "macsec-chachapoly-we" 1000 1468 cwe
 #eva $1 "macsec-chachapoly-e" 1000 1468 mce
 #eva $1 "no-macsec" 1000 1468
-eva $1 "macsec-aegis128l-e" 1500 1514 ae
+#eva $1 "macsec-aegis128l-e" 1500 1514 ae
 eva $1 "macsec-aegis128l-we" 1500 1514 awe
 eva $1 "macsec-morus640-e" 1500 1514 mme
 eva $1 "macsec-morus640-we" 1500 1514 mmwe
