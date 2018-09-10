@@ -86,12 +86,12 @@ eva() {
                	eva_ping $2 $4 $IP
 		#sudo ip link set dev eno1 mtu 60 #prints "eno1: Invalid MTU 60 requested, hw min 68" in dmesg
                 #eva_iperf $1 $2 60 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 160 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 288 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 544 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 1056 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 1432 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 1546 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 164 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 292 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 548 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 1060 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 1436 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 1550 $DEST_IP
 	
 
 	elif [[ $5 == med ]]; then #case macsec with aes(gcm) and encryption
@@ -102,13 +102,12 @@ eva() {
 		eva_ping $2 $4 $IP
 		#sudo ip link set dev eno1 mtu 60
                 #eva_iperf $1 $2 60 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 160 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 288 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 544 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 1056 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 1432 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 1546 $DEST_IP
-
+		mtu_config_for_iperf3 $1 $2 164 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 292 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 548 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 1060 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 1436 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 1550 $DEST_IP
 	elif [[ $5 == cwe ]]; then #case macsec with chachapoly without encryption
 		IP=$DEST_IP
 		ssh root@$REMOTE_IP "sh /home/test2/thesis/evaluation/config_macsec_chacha_without_encryption.sh"
@@ -117,12 +116,12 @@ eva() {
 		eva_ping $2 $4 $IP
 		#sudo ip link set dev eno1 mtu 60
                 #eva_iperf $1 $2 60 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 160 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 288 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 544 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 1056 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 1432 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 1546 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 164 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 292 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 548 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 1060 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 1436 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 1550 $DEST_IP
 
 	elif [[ $5 == mce ]]; then #case macsec with chachapoly and encryption
 		IP=$DEST_IP
@@ -132,12 +131,12 @@ eva() {
 		eva_ping $2 $4 $IP
 		#sudo ip link set dev eno1 mtu 60
                 #eva_iperf $1 $2 60 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 160 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 288 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 544 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 1056 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 1432 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 1546 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 164 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 292 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 548 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 1060 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 1436 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 1550 $DEST_IP
 
 	elif [[ $5 == awe ]]; then #case macsec with aegis128l without encryption
 		IP=$DEST_IP
@@ -147,12 +146,12 @@ eva() {
 		eva_ping $2 $4 $IP
 		#sudo ip link set dev eno1 mtu 60
                 #eva_iperf $1 $2 60 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 160 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 288 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 544 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 1056 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 1432 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 1546 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 164 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 292 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 548 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 1060 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 1436 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 1550 $DEST_IP
 		
 	elif [[ $5 == ae ]]; then #case macsec with aegis128l with encryption
 		IP=$DEST_IP
@@ -162,12 +161,12 @@ eva() {
 		eva_ping $2 $4 $IP
 		#sudo ip link set dev eno1 mtu 60
                 #eva_iperf $1 $2 60 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 160 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 288 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 544 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 1056 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 1432 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 1546 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 164 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 292 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 548 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 1060 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 1436 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 1550 $DEST_IP
 
 	elif [[ $5 == mme ]]; then  #case macsec with morus640 with encryption
 		IP=$DEST_IP
@@ -177,12 +176,12 @@ eva() {
 		eva_ping $2 $4 $IP
 		#sudo ip link set dev eno1 mtu 60
                 #eva_iperf $1 $2 60 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 160 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 288 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 544 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 1056 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 1432 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 1546 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 164 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 292 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 548 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 1060 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 1436 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 1550 $DEST_IP
 
 	elif [[ $5 == mmwe ]]; then  #case macsec with morus640 without encryption
 		IP=$DEST_IP
@@ -192,12 +191,12 @@ eva() {
 		eva_ping $2 $4 $IP
 		#sudo ip link set dev eno1 mtu 60
                 #eva_iperf $1 $2 60 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 160 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 288 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 544 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 1056 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 1432 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 1546 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 164 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 292 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 548 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 1060 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 1436 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 1550 $DEST_IP
 
 	else    #case no macsec no encryption
 	        IP=169.254.234.92
@@ -205,27 +204,23 @@ eva() {
                 eva_ping $2 $4 169.254.234.92
                 #sudo ip link set dev eno1 mtu 60
                 #eva_iperf $1 $2 60 $DEST_IP
-		mtu_config_for_iperf3 $1 $2 128 169.254.234.92
-		mtu_config_for_iperf3 $1 $2 256 169.254.234.92
-		mtu_config_for_iperf3 $1 $2 512 169.254.234.92
-		mtu_config_for_iperf3 $1 $2 1024 169.254.234.92
-		mtu_config_for_iperf3 $1 $2 1400 169.254.234.92
-		mtu_config_for_iperf3 $1 $2 1514 169.254.234.92
-                
+		mtu_config_for_iperf3 $1 $2 164 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 292 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 548 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 1060 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 1436 $DEST_IP
+		mtu_config_for_iperf3 $1 $2 1550 $DEST_IP
 
 	fi
 }
 
 mtu_config_for_iperf3()
 {
-#third value + 32 if the mtu of macsec0 is changed
+#third value + 36 if the mtu of macsec0 is changed
 sudo ip link set dev eno1 mtu $3
-echo -m "hi"
 ssh root@$REMOTE_IP "sudo ip link set dev eno1 mtu $3"
-echo -m "hi"
-sudo ip link set dev macsec0 mtu $((( $3 - 32 )))
-echo -m "hi"
-ssh root@$REMOTE_IP "sudo ip link set dev macsec0 mtu $((( $3 - 32 )))"
+sudo ip link set dev macsec0 mtu $((( $3  - 36 )))
+ssh root@$REMOTE_IP "sudo ip link set dev macsec0 mtu $((( $3  - 36 )))"
 eva_iperf $1 $2 $3 $4
 }
 
@@ -236,10 +231,11 @@ config_macsec_without_encryption()
 	sudo modprobe -r macsec
 	sudo modprobe -v macsec
 	sudo ip link add link eno1 macsec0 type macsec
-	sudo ip macsec add macsec0 tx sa 0 pn 1 on key 01 12345678901234567890123456789012	
+	sudo ip macsec add macsec0 tx sa 0 pn 1 on key 01 12345678901234567890123456789012
 	sudo ip macsec add macsec0 rx address ec:b1:d7:4b:bc:fd port 1
 	sudo ip macsec add macsec0 rx address ec:b1:d7:4b:bc:fd port 1 sa 0 pn 1 on key 02 09876543210987654321098765432109
 	sudo ip link set dev macsec0 up
+	sudo ip link set dev macsec0 mtu 1514
 	sudo ifconfig macsec0 10.10.12.1/24
 	sudo ip link set macsec0 type macsec encrypt off
 	
@@ -304,7 +300,7 @@ config_macsec_aegis128l_without_encryption()
 	sudo modprobe -v macsec
 	#sudo modprobe -v aegis128l
 	sudo ip link add link eno1 macsec0 type macsec cipher aegis128l-128
-	sudo ip macsec add macsec0 tx sa 0 pn 1 on key 01 12345678901234567890123456789012	
+	sudo ip macsec add macsec0 tx sa 0 pn 1 on key 01 12345678901234567890123456789012
 	sudo ip macsec add macsec0 rx address ec:b1:d7:4b:bc:fd port 1
 	sudo ip macsec add macsec0 rx address ec:b1:d7:4b:bc:fd port 1 sa 0 pn 1 on key 02 09876543210987654321098765432109
 	sudo ip link set dev macsec0 up
