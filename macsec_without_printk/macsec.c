@@ -28,7 +28,7 @@ typedef u64 __bitwise sci_t;
 #define MACSEC_SCI_LEN 8
 
 /* SecTAG length = macsec_eth_header without the optional SCI */
-#define MACSEC_TAG_LEN 6
+#define MACSEC_TAG_LEN 10
 
 struct macsec_eth_header {
 	struct ethhdr eth;
@@ -43,7 +43,7 @@ struct macsec_eth_header {
 #else
 #error	"Please fix <asm/byteorder.h>"
 #endif
-	__be32 packet_number;
+	__be64 packet_number;
 	u8 secure_channel_id[8]; /* optional */
 } __packed;
 
