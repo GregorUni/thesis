@@ -78,7 +78,7 @@ struct gcm_iv {
 		u8 secure_channel_id[8];
 		sci_t sci;
 	};
-	__be32 pn;
+	__be64 pn;
 };
 
 /**
