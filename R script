@@ -1,12 +1,23 @@
 library("rjson")
 library(jsonlite)
-json_file <- "~/eva/final-1527016360-4-macsec-iperf.json"
+json_file <- "final-1534866433-250-macsec-aes(gcm)-e-160iperf.json"
 json_data <- fromJSON(json_file)
 js2 <- as.character(toJSON(json_data))
 OutputDataSet <- data.frame(fromJSON(js2))
 gg <- ggplot(OutputDataSet...
-g1<-g[[1]][[3]][[2]][[4]]
-g2<-g[[1]][[4]][[1]][[1]]
+///// diagramm gesendete bytes mtu pro 
+
+g1<-OutputDataSet[[2]][[1]][[1]][[1]][11] // um an liste von ptmu zu kommen g7 <- OutputDataSet2[[1]][[7]] // um indirekt an die zu kommen dann g7<-unique(g7)
+g5 <- OutputDataSet[[3]][[2]][[4]] // um an summe aller tests der bytes zu kommen
+mean(g5) -> durchschnitt der aller tests mean(g5[1:250]) durchschnitt von 1-250 tests
+g5<-humanReadable(g5)
+ggplot(OutputDataSet2, aes(x=g1, y=g5)) + geom_point()
+ggplot(OutputDataSet2, aes(x=OutputDataSet2[[1]][[7]], y=OutputDataSet2[[3]][[2]][[4]])) + geom_point()
+
+plot(X1, x, xlab="Paketlänge in Bytes",type="l", col="blue", ylab="Bandbreite",xaxt="n",yaxt="n")+ axis(side=1,at=seq(0,1540,256),tcl=0.4,lwd.ticks=1,mgp=c(0,0.5,0))+axis(side=2,at=seq(210000000,130000000000,7000000000),tcl=0.3,lwd.ticks=1,mgp=c(0,0.5,0))+ lines(X1,chachaBytes,col="red") +lines(X1,nomacsecBytes,col="green") +lines(X1,aegisBytes,col="orange") +lines(X1,morusBytes,col="black") 
+
+g7<-unique(g7)  ///um an eine menge zu kommen 
+g3<-humanReadable(g3)
 ggplot(OutputDataSet, aes(x=g1, y=g2)) + geom_point()
 ggplot(OutputDataSet, aes(x=g2, y=g1)) + geom_bar(stat = "identity") 
 
@@ -14,11 +25,114 @@ x<- seq(1,4,by=1)
 ggplot(OutputDataSet, aes(x=x, y=g1)) + geom_bar(stat = "identity") 
 
 library(gdata) for humanreadable
-g1<-humanReadable(g[[1]][[3]][[2]][[4]])
+g2<-humanReadable(OutputDataSet[[2]][[1]][[1]][[1]][5] )
 g3 <- mean(g[[1]][[3]][[2]][[4]])
 
-
+for(i in OutputDataSet[[2]][[1]][[1]]){{g3 <- print(i)} // so werden alle listen durchiteriert
 
 ###############################
 gcc -Wall -c norx.c
+for(i in OutputDataSet[[3]])
+{
+	for(j in i[5]){
+		print(j)
+	}
+}
+
+for(i in OutputDataSet[[2]][[1]]){for(j in i[4]){g3<-j}} // um an 10 test von bytes aus einer liste zu kommen
+
+
+cat hallo hallo2 > hallo3
+
+
+aes_file <- "aes-gcm-e.json"
+aes_data <- fromJSON(aes_file)
+aes <- as.character(toJSON(aes_data))
+aesSet <- data.frame(fromJSON(aes))
+aes1 <- aesSet[[3]][[2]][[4]] 
+aesBytes <- vector(mode="integer", length=6)
+aesBytes[1] <- mean(aes1[1:250])
+aesBytes[2] <- mean(aes1[251:500])
+aesBytes[3] <- mean(aes1[501:750])
+aesBytes[4] <- mean(aes1[751:1000])
+aesBytes[5] <- mean(aes1[1001:1250])
+aesBytes[6] <- mean(aes1[1251:1500])
+aesBytesHumanReadable <- humanReadable(aesBytes)
+
+chacha_file <- "chacha-poly-e.json"
+chacha_data <- fromJSON(chacha_file)
+chacha <- as.character(toJSON(chacha_data))
+chachaSet <- data.frame(fromJSON(chacha))
+chacha1 <- chachaSet[[3]][[2]][[4]] 
+chachaBytes <- vector(mode="integer", length=6)
+chachaBytes[1] <- mean(chacha1[1:250])
+chachaBytes[2] <- mean(chacha1[251:500])
+chachaBytes[3] <- mean(chacha1[501:750])
+chachaBytes[4] <- mean(chacha1[751:1000])
+chachaBytes[5] <- mean(chacha1[1001:1250])
+chachaBytes[6] <- mean(chacha1[1251:1500])
+chachaBytesHumanReadable <- humanReadable(chachaBytes)
+
+aegis_file <- "aegis128L-e.json"
+aegis_data <- fromJSON(aegis_file)
+aegis <- as.character(toJSON(aegis_data))
+aegisSet <- data.frame(fromJSON(aegis))
+aegis1 <- aegisSet[[3]][[2]][[4]] 
+aegisBytes <- vector(mode="integer", length=6)
+aegisBytes[1] <- mean(aegis1[1:100])
+aegisBytes[2] <- mean(aegis1[101:200]) 
+aegisBytes[3] <- mean(aegis1[201:300])
+aegisBytes[4] <- mean(aegis1[301:400])
+aegisBytes[5] <- mean(aegis1[401:500])
+aegisBytes[6] <- mean(aegis1[501:600])
+aegisBytesHumanReadable <- humanReadable(aegisBytes)
+aegisBytesHumanReadable <- humanReadable(aegisBytes)
+
+morus_file <- "morus640-e.json"
+morus_data <- fromJSON(morus_file)
+morus <- as.character(toJSON(morus_data))
+morusSet <- data.frame(fromJSON(morus))
+morus1 <- morusSet[[3]][[2]][[4]] 
+morusBytes <- vector(mode="integer", length=6)
+morusBytes[1] <- mean(morus1[1:100])
+morusBytes[2] <- mean(morus1[101:200]) 
+morusBytes[3] <- mean(morus1[201:300])
+morusBytes[4] <- mean(morus1[301:400])
+morusBytes[5] <- mean(morus1[401:500])
+morusBytes[6] <- mean(morus1[501:600])
+morusBytesHumanReadable <- humanReadable(morusBytes)
+
+nomacsec_file <- "no-macsec.json"
+nomacsec_data <- fromJSON(nomacsec_file)
+nomacsec <- as.character(toJSON(nomacsec_data))
+nomacsecSet <- data.frame(fromJSON(nomacsec))
+nomacsec1 <- nomacsecSet[[3]][[2]][[4]] 
+nomacsecBytes <- vector(mode="integer", length=6)
+nomacsecBytes[1] <- mean(nomacsec1[1:100])
+nomacsecBytes[2] <- mean(nomacsec1[101:200]) 
+nomacsecBytes[3] <- mean(nomacsec1[201:300])
+nomacsecBytes[4] <- mean(nomacsec1[301:400])
+nomacsecBytes[5] <- mean(nomacsec1[401:500])
+nomacsecBytes[6] <- mean(nomacsec1[501:600])
+nomacsecBytesHumanReadable <- humanReadable(nomacsecBytes)
+
+x <- vector(mode="integer", length=6)
+
+x[1] <- 128
+x[2] <- 256
+x[3] <- 512
+x[4] <- 1024
+x[5] <- 1400
+x[6] <- 1540
+
+plot(X1, x, xlab="Paketlänge in Bytes",type="l", col="blue", ylab="Bandbreite",xaxt="n",yaxt="n")+ axis(side=1,at=seq(0,1540,256),tcl=0.4,lwd.ticks=1,mgp=c(0,0.5,0))+axis(side=2,at=seq(210000000,130000000000,7000000000),tcl=0.3,lwd.ticks=1,mgp=c(0,0.5,0))+ lines(X1,chachaBytes,col="red") +lines(X1,nomacsecBytes,col="green") +lines(X1,aegisBytes,col="orange") +lines(X1,morusBytes,col="black") 
+
+
+
+
+
+
+
+
+
 
