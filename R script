@@ -58,6 +58,7 @@ aesBytes[4] <- mean(aes1[751:1000])
 aesBytes[5] <- mean(aes1[1001:1250])
 aesBytes[6] <- mean(aes1[1251:1500])
 aesBytesHumanReadable <- humanReadable(aesBytes)
+aesBytes<-aesBytes/1000000
 
 chacha_file <- "chacha-poly-e.json"
 chacha_data <- fromJSON(chacha_file)
@@ -72,6 +73,7 @@ chachaBytes[4] <- mean(chacha1[751:1000])
 chachaBytes[5] <- mean(chacha1[1001:1250])
 chachaBytes[6] <- mean(chacha1[1251:1500])
 chachaBytesHumanReadable <- humanReadable(chachaBytes)
+chachaBytes<-chachaBytes/1000000
 
 aegis_file <- "aegis128L-e.json"
 aegis_data <- fromJSON(aegis_file)
@@ -87,6 +89,7 @@ aegisBytes[5] <- mean(aegis1[401:500])
 aegisBytes[6] <- mean(aegis1[501:600])
 aegisBytesHumanReadable <- humanReadable(aegisBytes)
 aegisBytesHumanReadable <- humanReadable(aegisBytes)
+aegisBytes<-aegisBytes/1000000
 
 morus_file <- "morus640-e.json"
 morus_data <- fromJSON(morus_file)
@@ -101,6 +104,7 @@ morusBytes[4] <- mean(morus1[301:400])
 morusBytes[5] <- mean(morus1[401:500])
 morusBytes[6] <- mean(morus1[501:600])
 morusBytesHumanReadable <- humanReadable(morusBytes)
+morusBytes<-morusBytes/1000000
 
 nomacsec_file <- "no-macsec.json"
 nomacsec_data <- fromJSON(nomacsec_file)
@@ -115,6 +119,7 @@ nomacsecBytes[4] <- mean(nomacsec1[301:400])
 nomacsecBytes[5] <- mean(nomacsec1[401:500])
 nomacsecBytes[6] <- mean(nomacsec1[501:600])
 nomacsecBytesHumanReadable <- humanReadable(nomacsecBytes)
+nomacsecBytes<-nomacsecBytes/1000000
 
 x <- vector(mode="integer", length=6)
 
@@ -125,7 +130,9 @@ x[4] <- 1024
 x[5] <- 1400
 x[6] <- 1540
 
-plot(X1, x, xlab="Paketlänge in Bytes",type="l", col="blue", ylab="Bandbreite",xaxt="n",yaxt="n")+ axis(side=1,at=seq(0,1540,256),tcl=0.4,lwd.ticks=1,mgp=c(0,0.5,0))+axis(side=2,at=seq(210000000,130000000000,7000000000),tcl=0.3,lwd.ticks=1,mgp=c(0,0.5,0))+ lines(X1,chachaBytes,col="red") +lines(X1,nomacsecBytes,col="green") +lines(X1,aegisBytes,col="orange") +lines(X1,morusBytes,col="black") 
+options(scipen=999)
+
+plot(x, aesBytes, xlab="Paketlänge in Bytes",type="l", col="blue", ylab="Bandbreite in Mbytes",xaxt="n",yaxt="n")+ axis(side=1,at=seq(0,1540,256),tcl=0.4,lwd.ticks=1,mgp=c(0,0.5,0))+axis(side=2,at=seq(100,1300,200),tcl=0.3,lwd.ticks=1,mgp=c(0,0.5,0))+ lines(x,chachaBytes,col="red") +lines(x,nomacsecBytes,col="green") +lines(x,aegisBytes,col="orange") +lines(x,morusBytes,col="black") 
 
 
 
