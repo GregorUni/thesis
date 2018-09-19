@@ -138,11 +138,68 @@ options(scipen=999)
 
 plot(x, aesBytes, xlab="Paketlänge in Bytes",type="l", col="blue", ylab="Bandbreite in Mbytes",xaxt="n",yaxt="n",ylim=c(0,1220),xlim=c(128,1540), yaxs = "i",xaxs = "i")+ axis(side=1,at=seq(0,1540,256),tcl=-0.4,lwd.ticks=1,mgp=c(0,0.5,0))+axis(side=2,at=seq(0,1200,200),tcl=-0.4,lwd.ticks=1,mgp=c(0,0.5,0))+ lines(x,chachaBytes,col="red") +lines(x,nomacsecBytes,col="green") +lines(x,aegisBytes,col="orange") +lines(x,morusBytes,col="black") +legend("bottomright", inset=0.05, legend =c("AES-GCM","Chacha20-Poly1305","MORUS640","AEGIS128L","no-macsec"),col=c("blue", "red","black","orange","green"), lty=1, cex=0.8,box.lty=0)
 
+aeswe_file <- "aes-gcm-we.json"
+aeswe_data <- fromJSON(aeswe_file)
+aeswe <- as.character(toJSON(aeswe_data))
+aesweSet <- data.frame(fromJSON(aeswe))
+aeswe1 <- aesweSet[[3]][[2]][[4]] 
+aesweBytes <- vector(mode="integer", length=6)
+aesweBytes[1] <- mean(aeswe1[1:250])
+aesweBytes[2] <- mean(aeswe1[251:500]) 
+aesweBytes[3] <- mean(aeswe1[501:750])
+aesweBytes[4] <- mean(aeswe1[751:1000])
+aesweBytes[5] <- mean(aeswe1[1001:1250])
+aesweBytes[6] <- mean(aeswe1[1251:1500])
+aesweBytesHumanReadable <- humanReadable(aesweBytes)
+aesweBytes<-aesweBytes/1000000
 
+chachawe_file <- "chachapoly-we.json"
+chachawe_data <- fromJSON(chachawe_file)
+chachawe <- as.character(toJSON(chachawe_data))
+chachaweSet <- data.frame(fromJSON(chachawe))
+chachawe1 <- chachaweSet[[3]][[2]][[4]] 
+chachaweBytes <- vector(mode="integer", length=6)
+chachaweBytes[1] <- mean(chachawe1[1:250])
+chachaweBytes[2] <- mean(chachawe1[251:500]) 
+chachaweBytes[3] <- mean(chachawe1[501:750])
+chachaweBytes[4] <- mean(chachawe1[751:1000])
+chachaweBytes[5] <- mean(chachawe1[1001:1250])
+chachaweBytes[6] <- mean(chachawe1[1251:1500])
+chachaweBytesHumanReadable <- humanReadable(chachaweBytes)
+chachaweBytes<-chachaweBytes/1000000
 
+aegiswe_file <- "aegis128l-we.json"
+aegiswe_data <- fromJSON(aegiswe_file)
+aegiswe <- as.character(toJSON(aegiswe_data))
+aegisweSet <- data.frame(fromJSON(aegiswe))
+aegiswe1 <- aegisweSet[[3]][[2]][[4]] 
+aegisweBytes <- vector(mode="integer", length=6)
+aegisweBytes[1] <- mean(aegiswe1[1:100])
+aegisweBytes[2] <- mean(aegiswe1[101:200]) 
+aegisweBytes[3] <- mean(aegiswe1[201:300])
+aegisweBytes[4] <- mean(aegiswe1[301:400])
+aegisweBytes[5] <- mean(aegiswe1[401:500])
+aegisweBytes[6] <- mean(aegiswe1[501:600])
+aegisweBytesHumanReadable <- humanReadable(aegisweBytes)
+aegisweBytes<-aegisweBytes/1000000
 
+moruswe_file <- "morus640-we.json"
+moruswe_data <- fromJSON(moruswe_file)
+moruswe <- as.character(toJSON(moruswe_data))
+morusweSet <- data.frame(fromJSON(moruswe))
+moruswe1 <- morusweSet[[3]][[2]][[4]] 
+morusweBytes <- vector(mode="integer", length=6)
+morusweBytes[1] <- mean(moruswe1[1:100])
+morusweBytes[2] <- mean(moruswe1[101:200]) 
+morusweBytes[3] <- mean(moruswe1[201:300])
+morusweBytes[4] <- mean(moruswe1[301:400])
+morusweBytes[5] <- mean(moruswe1[401:500])
+morusweBytes[6] <- mean(moruswe1[501:600])
+morusweBytesHumanReadable <- humanReadable(morusweBytes)
+morusweBytes<-morusweBytes/1000000
 
+plot(x, aesweBytes, xlab="Paketlänge in Bytes",type="l", col="blue", ylab="Bandbreite in Mbytes",xaxt="n",yaxt="n",ylim=c(0,1220),xlim=c(128,1540), yaxs = "i",xaxs = "i")+ axis(side=1,at=seq(0,1540,256),tcl=-0.4,lwd.ticks=1,mgp=c(0,0.5,0))+axis(side=2,at=seq(0,1200,200),tcl=-0.4,lwd.ticks=1,mgp=c(0,0.5,0))+ lines(x,chachaweBytes,col="red") +lines(x,nomacsecBytes,col="green") +lines(x,aegisweBytes,col="orange") +lines(x,morusweBytes,col="black") +legend("bottomright", inset=0.05, legend =c("AES-GCM","Chacha20-Poly1305","MORUS640","AEGIS128L","no-macsec"),col=c("blue", "red","black","orange","green"), lty=1, cex=0.8,box.lty=0)
 
+end.cpu_utilization_percent.host_system
 
-
-
+aesweSet[[3]][[4]][3]
