@@ -43,6 +43,10 @@ for(i in OutputDataSet[[2]][[1]]){for(j in i[4]){g3<-j}} // um an 10 test von by
 
 
 cat hallo hallo2 > hallo3
+////////////////////////////////////////////////////////////////////////
+library("rjson")
+library(jsonlite)
+library(gdata) 
 
 
 aes_file <- "aes-gcm-e.json"
@@ -132,8 +136,7 @@ x[6] <- 1540
 
 options(scipen=999)
 
-plot(x, aesBytes, xlab="Paketlänge in Bytes",type="l", col="blue", ylab="Bandbreite in Mbytes",xaxt="n",yaxt="n")+ axis(side=1,at=seq(0,1540,256),tcl=0.4,lwd.ticks=1,mgp=c(0,0.5,0))+axis(side=2,at=seq(100,1300,200),tcl=0.3,lwd.ticks=1,mgp=c(0,0.5,0))+ lines(x,chachaBytes,col="red") +lines(x,nomacsecBytes,col="green") +lines(x,aegisBytes,col="orange") +lines(x,morusBytes,col="black") 
-
+plot(x, aesBytes, xlab="Paketlänge in Bytes",type="l", col="blue", ylab="Bandbreite in Mbytes",xaxt="n",yaxt="n",ylim=c(0,1220),xlim=c(128,1540), yaxs = "i",xaxs = "i")+ axis(side=1,at=seq(0,1540,256),tcl=-0.4,lwd.ticks=1,mgp=c(0,0.5,0))+axis(side=2,at=seq(0,1200,200),tcl=-0.4,lwd.ticks=1,mgp=c(0,0.5,0))+ lines(x,chachaBytes,col="red") +lines(x,nomacsecBytes,col="green") +lines(x,aegisBytes,col="orange") +lines(x,morusBytes,col="black") +legend("bottomright", inset=0.05, legend =c("AES-GCM","Chacha20-Poly1305","MORUS640","AEGIS128L","no-macsec"),col=c("blue", "red","black","orange","green"), lty=1, cex=0.8,box.lty=0)
 
 
 
