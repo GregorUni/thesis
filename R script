@@ -136,7 +136,7 @@ x[6] <- 1540
 
 options(scipen=999)
 
-plot(x, aesBytes, xlab="Paketlänge in Bytes",type="l", col="blue", ylab="Bandbreite in Mbytes",xaxt="n",yaxt="n",ylim=c(0,1220),xlim=c(128,1540), yaxs = "i",xaxs = "i")+ axis(side=1,at=seq(0,1540,256),tcl=-0.4,lwd.ticks=1,mgp=c(0,0.5,0))+axis(side=2,at=seq(0,1200,200),tcl=-0.4,lwd.ticks=1,mgp=c(0,0.5,0))+ lines(x,chachaBytes,col="red") +lines(x,nomacsecBytes,col="green") +lines(x,aegisBytes,col="orange") +lines(x,morusBytes,col="black") +legend("bottomright", inset=0.05, legend =c("AES-GCM","Chacha20-Poly1305","MORUS640","AEGIS128L","no-macsec"),col=c("blue", "red","black","orange","green"), lty=1, cex=0.8,box.lty=0)
+plot(x, aesBytes, xlab="Paketlänge in Bytes",type="l", col="blue", ylab="Bandbreite in Mbytes/s",xaxt="n",yaxt="n",ylim=c(0,1220),xlim=c(0,1540), yaxs = "i",xaxs = "i")+ axis(side=1,at=seq(0,1540,256),tcl=-0.4,lwd.ticks=1,mgp=c(0,0.5,0))+axis(side=2,at=seq(0,1200,200),tcl=-0.4,lwd.ticks=1,mgp=c(0,0.5,0))+ lines(x,chachaBytes,col="red") +lines(x,nomacsecBytes,col="green") +lines(x,aegisBytes,col="orange") +lines(x,morusBytes,col="black") +legend("bottomright", inset=0.05, legend =c("AES-GCM","Chacha20-Poly1305","MORUS640","AEGIS128L","no-macsec"),col=c("blue", "red","black","orange","green"), lty=1, cex=0.8,box.lty=0)
 
 aeswe_file <- "aes-gcm-we.json"
 aeswe_data <- fromJSON(aeswe_file)
@@ -198,8 +198,106 @@ morusweBytes[6] <- mean(moruswe1[501:600])
 morusweBytesHumanReadable <- humanReadable(morusweBytes)
 morusweBytes<-morusweBytes/1000000
 
-plot(x, aesweBytes, xlab="Paketlänge in Bytes",type="l", col="blue", ylab="Bandbreite in Mbytes",xaxt="n",yaxt="n",ylim=c(0,1220),xlim=c(128,1540), yaxs = "i",xaxs = "i")+ axis(side=1,at=seq(0,1540,256),tcl=-0.4,lwd.ticks=1,mgp=c(0,0.5,0))+axis(side=2,at=seq(0,1200,200),tcl=-0.4,lwd.ticks=1,mgp=c(0,0.5,0))+ lines(x,chachaweBytes,col="red") +lines(x,nomacsecBytes,col="green") +lines(x,aegisweBytes,col="orange") +lines(x,morusweBytes,col="black") +legend("bottomright", inset=0.05, legend =c("AES-GCM","Chacha20-Poly1305","MORUS640","AEGIS128L","no-macsec"),col=c("blue", "red","black","orange","green"), lty=1, cex=0.8,box.lty=0)
+plot(x, aesweBytes, xlab="Paketlänge in Bytes",type="l", col="blue", ylab="Bandbreite in Mbytes/s",xaxt="n",yaxt="n",ylim=c(0,1220),xlim=c(128,1540), yaxs = "i",xaxs = "i")+ axis(side=1,at=seq(0,1540,256),tcl=-0.4,lwd.ticks=1,mgp=c(0,0.5,0))+axis(side=2,at=seq(0,1200,200),tcl=-0.4,lwd.ticks=1,mgp=c(0,0.5,0))+ lines(x,chachaweBytes,col="red") +lines(x,nomacsecBytes,col="green") +lines(x,aegisweBytes,col="orange") +lines(x,morusweBytes,col="black") +legend("bottomright", inset=0.05, legend =c("AES-GCM","Chacha20-Poly1305","MORUS640","AEGIS128L","no-macsec"),col=c("blue", "red","black","orange","green"), lty=1, cex=0.8,box.lty=0)
 
+////////////////////////////////////
 end.cpu_utilization_percent.host_system
 
-aesweSet[[3]][[4]][3]
+test<-aesweSet[[3]][[4]][3]
+
+aesCpu <- aesSet[[3]][[4]][[3]] 
+aesBytesCpu <- vector(mode="integer", length=6)
+aesBytesCpu[1] <- mean(aesCpu[1:250])
+aesBytesCpu[2] <- mean(aesCpu[251:500])
+aesBytesCpu[3] <- mean(aesCpu[501:750])
+aesBytesCpu[4] <- mean(aesCpu[751:1000])
+aesBytesCpu[5] <- mean(aesCpu[1001:1250])
+aesBytesCpu[6] <- mean(aesCpu[1251:1500])
+aesBytesCpuHumanReadable <- humanReadable(aesBytesCpu)
+
+chachaCpu <- chachaSet[[3]][[4]][[3]] 
+chachaBytesCpu <- vector(mode="integer", length=6)
+chachaBytesCpu[1] <- mean(chachaCpu[1:250])
+chachaBytesCpu[2] <- mean(chachaCpu[251:500])
+chachaBytesCpu[3] <- mean(chachaCpu[501:750])
+chachaBytesCpu[4] <- mean(chachaCpu[751:1000])
+chachaBytesCpu[5] <- mean(chachaCpu[1001:1250])
+chachaBytesCpu[6] <- mean(chachaCpu[1251:1500])
+chachaBytesCpuHumanReadable <- humanReadable(chachaBytesCpu)
+
+aegisCpu <- aegisSet[[3]][[4]][[3]] 
+aegisBytesCpu <- vector(mode="integer", length=6)
+aegisBytesCpu[1] <- mean(aegisCpu[1:100])
+aegisBytesCpu[2] <- mean(aegisCpu[101:200]) 
+aegisBytesCpu[3] <- mean(aegisCpu[201:300])
+aegisBytesCpu[4] <- mean(aegisCpu[301:400])
+aegisBytesCpu[5] <- mean(aegisCpu[401:500])
+aegisBytesCpu[6] <- mean(aegisCpu[501:600])
+aegisBytesCpuHumanReadable <- humanReadable(aegisBytesCpu)
+aegisBytesCpuHumanReadable <- humanReadable(aegisBytesCpu)
+
+morusCpu <- morusSet[[3]][[4]][[3]]  
+morusBytesCpu <- vector(mode="integer", length=6)
+morusBytesCpu[1] <- mean(morusCpu[1:100])
+morusBytesCpu[2] <- mean(morusCpu[101:200]) 
+morusBytesCpu[3] <- mean(morusCpu[201:300])
+morusBytesCpu[4] <- mean(morusCpu[301:400])
+morusBytesCpu[5] <- mean(morusCpu[401:500])
+morusBytesCpu[6] <- mean(morusCpu[501:600])
+morusBytesCpuHumanReadable <- humanReadable(morusBytesCpu)
+
+nomacsecCpu <- nomacsecSet[[3]][[4]][[3]] 
+nomacsecBytesCpu <- vector(mode="integer", length=6)
+nomacsecBytesCpu[1] <- mean(nomacsecCpu[1:100])
+nomacsecBytesCpu[2] <- mean(nomacsecCpu[101:200]) 
+nomacsecBytesCpu[3] <- mean(nomacsecCpu[201:300])
+nomacsecBytesCpu[4] <- mean(nomacsecCpu[301:400])
+nomacsecBytesCpu[5] <- mean(nomacsecCpu[401:500])
+nomacsecBytesCpu[6] <- mean(nomacsecCpu[501:600])
+nomacsecBytesCpuHumanReadable <- humanReadable(nomacsecBytesCpu)
+
+plot(x, aesBytesCpu, xlab="Paketlänge in Bytes",type="l", col="blue", ylab="CPU Auslastung in Mbytes/s",xaxt="n",yaxt="n",ylim=c(0,2.5),xlim=c(128,1540), yaxs = "i",xaxs = "i")+ axis(side=1,at=seq(0,1540,256),tcl=-0.4,lwd.ticks=1,mgp=c(0,0.5,0))+axis(side=2,at=seq(0,2.5,0.5),tcl=-0.4,lwd.ticks=1,mgp=c(0,0.5,0))+ lines(x,chachaBytesCpu,col="red") +lines(x,nomacsecBytesCpu,col="green") +lines(x,aegisBytesCpu,col="orange") +lines(x,morusBytesCpu,col="black") +legend("bottomright", inset=0.05, legend =c("AES-GCM","Chacha20-Poly1305","MORUS640","AEGIS128L","no-macsec"),col=c("blue", "red","black","orange","green"), lty=1, cex=0.8,box.lty=0)
+
+aesCpuwe <- aesweSet[[3]][[4]][[3]] 
+aesBytesCpuwe <- vector(mode="integer", length=6)
+aesBytesCpuwe[1] <- mean(aesCpuwe[1:250])
+aesBytesCpuwe[2] <- mean(aesCpuwe[251:500])
+aesBytesCpuwe[3] <- mean(aesCpuwe[501:750])
+aesBytesCpuwe[4] <- mean(aesCpuwe[751:1000])
+aesBytesCpuwe[5] <- mean(aesCpuwe[1001:1250])
+aesBytesCpuwe[6] <- mean(aesCpuwe[1251:1500])
+aesBytesCpuweHumanReadable <- humanReadable(aesBytesCpuwe)
+
+chachaCpuwe <- chachaweSet[[3]][[4]][[3]] 
+chachaBytesCpuwe <- vector(mode="integer", length=6)
+chachaBytesCpuwe[1] <- mean(chachaCpuwe[1:250])
+chachaBytesCpuwe[2] <- mean(chachaCpuwe[251:500])
+chachaBytesCpuwe[3] <- mean(chachaCpuwe[501:750])
+chachaBytesCpuwe[4] <- mean(chachaCpuwe[751:1000])
+chachaBytesCpuwe[5] <- mean(chachaCpuwe[1001:1250])
+chachaBytesCpuwe[6] <- mean(chachaCpuwe[1251:1500])
+chachaBytesCpuweHumanReadable <- humanReadable(chachaBytesCpuwe)
+
+aegisCpuwe <- aegisweSet[[3]][[4]][[3]] 
+aegisBytesCpuwe <- vector(mode="integer", length=6)
+aegisBytesCpuwe[1] <- mean(aegisCpuwe[1:100])
+aegisBytesCpuwe[2] <- mean(aegisCpuwe[101:200]) 
+aegisBytesCpuwe[3] <- mean(aegisCpuwe[201:300])
+aegisBytesCpuwe[4] <- mean(aegisCpuwe[301:400])
+aegisBytesCpuwe[5] <- mean(aegisCpuwe[401:500])
+aegisBytesCpuwe[6] <- mean(aegisCpuwe[501:600])
+aegisBytesCpuweHumanReadable <- humanReadable(aegisBytesCpuwe)
+
+morusCpuwe <- morusweSet[[3]][[4]][[3]]  
+morusBytesCpuwe <- vector(mode="integer", length=6)
+morusBytesCpuwe[1] <- mean(morusCpuwe[1:100])
+morusBytesCpuwe[2] <- mean(morusCpuwe[101:200]) 
+morusBytesCpuwe[3] <- mean(morusCpuwe[201:300])
+morusBytesCpuwe[4] <- mean(morusCpuwe[301:400])
+morusBytesCpuwe[5] <- mean(morusCpuwe[401:500])
+morusBytesCpuwe[6] <- mean(morusCpuwe[501:600])
+morusBytesCpuweHumanReadable <- humanReadable(morusBytesCpuwe)
+
+
+plot(x, aesBytesCpuwe, xlab="Paketlänge in Bytes",type="l", col="blue", ylab="CPU Auslastung in Mbytes/s",xaxt="n",yaxt="n",ylim=c(0,2.5),xlim=c(128,1540), yaxs = "i",xaxs = "i")+ axis(side=1,at=seq(0,1540,256),tcl=-0.4,lwd.ticks=1,mgp=c(0,0.5,0))+axis(side=2,at=seq(0,2.5,0.5),tcl=-0.4,lwd.ticks=1,mgp=c(0,0.5,0))+ lines(x,chachaBytesCpuwe,col="red") +lines(x,nomacsecBytesCpu,col="green") +lines(x,aegisBytesCpuwe,col="orange") +lines(x,morusBytesCpuwe,col="black") +legend("bottomright", inset=0.05, legend =c("AES-GCM","Chacha20-Poly1305","MORUS640","AEGIS128L","no-macsec"),col=c("blue", "red","black","orange","green"), lty=1, cex=0.8,box.lty=0)
+
