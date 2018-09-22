@@ -301,3 +301,5 @@ morusBytesCpuweHumanReadable <- humanReadable(morusBytesCpuwe)
 
 plot(x, aesBytesCpuwe, xlab="Paketlänge in Bytes",type="l", col="blue", ylab="CPU Auslastung in Mbytes/s",xaxt="n",yaxt="n",ylim=c(0,2.5),xlim=c(128,1540), yaxs = "i",xaxs = "i")+ axis(side=1,at=seq(0,1540,256),tcl=-0.4,lwd.ticks=1,mgp=c(0,0.5,0))+axis(side=2,at=seq(0,2.5,0.5),tcl=-0.4,lwd.ticks=1,mgp=c(0,0.5,0))+ lines(x,chachaBytesCpuwe,col="red") +lines(x,nomacsecBytesCpu,col="green") +lines(x,aegisBytesCpuwe,col="orange") +lines(x,morusBytesCpuwe,col="black") +legend("bottomright", inset=0.05, legend =c("AES-GCM","Chacha20-Poly1305","MORUS640","AEGIS128L","no-macsec"),col=c("blue", "red","black","orange","green"), lty=1, cex=0.8,box.lty=0)
 
+
+cpu bottleneck morus könnte noch besser sein
