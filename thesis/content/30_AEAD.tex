@@ -1,0 +1,172 @@
+\chapter{AEAD Algorithmen}
+\label{sec:AEAD Algorithmen}
+
+
+% Ist das zentrale Kapitel der Arbeit. Hier werden das Ziel sowie die
+% eigenen Ideen, Wertungen, Entwurfsentscheidungen vorgebracht. Es kann
+% sich lohnen, verschiedene Möglichkeiten durchzuspielen und dann
+% explizit zu begründen, warum man sich für eine bestimmte entschieden
+% hat. Dieses Kapitel sollte - zumindest in Stichworten - schon bei den
+% ersten Festlegungen eines Entwurfs skizziert werden.
+% Es wird sich aber in einer normal verlaufenden
+% Arbeit dauernd etwas daran ändern. Das Kapitel darf nicht zu
+% detailliert werden, sonst langweilt sich der Leser. Es ist sehr
+% wichtig, das richtige Abstraktionsniveau zu finden. Beim Verfassen
+% sollte man auf die Wiederverwendbarkeit des Textes achten.
+
+% Plant man eine Veröffentlichung aus der Arbeit zu machen, können von
+% diesem Kapitel Teile genommen werden. Das Kapitel wird in der Regel
+% wohl mindestens 8 Seiten haben, mehr als 20 können ein Hinweis darauf
+% sein, daß das Abstraktionsniveau verfehlt wurde.
+\\
+In diesem Abschnitt werden verschiedene AEAD Algorithmen vorgestellt. Daraufhin werden aus den Algorithmen Kandidaten ausgewählt, die vielversprechende Ergebnisse aufweisen. Die ausgewählten Kandidaten werden detaillierter analysiert und erläutert.
+\section{CAESAR Competition}\\
+\\
+Am 5. Juli 2012 wurde von Daniel J. Bernstein ein rundenbasierter kryptografischer Wettbewerb namens \gls{CAESAR} gestartet, um eine alternative AEAD Chiffre zum weit verbreiteten \gls{AES-GCM} zu finden \cite{bernstein2014caesar}. Im Ausschuss, der über die Verschlüsselungsalgorithmen berät, sitzen neben Bernstein auch andere Spezialisten wie z.B. Joan Daemen oder Vincent Rijmen. Beide haben den Rijndael-Algorithmus konstruiert, der später vom Nist weltweit als Standard namens \gls{AES} gewählt worden ist und in fast jedem netzwerkfähigen Gerät benutzt wird. Auch Bernstein hat mit Chacha20-Poly1305 eine weit verbreitete Chiffre, die bereits oft eine Alternative zu AES-GCM bietet. Das besondere an der CAESAR Competition ist, dass es erstmals eine standardisierte Hardware API gibt, auf dem jeder Algorithmus getestet werden kann. So können leichter Vergleiche zwischen den Chiffren auf der gleichen Plattform gezogen werden und die Ergebnisse erlangen eine größere Relevanz.
+Die eingereichten Algorithmen sollten den Galois Counter Mode in mindestens einem von 3 Anwendungsfällen übertreffen.
+Die Anwendungsfälle sind wie folgt definiert: 
+\begin{enumerate}
+\item Lightweight Applications 
+\item High Performance Applications
+\item Defense in Depth
+\end{enumerate}
+Chiffren, die für Anwendungfall 1 eingereicht werden, sollten sehr effizient auf 8-Bit \glspl{CPU} arbeiten. Trotzdem sollten die Algorithmen nicht gegenüber Side-Channel Attacks anfällig sein.\\
+Anwendungsfall 2 beschreibt Chiffren die eine sehr gute Leistung auf 64-Bit \gls{CPU}s erbringen können. Außerdem sollten diese Algorithmen ebenfalls effizient auf 32-Bit CPUs sein, die hauptsächlich in Handys verbaut werden.\\
+In dem letzten Anwendungsfall soll das Sicherheitsziel der Authentizität dennoch gewährleistet werden, obwohl der Initialisierungsvektor mehrfach mit dem gleichen Schlüssel benutzt worden ist. In diesem Fall spricht man auch von einem Missbrauch des Initialisierungsvektors.
+Eine genaue Beschreibung der Anwendungsfälle ist in einer Email von einem der Ausschussmitglieder des \gls{CAESAR} Wettbewerbs Daniel J. Bernstein zu finden\footnote[1]{https://groups.google.com/forum/#!topic/crypto-competitions/DLv193SPSDc}.
+Die \gls{CAESAR} Competition durchläuft seit 2012 mehrere Runden und hat im März 2018 7 Finalisten bekanntgegeben. Aus diesen 7 Finalisten wird ein Portfolio an Algorithmen erstellt, die von dem Gremium, in den verschiedenen Anwendungsfällen empfohlen werden.
+\subsection{Finalisten des CAESAR Wettbewerbs}\\
+\\
+Bei dem CAESAR Wettbewerb wurden über 50 unterschiedliche \gls{AEAD} Algorithmen in der ersten Runde eingereicht. Da Experten der Kryptografie im Gremium sitzen, sind alle Finalisten mögliche Kandidaten, die in \gls{MACsec} implementiert werden können. Deshalb werden in diesem Abschnitt die Finalisten in alphabetischer Reihenfolge kurz zusammengefasst.\\
+\\
+ACORN: 
+ACORN wurde von Hongjun Wu eingereicht und ist für den Anwendungsfall 1 konfiguriert worden. Es ist eine Stromchiffre, welche auf einem linear rückgekoppelten Schieberegister mit einer Größe von 293 Bits basiert. Der Verschlüsselungsalgorithmus wurde so entworfen, dass die Chiffre besonders effizient auf Hardware läuft. Wegen der Parallelisierbarkeit von ACORN ist der Algorithmus auch verhältnismäßig schnell in Software\cite{ACORN}.
+\\
+\\
+AEGIS:
+AEGIS basiert auf der Rundenfunktion von \gls{AES}\footnote[2]{Es ist nicht die letzte Rundenfunktion gemeint.}. Die Stromchiffre wurde von Bart Preneel\footnote[3]{Bart Preneel als auch Hongjun Wu sind beide Auschussmitglieder von der CAESAR Competition.} und Hongjun Wu veröffentlicht und kann einen sehr hohen Durchsatz erzielen. Sie wird deshalb für Anwendungsfall 2 empfohlen. Die Rundenfunktion von AEGIS wird je nach Auswahl 5 bis 8 mal wiederholt und liegt damit unter den 10 Wiederholungen, die bei AES mit einer Schlüssellänge von 128-Bit üblich sind. Aufgrund der Ähnlichkeit zu AES kann AEGIS auf die Hardware Unterstützung \gls{AES-NI} zurückgreifen\cite{AEGIS}.
+\\
+\\
+Ascon:
+Ascon wurde von Christoph Dobraunig, Maria Eichlseder, Florian Mendel und Martin Schläffer konstruiert. Durch die Struktur von Ascon und einer Ressourcen schonenden Rundenfunktion ist Ascon auf Anwendungsfall 1 spezialisiert und gehört zu den hardware optimierten Stromchiffren\cite{Ascon}.\\
+\\
+COLM:
+COLM\footnote[4]{Die Autoren von Colm sind: Elena Andreeva, Andrey Bogdanov, Nilanjan Datta, Atul Luykx, Bart Mennink, Mridul Nandi, Elmar Tischhauser, Kan Yasuda} ist einer von 2 Finalisten, die für Anwendungsfall 3 ausgewählt wurden. Es ist eine Blockchiffre, die ebenfalls wie AEGIS auf der Rundenfunktion von AES aufgebaut ist\cite{COLM}.\\
+\\
+Deoxys-II:
+Ein weiterer Algorithmus von den Finalisten, der auf den Missbrauch des Initialisierungsvektors spezialisiert ist. Veröffentlicht wurde Deoxys-II von: Jérémy Jean, Ivica Nikolić, Thomas Peyrin und Yannick Seurin. Ähnlich wie bei COLM basiert auch Deoxys-II auf der AES Rundenfunktion und kann somit auch von der \gls{AES-NI} Hardware Unterstützung profitieren\cite{Jean2016}.\\
+\\
+MORUS:
+MORUS ist eine Stromchiffre, die von Hongjun Wu und Tao Huang eingereicht worden ist.
+Morus ist schnell auf der Hardware, da nur hardwarefreundliche Operationen wie AND und XOR in der Rundenfunktion vom Algorithmus verwendet werden. Der Algorithmus erreicht ebenfalls gute Resultate in der Software, weil Morus  effizient mit den \gls{SSE} Instruktionen implementiert werden kann. Daher wird Morus für den Anwendungsfall 2 empfohlen\cite{wuauthenticated}.  \\
+\\
+OCB:
+Ein weiterer schneller Verschlüsselungsalgorithmus ist von Ted Krovetz und Phillip Rogaway für den Anwendungsfall 2 vorgeschlagen worden. OCB orientiert sich an dem \gls{AES} Verschlüsselungsverfahren und nutzt infolgedessen die Rundenfunktion von AES. Die Chiffre ist in \cite{rfc7253} standardisiert worden. Der Standardisierungsprozess von OCB hatte sich verzögert, da Verfahren, die im Algorithmus benutzt wurden, patentiert sind. Mittlerweile ist es erlaubt, OCB zu benutzen unter der Bedingung, dass entweder die GNU General Public License verwendet oder die Chiffre nicht kommerziell benutzt wird\cite{krovetz2016ocb}.
+\subsection{Weitere vielversprechende AEAD Algorithmen}\\
+\\
+NORX:
+NORX wurde für die Hardware als auch für die Software optimiert. Die Cipher wurde von Jean-Philippe Aumasson, Philipp Jovanovic und Samuel Neves konstruiert. Der Grund, weshalb NORX hardwarefreundlich ist, kann man auf die genutzten Operationen im Algorithmus zurückführen. Es werden  ausschließlich XORs, ANDs ,SHIFTs und Rotationen benutzt. NORX kann durch die \gls{SSE} Instruktionen sehr effizient in Software implementiert werden. Als nicht generische Chiffre wurde NORX auch in die \gls{CAESAR} Competition eingereicht. Allerdings ist NORX nach der zweiten Runde ausgeschieden\cite{aumasson2015norx}.\\
+\\
+ChaCha20-POLY1305:
+Die von Daniel J. Bernstein erstellte Chiffre wurde bereits in RFC7539 standardisiert.
+CHACHA20-POLY1305 ist ein generisches \gls{AEAD} Verschlüsselungsverfahren. Es besteht aus der Stromchiffre ChaCha20 und dem Poly1305 MAC. ChaCha20 ist eine verbesserte Variante von der ebenfalls von Bernstein konstruierten Salsa20 Chiffre. Im Gegensatz zu \gls{AES} ist ChaCha20 nicht anfällig gegenüber timing attacks. Zudem ist ChaCha20 bis zu dreimal schneller, wenn das unterliegende System keine \gls{AES-NI} Hardware Unterstützung besitzt\cite{bernstein2008chacha}.
+Der Message Authentikation Code Poly1305 wurde als erstes in Kombination mit AES als AEAD Algorithmus benutzt. Poly1305-AES bietet eine höhere Sicherheit und ist wesentlich schneller als andere bekannte generische AEAD Algorithmen wie z.B AES in Kombination mit CBC-MAC\cite{10.1007/11502760_3}.
+%(ChaCha20Poly1305 Sicherheitsbeweis basiert auf dem von AES. Mit anderen Worten um ChaCha20Poly1305 zu brechen, muss man AES brechen können.)http://cr.yp.to/mac.html\\
+\section{CAESAR Performance Analyse}
+\\
+\\
+Alle Algorithmen des \gls{CAESAR} Wettbewerbs werden veröffentlicht, damit andere Spezialisten die Algorithmen auf Schwächen und Performance analysieren können. Daher wurden diverse wissenschaftliche Artikel zu dem Wettbewerb publiziert, in denen die Sicherheit oder Performance der einzelnen Algorithmen untersucht worden ist.
+\subsection{Software Benchmarking}
+\label{sec:software benchmarking}
+In \cite{Ankele2016SoftwareBO}
+wurden alle Kandidaten aus der 2. Runde, darunter auch die Finalisten, der \gls{CAESAR} Competition, analysiert. Bei der genutzten Benchmarksoftware wurde nur die Software Performance getestet. Demnach werden die Clockzyklen von einer \gls{CPU} gezählt, die benötigt werden, um eine Operation eines Verschlüsselungsalgorithmus auszuführen. Zudem werden unterschiedlich große Nachrichten und \gls{AD} verschlüsselt, um möglichst unterschiedliche und reale Bedingungen zu simulieren. 
+In der Publikation wird insbesondere darauf eingegangen, welche Auswirkungen Befehlssätze auf unterschiedliche Verschlüsselungsalgorithmen haben. So wird unter anderem erwähnt, dass aufgrund der vielen \gls{AES}-basierten Algorithmen die Performance durch den \gls{AES-NI} Befehlssatz im Schnitt um das 2-3 Fache auf der Softwareebene gesteigert werden kann.
+Von den Autoren gibt es kein Fazit, welche Chiffre am besten abgeschnitten haben. Vielmehr stellen sie eine Übersicht bereit, lassen jedoch die Ergebnisse weitestgehend  unkommentiert. Sie weisen lediglich darauf hin, dass die Chiffren, die software-optimierte Implementationen besitzen, wesentlich bessere Ergebnisse erzielen. Gleichwohl fällt es auf, dass die \gls{CAESAR} Finalisten AEGIS und MORUS durchschnittlich die besten Resultate erreichen. Das MORUS so hervorragende Ergebnisse erzielt ist überraschend, da MORUS eine Chiffre ist, die das Hauptaugenmerk auf die Hardwareoptimierung gelegt hat.
+\\
+\\
+\textbf{SUPERCOP}\\
+\\
+\gls{SUPERCOP} ist ein Benchmarking Toolkit für kryptographische Chiffren und wurde bereits in mehreren Projekten wie eBASH\footnote[5]{ECRYPT Benchmarking of All Submitted Hashes}, eBASC\footnote[6]{ECRYPT Benchmarking of Stream Ciphers}, eBAEAD\footnote[7]{ECRYPT Benchmarking of Authenticated Ciphers}verwendet. Da auch eingereichte \gls{CAESAR} Chiffren von den Autoren in SUPERCOP hinzugefügt werden müssen, besitzt SUPERCOP eine außerordentlich große Bibliothek an Verschlüsselungsalgorithmen zum Testen\cite{bernstein2009supercop}. Um genaue Ergebnisse zu erreichen nutzt SUPERCOP den Time Stamp Counter, ein 64-Bit Register, das die Anzahl der \gls{CPU} Takte zählt. Wenn ein Test gestartet wird, so wird das Register auf 0 gesetzt und zählt die CPU Takte bis der Algorithmus beendet wird. Die Tests wurden auf unterschiedlichen Plattformen untersucht und sind in \cite{CryptoList} aufzufinden.
+Hier spiegeln sich die Resultate aus\cite{Ankele2016SoftwareBO} wieder. Die softwareoptimierten Implementationen der Algorithmen erreichen weitaus bessere Ergebnisse als ohne Optimierung.
+
+
+\subsection{Hardware Benchmarking}
+\\
+\\
+Ein großes Problem bei Benchmarking von Hardware ist die Unterschiedlichkeit der Plattformen. Es gibt keine einheitliche Übereinstimmung auf welcher Hardware eine Chiffre getestet wird. Somit sind zwei kryptographische Algorithmen nicht miteinander vergleichbar, falls sie auf unterschiedlichen Systemen mit unterschiedlicher Hardware und anderen Hardware Unterstützungen getestet wurden. Die \gls{CAESAR} Competition bietet eine Hardware \gls{API} an, wodurch der Aufwand, um die verschiedenen Algorithmen auf der gleichen Plattform zu vergleichen, wesentlich vereinfacht wird. 
+In  \cite{8383893} wurden alle CAESAR Kandidaten aus der dritten Runde auf der gleichen Hardware mittels der von CAESAR zur Verfügung gestellten Hardware \gls{API} getestet. Dabei wurde ein Zynq-7000 \gls{SoC} mit zwei ARM Cortex-A9, ein programmierbaren Xilinx FPGA und ein AXI Interface verwendet. 
+Um die Resultate besser nachvollziehen zu können, wurde neben den 11 CAESAR Kandidaten aus der 3. Runde eine zusätzliche "dummy1" Chiffre implementiert, die hauptsächlich aus einer simplen XOR Funktion besteht. Dadurch wird der Hardware Overhead vom Präprozessor, Postprozessor und weiteren Hardwarekomponenten gemessen. In den Ergebnissen wird eine Übersicht über die Geschwindigkeit, der benötigte Speicher während der Berechnung und Stromverbrauch auf der Hardware bereitgestellt. Beim Vergleichen fällt auf, dass AEGIS128L durchaus viel Speicher im Vergleich zu anderen Chiffren  benötigt, aber AEGIS128L dafür auch der schnellste Verschlüsselungsalgorithmus ist. Dazu kommt, dass die Algorithmen, die ungefähr die gleiche Performance in Geschwindigkeit erreichen,einen höheren Stromverbrauch und mindestens genauso viel Speicher benötigen.
+\section{Ausgewählte Verschlüsselungsalgorithmen}
+\\
+\\
+\begin{table}
+\adjustbox{max width=\textwidth}{
+	 \begin{tabular}{ccccccc}
+	Algorithmus & Schlüssellänge & IV Länge & Blockgröße & Patentfrei & Anwendungsfall & Softwareoptimierung \\
+	\hline 
+	ACORN-128 v3 & 128 & 128 & 128 & Ja & 1 & x \\ 
+	AEGIS128L v1.1 & 128 & 128 & 128 & Ja & 2 & AES-NI \\  
+	Ascon-128 v1.2 & 128 & 128 & 64 & Ja & 1 & x \\ 
+	COLM v1 & 128 & 64 & 128 & Nein & 3 & AES-NI \\ 
+	DEOXYS-II-128-128 v1.14 & 128 & 128 & 120 & Ja & 3 & AES-NI \\ 
+	MORUS1280-128 v2 & 128 & 128 & x & Ja & 2 & SSE, AVX \\  
+	OCB-128-128 & 128 & 128 & x & Nein & 2 & AES-NI, SSE \\  
+	NORX-32-4-1 & 128 & 128 & x & Ja & 1 & AVX,AVX2 \\ 
+	ChaCha20-Poly1305 & 256 & 96 & x & Ja & x & AVX2 \\ 
+	AES-GCM & 128 & 96 & 128 & Ja & x & AES-NI \\ 
+	\end{tabular}}
+	\caption[Übersicht von Verschlüsselungsalgorithmen]{In der Tabelle findet man eine Übersicht der empfohlenen Algorithmen aus der CAESAR Competition mit den von den Autoren
+	 vorgeschlagenen Parametern.} 
+	\label{img:Eigenschaften}
+\end{table}
+Das Ziel der Arbeit ist, mögliche Algorithmen für MACsec zu finden, die in den Kategorien Durchsatz, Latenz oder \gls{CPU} Auslastung bessere Resultate als \gls{AES-GCM} erzielen. Daher sind die Algorithmen vom Anwendungsfall 2 in der \gls{CAESAR} Competition besonders vielversprechend. Da diese für 64-Bit-Architekturen optimiert worden sind und heutzutage 64-Bit-Architekturen am meisten verbreitet sind.
+Es wurden AEGIS128L und MORUS640 von den CAESAR Finalisten ausgewählt. Laut \ref{sec:software benchmarking} gehören MORUS640 und AEGIS128L zu den schnellensten Chiffren von den Finalisten. Außerdem können beide Chiffren sehr effizient in Software implementiert werden, da AEGIS128L von der \gls{AES-NI} Hardware Unterstützung profitieren kann und MORUS640 ist gut parallelisierbar, weil MORUS640 umso mehr von der \gls{SSE} Hardware Unterstützung profitiert. 
+Ebenso wurde ChaCha20Poly1305 ausgesucht. Dieser generische \gls{AEAD} Algorithmus genießt bereits große Beliebtheit und wird bereits als effiziente Alternative benutzt. In der Tabelle \ref{img:Eigenschaften} findet man eine Übersicht über die vorgestellten Algorithmen und deren Eigenschaften. Des Weiteren werden in der Tabelle auch die Hardware Unterstützungen aufgelistet, die der jeweilige Algorithmus benutzt, um seine Performance zu verbessern.
+Im nächsten Abschnitt werden die 3 ausgesuchten Algorithmen detaillierter erläutert.
+\subsection{AEGIS}
+\label{sec:aegis}
+\\
+\\
+AEGIS ist eine Stromchiffre, die von Hongjun Wu und
+Bart Preneel veröffentlicht worden ist.
+Für AEGIS wurden 3 verschiedene Varianten vorgestellt AEGIS128L, AEGIS128 und AEGIS256. Alle 3 Implementationen sind für den Anwendungsfall 2 vorgeschlagen worden, wobei laut den Autoren AEGIS128L die schnellste von den 3 Implementationen ist. Die AEGIS Familie basiert auf der AES-Rundenfunktion und profitiert sowohl von den \gls{AES-NI} Instruktionen, als auch von den Möglichkeiten der Parallelisierung, die AES besitzt. Durch die weite Verbreitung von \gls{AES} werden über die Zeit neue Instruktionen wie z.B. PCLMULQDQ\footnote[8]{PCLMULQDQ ist ein übertragsfreier Multiplikationsbefehl} zu \gls{AES-NI} oder die AES-Rundenfunktion in alle x86 Prozessoren von Intel hinzugefügt. Das sind alles Vorteile, von denen auch die AEGIS Algorithmen profitieren. Zudem nutzt AEGIS neben der AES Rundenfunktion auch XORs und ANDs, welche hardwarefreundliche Operationen sind. Die Rundenfunktion\footnote[9]{Die Wiederholung findet 5 mal bei AEGIS128, 6 mal bei AEGIS256 und 8 mal bei AEGIS128L statt. } zum Aktualisieren des Zustands wird pro Variante von AEGIS unterschiedlich oft wiederholt.
+\\
+Im folgenden wird ein kompletter Verschlüsselungsvorgang von AEGIS128L beschrieben. AEGIS256 und AEGIS128 unterscheiden sich nur in einigen strukturellen Details und in den Wiederholungen der Rundenfunktionen voneinander.
+AEGIS128L kann in 4 verschiedene Abschnitte geteilt werden:
+\begin{enumerate}
+\item Initialisierung: Der Initialisierungsvektor und der geheime Schlüssel werden mit fest definierten Konstanten in den internen Zustand des Algorithmus geladen. Danach wird 10 mal die Rundenfunktion durchlaufen, um den Zustand zu aktualisieren. Am Ende jeder Rundenfunktion wird der Schlüssel als auch der Initialisierungsvektor zum Zustand XORed.
+\item Associated Data: In diesem Schritt wird die \gls{AD} zum internen Zustand des Algorithmus hinzugefügt. Dabei wird die \gls{AD} in diesem Vorgang nicht verschlüsselt. Wenn die \gls{AD} kein Vielfaches von 256 Bits ist, dann wird die \gls{AD} mit 0 aufgefüllt.
+\item Verschlüsselung: In diesem Abschnitt findet die eigentliche Verschlüsselung statt. Es werden zwei\footnote[10]{In AEGIS128 und AEGIS256 wird nur ein 16-Byte großer Nachrichtenblock verschlüsselt.} 16-Bytes große Nachrichtenblöcke mit dem Bitstrom, der aus dem internen Zustand von AEGIS generiert wird, XORed. Daraus entsteht das Chiffrat. Im Anschluss wird der Nachrichtenblock ein weiteres Mal mit dem internen Zustand XORed, um den Zustand bis zum nächsten Verschlüsselungsschritt zu aktualisieren. Auch hier werden die Nachrichten mit 0 aufgefüllt, sollte ein Nachrichtenblock kürzer als 16-Byte sein.
+\item Finalisierung: Als letztes wird der Message Authentication Code an die Nachricht konkateniert. Dies wird bewerkstelligt, indem die Rundenfunktion von AEGIS durchlaufen wird, um den Zustand zu aktualisieren. Anschließend wird die Länge von der \gls{AD} und der Nachricht zum Zustand XORed. Dann wird ein Block aus dem internen Zustand entnommen und als Tag an die Nachricht angeheftet.
+\end{enumerate} 
+Die Entschlüsselung von AEGIS funktioniert genau wie die Verschlüsselung, nur das anstelle des Nachrichtenblocks, das zu entschlüsselnde Chiffrat als Input genommen wird.\\
+Laut den Autoren benötigt AEGIS nur die Hälfte der Berechnungszeit von \gls{AES-GCM}. Außerdem kann durch den Designansatz der Tag ohne großen Mehraufwand berechnet werden. Obwohl AEGIS auf der AES Rundenfunktion aufbaut, kann trotzdem eine höhere TAG Sicherheit erreicht werden, als die von AES-GCM. Trotz einer gründlichen Analyse von möglichen Angriffen auf AEGIS gibt es zum jetzigen Zeitpunkt noch keinen Sicherheitsbeweis von AEGIS. Nichtsdestotrotz ist AEGIS als Finalist der \gls{CAESAR} Challenge ausgewählt worden. Deshalb kann man davon ausgehen, dass die Chiffre noch nicht gebrochen worden ist und die Experten aus der Kommission noch keinen Angriff gefunden haben, um die Sicherheit von AEGIS signifikant zu verringern.\cite{10.1007/978-3-662-43414-7_10}\cite{mosnavcekoptimizing}
+\subsection{MORUS}
+\\
+\\
+Die Stromchiffre MORUS wurde von Hongjun Wu und Tao Huang entwickelt. Von dem MORUS Algorithmus gibt es 3 verschiedene Varianten, deren Parametersets in Größe des Zustandsraums und Schlüsselgröße unterscheiden. In diesem Algorithmus gibt es eine Aktualisierungsfunktion, die mit den \gls{SSE} Instruktionen optimiert werden können. Dadurch erreicht MORUS eine geringere cpb\footnote[11]{Clock cycles per byte. Das ist eine Einheit,  um die Performance eines Algorithmus zu darzustellen} als \gls{AES-GCM}. In MORUS werden nur logische Gatter wie XOR, AND und bitweise Verschiebungen genutzt. Diese Designentscheidung macht MORUS zu einer Hardware schonenden Chiffre. MORUS besitzt den gleichen strukturellen Aufbau wie AEGIS. Abgesehen von der Aktualisierungsfunktion für den internen Zustand unterscheiden sich MORUS und AEGIS nur in Details in der Initialisierung und Finalisierung. Aus diesem Grund wird die Beschreibung eines Verschlüsselungsvorgangs nicht wiederholt. Es werden 5 Register\footnote[12]{Die Registergröße unterscheidet sich je nach Variante. MORUS640 nutzt 128-Bit große Register und MORUS1280 256 große Register.}benutzt. Das Prinzip ist hier das gleiche wie bei AEGIS. Es gibt einen geheimen internen Zustand, der mittels der Rundenfunktion aktualisiert wird. Während des Verschlüsselungsvorgangs werden \glqq Schlüssel\grqq{}-Blöcke aus dem geheimen internen Zustand generiert und mit den Nachrichtenblöcken bitweise addiert. Das Ergebnis ist der verschlüsselte Nachrichtenblock.  \\
+Folgende Vorteile werden von den Autoren der MORUS Chiffren hervorgehoben: MORUS ist einer der schnellsten \gls{AEAD} Algorithmen ohne auf das Design der \gls{AES} Rundenfunktion zu setzen. Dies hat zur Folge, dass MORUS plattformübergreifend eine konstante Performance aufweist. Außerdem wird mit MORUS640-128 ein Algorithmus angeboten, der durch seine geringen Zustandsgröße auch für niedrige Bit-Architekturen geeignet ist. Zudem können MORUS und AEGIS eine stärkere Sicherheit des Message Authentikation Codes als \gls{AES-GCM} garantieren. Ein weiterer Vorteil ist, dass mit dem Design des Algorithmus der Message Authentikation Code ohne großen Aufwand berechnet werden kann.
+Auch für MORUS existiert noch kein formaler Beweis, der die Sicherheit des Algorithmus bestätigt\cite{wuauthenticated}\cite{mosnavcekoptimizing}.
+\subsection{ChaCha20-Poly1305}
+\label{sec:chacha20-poly1305}
+\\
+\\
+Chacha20-Poly1305 ist ein generischer AEAD Verschlüsselungsalgorithmus. Der Algorithmus besteht aus den beiden Bausteinen ChaCha20, eine Stromchiffre und den Message Authentikation Code Poly1305. ChaCha20-Poly1305 gewinnt an zunehmender Beliebtheit, da die Chiffre unabhängig von der Plattform eine konstant gute Performance aufweisen kann. Der Entwickler der unterliegenden generischen Primitive ist Daniel J. Bernstein, der 2008 zum ersten Mal eine verbesserte Variante von Salsa20, genannt ChaCha20, vorstellte\cite{bernstein2008chacha}. Kurz vorher hat er ein wissenschaftliches Dokument über Poly1305 in der Kombination mit \gls{AES}, genannt Poly1305-AES \cite{10.1007/11502760_3}, veröffentlicht, in der Bernstein seinen Message Authentikation Code vorstellt.
+2015 wurde ChaCha20-Poly1305 von Google in \cite{rfc7539} standardisiert mit dem Gedanken, eine effiziente Alternative zu AES bieten zu können \cite{AdamLangley} \footnote[13]{In \cite{AdamLangley} war noch von Salsa20 die Rede. In Laufe der Zeit scheint man sich für ChaCha20 entschieden zu haben.}. Einen formalen Sicherheitsbeweis kann man unter \cite{procter2014security} finden.
+ChaCha20-Poly1305 verfolgt den Encrypt-then-MAC Ansatz und benutzt einen 256-Bit langen Schüssel mit einem 96-Bit langen Initialisierungsvektor.
+Im Anschluss wird die Nachricht von ChaCha20 mit dem gleichen Schlüssel, einem \gls{IV} und einen Counter verschlüsselt.
+Sobald die Nachricht verschlüsselt ist, bildet Poly1305 den Tag wie folgt: Aus dem 256 langem Bit Schlüssel wird ein Schlüssel für den Poly1305 Authentikator gebildet. Poly1305 nutzt zwar einen 256 Bit langen Schlüssel, der Tag von Poly1305 ist allerdings nur 128-Bit lang.  
+Poly1305 verlangt einen fest definierten Input, der diese Reihenfolge besitzen muss:
+\begin{enumerate}
+\item Associated Data 
+\item Mittels Padding wird die Nachricht mit 0 wird auf ein Vielfaches von 16 aufgefüllt.
+\item Ciphertext
+\item Die Länge der Associated Data
+\item Die Länge der Nachricht
+\end{enumerate}
+Wenn dieser Vorgang abgeschlossen ist, dann wird der Tag berechnet. Hierbei wird eine Nachricht in Vielfache von 16-Bytes geteilt. Die Blöcke werden nun als Zahl interpretiert und mittels little-endian gelesen. Jeder einzelne Block wird nun um ein Bit vergrößert. Mathematisch gesehen ist das eine Addition von $2^{128}$. Ist bis zu diesem Zeitpunkt der Nachrichtenblock nicht 17 Bytes lang, so wird Padding benutzt\footnote[14]{Es mit wird mit 0 aufgefüllt. Dadurch das die Bytes mittels little-endian gelesen werden, ändert das Padding nichts an dem eigentlichen Wert der Nachricht.}. Die Blöcke werden iterativ mit dem Zwischenergebnis addiert\footnote[15]{Der erste Block wird mit 0 addiert}. Wenn dieser Vorgang abgeschlossen ist, wird das Ergebnis mit r mod $2^{130}-5$ multipliziert. Als letzter Schritt wird das Ergebnis mit dem Wert s\footnote[16]{r und s sind Variablen, die als Resultat der Schlüsselgenerierung, gebildet werden} bitweise addiert \cite{rfc7539}.
+%\cleardoublepage
+
+%%% Local Variables:
+%%% TeX-master: "diplom"
+%%% End:

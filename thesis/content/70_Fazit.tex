@@ -1,0 +1,14 @@
+\chapter{Fazit}
+\label{sec:Fazit}
+Das Ziel dieser Arbeit war es, das \gls{MACsec} Modul mit zusätzlichen Verschlüsselungsalgorithmen zu erweitern. Dabei wurden unterschiedliche Algorithmen vorgestellt und analysiert. Anschließend wurde eine Auswahl aus den vielversprechendsten Algorithmen getroffen, die daraufhin in ein erweitertes MACsec implementiert wurden. Damit unterschiedliche Chiffren unterstützt werden, musste das Kernel Modul dynamischer gestaltet und unter anderem der SecTag vergrößert werden. Mögliche Schwächen und Sicherheitsmängel der Änderungen sind angesprochen worden. \\
+Im Anschluss erfolgten die Performance Tests der einzelnen Chiffren, in dem die Latenz, Datenübertragungsrate und die Auslastung der \gls{CPU} gemessen wurden. Um einen Vergleichswert zu haben, wurden ebenfalls Messungen mit normalen Ethernet Paketen gemacht.\\
+Die Ergebnisse zeigen, dass ChaCha20-Poly1305 durchaus als Alternative zu \gls{AES-GCM} genommen werden kann. Die Ergebnisse in der Bandbreite sind fast identisch und die CPU Auslastung befindet sich ebenfalls im gleichen Bereich. Nur bei der Paketumlaufzeit ist ChaCha20-Poly1305 im Durchschnitt 4 Prozent langsamer. Für einen Algorithmus, der nicht auf die \gls{AES-NI} Hardware Unterstützung setzt, ist das ein gutes Ergebnis.\\
+AEGIS128L und MORUS640 haben als Algorithmen viel Potential. Die Ergebnisse in dieser Arbeit spiegeln das nicht wider. Im Gegensatz dazu erreichen AEGIS128L und MORUS640 in anderen Publikationen\cite{Ankele2016SoftwareBO} und Benchmarking Tools \cite{bernstein2009supercop} sogar bessere Ergebnisse in der Datenübertragung als \gls{AES-GCM}. Ein Grund für das schlechte Abschneiden dieser Algorithmen könnte sein, dass es nicht möglich war, die Algorithmen mit ihren Softwareoptimierungen zu testen. Daher müssen in dieser Hinsicht noch mehr Nachforschungen betrieben werden.
+
+
+
+
+
+%%% Local Variables:
+%%% TeX-master: "diplom"
+%%% End:

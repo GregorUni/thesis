@@ -1,0 +1,117 @@
+\documentclass[
+  a4paper,
+  abstract=true,
+  twoside,
+  listof=totoc,
+  numbers=noenddot,
+  bibliography=totoc,
+  BCOR1.5cm,
+  headsepline,
+  DIV12,
+  appendixprefix,
+  final
+] {scrreprt}
+
+% You should select either american or british instead of english here:
+\usepackage[ngerman]{babel}
+\usepackage{lmodern}
+%\usepackage{fontspec}
+\usepackage{afterpage}
+\usepackage{tabularx}
+\usepackage{mwe}
+\usepackage{booktabs}
+\usepackage{adjustbox}
+\usepackage{subcaption}
+\usepackage[pdftex,
+citebordercolor={0.75 0.75 1},
+filebordercolor={0.75 0.75 1},
+linkbordercolor={0.75 0.75 1},
+pagebordercolor={0.75 0.75 1},
+urlbordercolor={0.75 0.75 1},
+pdfborder={0.75 0.75 1},plainpages=false,pdfpagelabels=true]{hyperref}
+\hypersetup{
+  pdftitle={Low Latency-Kryptographie für transparente Layer 2 - Verschlüsselung mit MACsec},
+  pdfauthor={Gregor Garten},
+  pdfkeywords={foo, bar},
+}
+\usepackage[acronym,nomain,toc]{glossaries}
+
+
+
+\input{preamble/packages.tex}
+\addbibresource{Literaturverzeichnis.bib}
+\input{preamble/color.tex}
+\input{preamble/style.tex}
+\input{preamble/newcommands.tex}
+\glsdisablehyper
+\setacronymstyle{long-em-short}
+
+
+\input{./Glossar.tex}
+\makeglossaries
+%\makeglossary
+% If you know when you will hand in your thesis, enter the date here.
+%\date{30. April 2009}
+%\newcommand{\printdate}{\@date}
+
+\begin{document}
+
+
+\pagenumbering{Roman}
+
+\input{content/00_title.tex}
+
+%\includepdf{images/diplom-aufgabe.pdf}
+\cleardoublepage
+\includepdf{./Aufgabenstellung.pdf}
+
+\input{content/01_disclaimer.tex}
+
+% NOTE: if you selected british or american above, change that here too
+\selectlanguage{ngerman}
+
+%\begin{abstract}
+%\input{content/02_abstract.tex}
+%\end{abstract}
+
+\tableofcontents
+
+% remove this on final
+
+\listoffigures
+
+\listoftables
+\cleardoublepage
+
+\pagenumbering{arabic}
+\input{content/10_Einleitung.tex}
+\input{content/20_Grundlagen.tex}
+\input{content/30_AEAD.tex}
+%\input{content/40_Design.tex}
+\input{content/50_Implementation.tex}
+\input{content/60_Evaluation.tex}
+\input{content/70_Fazit.tex}
+\input{content/80_Appendix.tex}
+
+\appendix
+
+
+%\addchap{Glossar}
+
+%makeglossaries diplom
+
+
+\deftranslation[to=German]{Acronyms}{Abkürzungsverzeichnis}
+%\printglossary[style=altlist,title=Glossar]
+\printglossary[type=\acronymtype,style=long]
+
+%\printglossary[style=altlist]
+%\printglossary[type=\acronymtype,style=long]
+
+\printbibliography
+\iffalse
+    % an aid for Kile autocompletion
+   % \bibliography{own.bib}
+\fi
+
+\end{document}

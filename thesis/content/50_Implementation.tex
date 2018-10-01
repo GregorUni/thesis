@@ -1,0 +1,148 @@
+
+\chapter{Implementation}
+\label{sec:implementation}
+\lstset{escapeinside={<@}{@>}}
+% Hier greift man einige wenige, interessante Gesichtspunkte der
+% Implementierung heraus. Das Kapitel darf nicht mit Dokumentation oder
+% gar Programmkommentaren verwechselt werden. Es kann vorkommen, daß
+% sehr viele Gesichtspunkte aufgegriffen werden müssen, ist aber nicht
+% sehr häufig. Zweck dieses Kapitels ist einerseits, glaubhaft zu
+% machen, daß man es bei der Arbeit nicht mit einem "Papiertiger"
+% sondern einem real existierenden System zu tun hat. Es ist sicherlich
+% auch ein sehr wichtiger Text für jemanden, der die Arbeit später
+% fortsetzt. Der dritte Gesichtspunkt dabei ist, einem Leser einen etwas
+% tieferen Einblick in die Technik zu geben, mit der man sich hier
+% beschäftigt. Schöne Bespiele sind "War Stories", also Dinge mit denen
+% man besonders zu kämpfen hatte, oder eine konkrete, beispielhafte
+% Verfeinerung einer der in Kapitel 3 vorgestellten Ideen. Auch hier
+% gilt, mehr als 20 Seiten liest keiner, aber das ist hierbei nicht so
+% schlimm, weil man die Lektüre ja einfach abbrechen kann, ohne den
+% Faden zu verlieren. Vollständige Quellprogramme haben in einer Arbeit
+% nichts zu suchen, auch nicht im Anhang, sondern gehören auf Rechner,
+% auf denen man sie sich ansehen kann.
+
+In Kapitel 3 wurde begründet, welche Algorithmen für die Implementation in den Sicherheitsstandard ausgewählt wurden. Im Folgenden wird erklärt, auf welchem aktuellen Stand sich die \gls{MACsec} Implementierung auf dem Linux Kernel befindet und welche Änderungen an dem bestehenden Quellcode gemacht werden müssen, um weitere Algorithmen hinzuzufügen.
+
+\section{Linux}\\
+\\ 
+Linux ist ein Betriebssystem, welches maßgeblich von Linus Torvalds geprägt worden ist. Eine Besonderheit an Linux ist, dass es von mehreren Unternehmen weiterentwickelt wird, die regelmäßig das bestehende Betriebssystem erweitern, indem neue Versionen für das Betriebssystem und austauschbare Linux-Kernel veröffentlicht werden.\\
+Ein Linux-Kernel ist das Herzstück des Betriebssystems und stellt Schnittstellen für die Software bereit, um auf die Hardware eines Systems zugreifen zu können\footnote[17]{Die unterschiedlichen Kernel-Versionen, die von Linux unterstützt werden, sind unter kernel.org aufzufinden.}.\\
+\\
+\textbf{Linux Krypto API}
+\\
+\\
+Die Linux Kernel Application Programming Interface ist eine Programmierschnittstelle, die durch den Linux-Kernel bereitgestellt wird. Mit der Linux Krypto API haben Kernel Treiber wie MACsec Zugriff auf alle Verschlüsselungsalgorithmen, die durch den Linux-Kernel unterstützt werden. Außerdem überprüft die Linux Krypto API das System und kann somit automatisch die softwareoptimierten Implementationen der Verschlüsselungsalgorithmen auswählen, falls das unterliegende System Hardware Unterstützungen anbietet. Es werden unterschiedliche "{}Cipher APIs"{} angeboten für verschiedene Algorithmentypen:
+\begin{itemize}
+\item Blockchiffren
+\item Stromchiffren
+\item AEAD Algorithmen
+\item Hash Funktionen
+\item Zufallszahlengeneratoren
+\end{itemize} Damit ein Verschlüsselungsalgorithmus erfolgreich aufgerufen werden kann, muss ein transformation object (tfm) initialisiert werden. Das tfm ist eine Instanz der Implementation eines Verschlüsselungsalgorithmus.
+Oft wird so ein Objekt auch "{}Cipher Handle{}" genannt.
+Ein Aufruf eines Verschlüsselungsalgorithmus muss somit folgende Schritte absolvieren. 
+\begin{enumerate}
+\item Initialisierung eines tfm
+\item Anwendung der Verschlüsselungsoperation
+\item Zerstörung des tfm
+\end{enumerate}
+Jede Cipher API stellt eigene Funktionen zur Verfügung, um ein tfm zu initialisieren und auszuführen. 
+Im Folgenden werden die wichtigsten Funktionen aus der AEAD Cipher API vorgestellt, die in MACsec Verwendung finden:
+\begin{itemize} 
+\item crypto\_alloc\_aead initialisiert die Cipher Handle.
+\item crypto\_free\_aead zerstört die Cipher Handle.
+\item crypto\_aead\_ivsize gibt den Initialisierungsvektor zurück.
+\item crypto\_aead\_authsize konfiguriert die Größe des Tags.
+\item crypto\_aead\_setkey konfiguriert den Schlüssel und Schlüssellänge.
+\item crypto\_aead\_encrypt startet die Verschlüsselung.
+\item crypto\_aead\_decrypt startet die Entschlüsselung.
+\item aead\_request\_set\_crypt nimmt die zu verschlüsselnden/entschlüsselnden Daten entgegen und konkateniert die Daten intern hinter die AD.
+\item aead\_request\_set\_tfm allokiert Speicher für das tfm.
+\item aead\_request\_set\_ad konfiguriert die Größe der AD.
+\end{itemize} Wie bereits erwähnt, muss als erstes ein tfm initialisiert werden. Dafür wird die Funktion crypto\_alloc\_aead aufgerufen, die mit einem String den richtigen Algorithmus auswählt und initialisiert. Doch bevor es zu einer korrekten Anwendung der Verschlüsselungsoperation kommen kann, müssen einige Vorbereitungen gemacht werden. Es muss die crypto\_aead\_setkey Funktion aufgerufen werden. Damit wird der Cipher Handle die Schlüssellänge und der zu nutzende Schlüssel mitgeteilt. Ebenfalls muss die Tag Größe mit der crypto\_aead\_setauthsize Funktion definiert werden. In dem MACsec Modul werden diese Vorbereitungen direkt nach der Initialisierung in der Funktion macsec\_alloc\_tfm umgesetzt.\\
+Nachdem Schlüssel und Tag konfiguriert worden sind, muss der Speicher für die Cipher Handle allokiert werden. Normalerweise wird hierfür die aead\_request\_alloc Funktion aufgerufen, die ein tfm entgegennimmt und automatisch den Speicher allokiert. Da das MACsec Modul mit unterschiedlich großen Nachrichten arbeitet und die Nachrichtengröße ebenfalls in die Allokation mit einbezogen werden muss, wird in der Funktion macsec\_alloc\_req der benötigte Speicher errechnet und anschließend mit aead\_request\_set\_tfm allokiert. \\
+Erst jetzt ist es möglich, die zu verschlüsselnden/entschlüsselnden Daten für den Algorithmus bereitzustellen. Die MACsec AEAD Cipher API nutzt für die zu bearbeitenden Daten eine Speicherstruktur namens scatter-gather Liste. Die scatter-gather Liste setzt Pointer auf die Daten. Das erleichtert den Umgang mit größeren Datenmengen, da nur eine scatter-gather Liste mit den Pointern übergeben werden muss.
+In aead\_request\_set\_crypt werden die scatter-gather Liste, der Initialisierungsvektor und die Länge der Nachricht an den Verschlüsselungsalgorithmus übergeben. 
+Außerdem wird noch die Länge der AD benötigt. Das wird mit der Funktion aead\_request\_set\_ad umgesetzt.
+In aead\_request\_set\_callback wird eine Funktion entgegengenommen, die aufgerufen wird, wenn die der Verschlüsselungsvorgang/ Entschlüsselungsvorgang beendet wird.
+Erst wenn diese Vorbereitungen abgeschlossen sind und alle Funktionen aufgerufen worden sind, ist es möglich, die Verschlüsselungsoperation mit crypto\_aead\_encrypt oder crypto\_aead\_decrypt zu starten.
+Das MACsec Modul hat seine eigene Verschlüsselungsfunktion namens macsec\_encrypt in der viele Maßnahmen präpariert werden, um eine erfolgreiche Verschlüsselung durchführen zu können. Neben der Ausführung der AEAD Cipher API Funktionen muss MACsec in der macsec\_encrypt und macsec\_decrypt den Initialisierungsvektor bilden, den Header des Rahmens gemäß der MACsec Definitionen aus \ref{sec:MACsec Layer 2} verändern und die scatter-gather Liste initialisieren \cite{kerneldoc} \cite{mosnavcekoptimizing}.
+\section{MACsec Kernel Modul}\\
+\\
+Obwohl die Publikation des MACsec Sicherheitsstandards bereits 2006 erschienen ist, wurde die Implementation des Standards  erst 2016 in den Linux-Kernel aufgenommen. Einen Überblick über den strukturellen Aufbau des \gls{MACsec} Treibers wird von der Autorin des Standards Sabrina Dubroca in \cite{dubroca} gegeben. Wird ein Rahmen über MACsec gesendet, so wird die Funktion macsec\_start\_xmit aufgerufen. In dieser Funktion wird sowohl der komplette Prozess der Verschlüsselung als auch die Modifizierung des Rahmens durch MACsec an kleinere Teilfunktionen dirigiert. Die Funktion übernimmt 2 Parameter, einen Socket Buffer sk\_buff mit dem bis zu 64.000 Bytes große Nachrichten verschickt werden können und ein net\_device mit dem die SecY initialisiert wird. Im Verlauf von macsec\_start\_xmit wird die macsec\_encrypt Funktion aufgerufen. Dort wird die entscheidende Verschlüsselung vorbereitet und ausgeführt.
+Erhält \gls{MACsec} ein Rahmen, so wird die Funktion macsec\_handle\_frame aufgerufen. In dieser Funktion wird der Rahmen auf mögliche Änderungen überprüft. Je nach Sicherheitseinstellungen wird ein Paket abgewiesen oder weiter bearbeitet. Aber auch wenn eine zu große Zeitspanne zwischen dem Senden und dem Erhalten des Rahmens vergangen ist, wird die Nachricht abgewiesen. Erst nach einem erfolgreichen Abschluss aller Überprüfungen erfolgt die Entschlüsselung der Methode macsec\_decrypt.
+\section{iproute2}
+\\
+\\
+iproute2 ist ein Linux Werkzeug, dass zurzeit von Stephen Hemminger bearbeitet wird. Intern nutzt iproute2 einen Linux Service namens netlink, um mit den Netzwerkstack des Kernels zu kommunizieren. Für die Konfiguration von MACsec bietet iproute2 eine Reihe von Befehlen an, die unter \cite{Manpage} zu finden sind. Mit der aktuellen Implementierung kann man bei iproute2 den Verschlüsselungsalgorithmus von \gls{MACsec} auswählen. Mittels dem Optional Cipher besteht die Möglichkeit, \glqq default\footnote[18]{Wenn default ausgewählt wird, dann wird automatisch \gls{AES-GCM} mit einer Schlüssellänge von 128 Bits verwendet.}\grqq{} und \glqq aes-gcm-128\grqq{} auszuwählen. Um mehrere Algorithmen nutzen zu können, muss das iproute2 erweitert werden, damit die hinzugefügten Algorithmen auswählbar und von MACsec erkannt werden.\\ Allerdings treten dabei drei essentielle Probleme in der aktuellen Implementierung auf:
+\begin{enumerate}
+\item Die MACsec Cipher Suite unterstützt nur einen Algorithmus. 
+\item Die derzeitige \gls{SecY} im \gls{MACsec} Modul kann nicht erkennen, welcher Algorithmus benutzt wird. Um zwischen verschiedenen Algorithmen auswählen zu können, muss daher die SecY von MACsec erweitert werden.
+\item Das aktuelle MACsec Modul im Linux Kernel ist  statisch programmiert und genau auf die Parameter von AES-GCM-128 angepasst. Daher muss die Implementierung dynamischer gestaltet werden, da nicht alle Verschlüsselungsalgorithmen genau die gleichen Parameter von \gls{AES-GCM} verwenden.
+\end{enumerate}\\
+\\
+Die \gls{MACsec} Cipher Suite ist eine Liste von statischen Variablen und Structs, in denen Parameter, die MACsec vom Verschlüsselungsalgorithmus verlangt, definiert werden.
+Die Erweiterung der Cipher Suite ist daher simpel, da nur eine statische Variable mit einer einzigartigen Identifikationsnummer für den hinzugefügten Algorithmus erstellt werden muss.\\
+\\
+\textbf{iproute2 Schnittstelle}\\
+\\
+Mit dem Cipher Optional wird ein String entgegen genommen. Daraufhin überprüft das iproute2, ob es zu dem String eine Identifikationsnummer aus der Cipher Suite von MACsec gibt. Ist das der Fall, so wird die Identifikationsnummer an das \gls{MACsec} übermittelt. 
+\section{MACsec Erweiterung}
+\\
+\\
+\begin{figure}
+  \lstset{language=C}
+  \begin{lstlisting}
+  struct macsec_secy {
+	struct net_device *netdev;
+	unsigned int n_rx_sc;
+	sci_t sci;
+	u16 key_len;
+	u16 icv_len;
+	enum macsec_validation_type validate_frames;
+	bool operational;
+	bool protect_frames;
+	bool replay_protect;
+	u32 replay_window;
+	struct macsec_tx_sc tx_sc;
+	struct macsec_rx_sc __rcu *rx_sc;
+	<@\textcolor{red}{u64 csid;}@>
+	};
+  \end{lstlisting}
+  \caption[Abbildung der SecY]{\acrshort{MACsec} Die Felder der Security Entity. Die Änderung an der Security Entity wurde mit rot markiert.}
+\label{lst:macsec_SecY}
+\end{figure}Als ein großes Problem in der Programmierung stellte sich heraus, dass \gls{MACsec} kategorisch unterschiedliche Algorithmen mit anderen Parametersätzen wie z.B. einer anderen Schlüssellänge als 128-Bit ablehnt. Zum einen liegt das daran, dass MACsec eine Reihe von Sicherheitsvorkehrungen hat, die vor der Initialisierung eines Algorithmus genau überprüfen, ob die Schlüssellänge exakt mit den Parametern von \gls{AES-GCM}-128 übereinstimmen. Die Sicherheitsüberprüfungen sind so komplex, dass noch keine Möglichkeit gefunden wurde, Algorithmen mit größeren Schlüsseln dynamisch in MACsec zu implementieren, ohne dabei die Sicherheit von \gls{MACsec} zu gefährden. 
+Zum anderen wurden in der aktuellen Implementation z.B. die Länge des Initialisierungsvektors mit einer statischen Variable der Länge von 12-Bytes definiert. Deshalb wurden alle Vorkommen der statischen Variable mit einer Funktion namens crypto\_aead\_ivsize() aus der Linux Kryptographie Bibliothek ausgetauscht. Die Funktion erkennt die initialisierte Chiffre und gibt die Länge des Initialisierungsvektors aus. In einigen Methoden muss Speicherkapazität für die Parameter allokiert werden. So wird garantiert, dass egal welcher Algorithmus benutzt wird, die richtige Größe des Initialisierungsvektors allokiert wird.
+Um Algorithmen mit einem variablen Initialisierungsvektor in MACsec unterstützen zu können, muss zudem der SecTag vergrößert werden, da der Initialisierungsvektor ein Bestandteil vom SecTag ist. Somit wird der SecTag um 4 Byte vergrößert, damit \gls{MACsec} auch Algorithmen unterstützen kann, die einen Initialisierungsvektor mit einer Länge von 16-Bytes benötigen.
+\subsection{SecY Erweiterungen}\\
+\\
+Um mehrere Algorithmen auswählen zu können, muss die Security Entity von Macsec erweitert werden. Die \gls{SecY} von MACsec wird mit der Funktion macsec\_changelink\_common initialisiert. In dieser Funktion werden die Parameter von der iproute2 Konfiguration an die SecY von MACsec übergeben. Im Anschluss validiert \gls{MACsec} die überreichte Identifikationsnummer des Verschlüsselungsalgorithmus aus der Cipher Suite. Wird kein passender Algorithmus gefunden, gibt MACsec eine Fehlermeldung an den Kernel zurück. Die Identifikationsnummer wird mit dem Feld u64 csid beschrieben. 
+In dieser Arbeit wurde die SecY mit der u64 csid erweitert. So ist es möglich, die Identifikationsnummer der Chiffre zu speichern. Da die SecY maßgeblich am Verschlüsselungsprozess teilnimmt, kann man in den entscheidenden Schritten über die Identifikationsnummer prüfen und den richtigen Parameter auswählen. Die Struktur von der SecY ist in der Abbildung \ref{lst:macsec_SecY} zu sehen.
+\section{Herausforderungen}
+\\
+\\
+Die größte Herausforderung war die Fehlersuche im Kernel Modul. Tritt im Programm ein Fehler auf, kann trotzdem ein Paket verschickt werden. Das hat zur Folge, dass fehlerhafte Pakete erst beim Validieren von dem Programm bemerkt werden, obwohl die Ursache des Problems woanders liegt. Aufgrund dieser Tatsache hat es sich als äußerst schwer herausgestellt, den Ursprung eines Fehlers zu finden. Es hat einen hohen Zeitaufwand benötigt, um einzelne Probleme zu ermitteln, da nicht direkt der richtige Ansatz zum Lösen des Problems gefunden wurde.
+\subsection{MORUS640, AEGIS128L}
+\\
+\\
+Während der Tests mit den Programmen ping und iperf3 traten in 1 Prozent der Fälle Authentifizierungsfehler bei AEGIS128L und MORUS640 auf. Die Authentifizierungsfehler kamen zustande, weil in der Entschlüsselungsfunktion ein Buffer Stream einzelne ankommende Pakete in zwei geteilt hat. Daher wurde ein Buffer Overflow in einer Streaming Methode, die beim Entschlüsseln aufgerufen wird, vermutet. Aufgrund der Tatsache, dass die beiden Algorithmen erst kürzlich zum Linux Kernel hinzugefügt worden sind\footnote[19]{\url{https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=3e1a29b3bf66c2850ea8eba78c59c234921c0b69}},schien es als wahrscheinlich, dass noch mögliche Fehler in der Implementierung vorhanden sind. Daher wurde der Autor der Implementation um Rat gefragt und es wurde versucht, den Fehler in der Linux Bibliothek libkcapi zu reproduzieren.
+Im Nachhinein hat sich herausgestellt, dass durch die statische Programmierung von MACsec der Initialisierungsvektor unbemerkt auf 12-Bit verkleinert wurde. Das hat zu kritischen Fehlern geführt, da MORUS640 und AEGIS128L einen Initialisierungsvektor mit der Länge von 16-Bit benötigen. 
+\subsection{ChaCha20-Poly1305}
+\\
+\\
+ChaCha20-Poly1305 war der einzige Algorithmus, der sich nicht korrekt mittels crypto\_alloc\_aead initialisieren ließ. Es wurde erwähnt, dass ChaCha20-Poly1305 einen besonderen Input benötigt, um den Message Authentication Code bilden zu können\cite{rfc7539}. Daher lag die Vermutung nahe, dass die interne Datenverarbeitung von MACsec diese Struktur nicht bereitstellen kann oder stattdessen eine andere Struktur benutzt. Im Endeffekt konnte ChaCha20-Poly1305 nicht initialisiert werden, da die MACsec Cipher Suite keine Algorithmen mit einer 256-Bit Schlüssellänge unterstützt. Aus diesem Grund konnte kein gültiger \gls{SAK} generiert werden, der für die korrekte Initialisierung des Algorithmus unverzichtbar ist. Das Problem wurde mit einem statischen Schlüssel behoben. Das hat zwar Auswirkungen auf die Sicherheit von \gls{MACsec}, aber für die Performancemessungen ist dies unerheblich.  
+ 
+
+%(Die SecY speichert bereits andere wichtige Parameter für die Verschlüsselungsalgorithmen wie die Schlüssellänge oder die Länge des ICV) und bietet sich somit für die Erweiterung an.
+%Verwirrenderweise wird die csid in der originalen Implementation nirgends gespeichert, sondern in jeder Funktion, in der die csid benötigt wird, wird auf die Schlüssellänge der Chiffre getestet. Über die Schlüssellänge wird dann auf die csid geschlossen. Das macht Sinn wenn der Standard nur zwei Algorithmen mit unterschiedlicher Schlüssellänge unterstützt\footnote{Aktuell werden AES-GCM-128 und AES-GCM-256 unterstützt.}. Da MORUS640, AEGIS128L und AES-GCM-128 die gleiche Schlüssellänge haben, ist die Schlüssellänge keine eineindeutige Eigenschaft mehr, um einen Algorithmus zu erkennen. Daher wurde ein anderer Lösungsansatz verfolgt. In der Arbeit wurde die SecY mit der csid erweitert. Die csid wird während der Initialisierung von der SecY in der SecY gespeichert. 
+
+
+%Zum Zeitpunkt des Schreibens wird vermutlich die aktuelle MACsec Implementation überarbeitet. Es sind bereits Bausteine der MACsec Erweiterung von[MAcsec Standard mit 256 Bit einfügen] im Code auffindbar. Auch die Cipher Suite von MACsec wurde bereits erweitert. Allerdings gibt es noch keine Implementierung, um AES 
+\\
+\\
+
+
+
+%%% Local Variables:
+%%% TeX-master: "diplom"
+%%% End:

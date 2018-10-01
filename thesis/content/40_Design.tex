@@ -1,0 +1,58 @@
+
+\textbf{Vorüberlegungen}
+\\
+\\
+Die ausgewählten Kandidaten ChaCha20-Poly1305, AEGIS128L und MORUS640 sind bereits in der Linux Krypto API vertreten. 
+Das bedeutet, dass die Chiffren mit crypto\_alloc\_aead im MACsec Modul initialisiert werden können.
+Trotzdem müssen eine Vielzahl an Änderungen beachtet werden. Das MACsec Modul muss einen Verschlüsselungsalgorithmus mit den richtigen Parametern initialisieren. Daher müssen mit den Funktionen aus der AEAD Cipher API. 
+
+Des Weiteren wurde in der Bachelorarbeit versucht, ACORN128 in die Kryptobibliothek vom Linux Kernel hinzuzufügen. Allerdings stellt die Bachelorarbeit nicht genügend Zeit zur Verfügung, um Chiffren in die Linux Kryptobibliothek einzufügen und nebenbei das MACsec Modul zu erweitern. Deshalb wurde aus Zeitgründen die Arbeit an ACORN128 abgebrochen.
+
+
+\\
+\\
+\textbf{MACsec in Linux}
+\\
+\\
+Obwohl die Publikation des MACsec Sicherheitsstandards bereits 2006 erschienen ist, wurde die Implementation des Standards  erst 2016 in den Linux-Kernel aufgenommen. Einen Überblick über den strukturellen Aufbau des MACsec Treibers wird von der Autorin des Standards Sabrina Dubroca in \cite{dubroca} gegeben. 
+Wird ein Rahmen über MACsec gesendet, so wird die Funktion macsec\_start\_xmit aufgerufen. In dieser Funktion wird sowohl der komplette Prozess der Verschlüsselung als auch die Modifizierung des Rahmens durch MACsec an kleinere Teilfunktionen dirigiert. Die Funktion übernimmt 2 Parameter, einen Socket Buffer sk\_buff mit dem bis zu 64.000 Bytes große Nachrichten verschickt werden können und ein net\_device mit dem die SecY initialisiert wird. Im Verlauf von macsec\_start\_xmit wird die macsec\_encrypt Funktion aufgerufen. Dort wird die entscheidende Verschlüsselung vorbereitet und ausgeführt.
+Erhält MACsec ein Rahmen, so wird die Funktion macsec\_handle\_frame aufgerufen. In dieser Funktion wird der Rahmen auf mögliche Änderungen überprüft. Je nach Sicherheitseinstellungen wird ein Paket abgewiesen oder weiter bearbeitet. Aber auch wenn eine zu große Zeitspanne zwischen dem Senden und dem Erhalten des Rahmens vergangen ist, wird die Nachricht abgewiesen. Erst nach einem erfolgreichen Abschluss aller Überprüfungen erfolgt die Entschlüsselung der Methode macsec\_decrypt.
+\\
+\\
+
+Zudem wurden im Laufe der Bachelorarbeit sowohl MORUS als auch AEGIS in die Kryptobibliothek vom Linux Kernel aufgenommen. Des Weiteren wurde in der Bachelorarbeit versucht, ACORN128 in die Kryptobibliothek vom Linux Kernel hinzuzufügen. Allerdings stellt die Bachelorarbeit nicht genügend Zeit zur Verfügung, um Chiffren in die Linux Kryptobibliothek einzufügen und nebenbei das MACsec Modul zu erweitern. Deshalb wurde aus Zeitgründen die Arbeit an ACORN128 abgebrochen.
+
+es ist erfreulich, dass diese Algorithmen Familie bereits in \cite{mosnavcekoptimizing} in den Linux Kernel implementiert worden ist.
+
+
+
+
+
+\begin{figure}[ht]
+\begin{minipage}[h]{0.45\linewidth}
+\centering
+\includegraphics[width=\textwidth]{images/Bild.jpg}
+\caption{default}
+\label{fig:sample1}
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[h]{0.45\linewidth}
+\centering
+\includegraphics[width=\textwidth]{images/Bild.jpg}
+\caption{default}
+\label{fig:sample2}
+\end{minipage}
+\begin{minipage}[h]{0.45\linewidth}
+\centering
+\includegraphics[width=\textwidth]{images/Bild.jpg}
+\caption{default}
+\label{fig:sample3}
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[h]{0.45\linewidth}
+\centering
+\includegraphics[width=\textwidth]{images/Bild.jpg}
+\caption{default}
+\label{fig:sample4}
+\end{minipage}
+\end{figure}

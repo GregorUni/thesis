@@ -1,0 +1,46 @@
+\chapter{Einleitung}
+\label{sec:intro}
+
+% Die Einleitung schreibt man zuletzt, wenn die Arbeit im Großen und
+% Ganzen schon fertig ist. (Wenn man mit der Einleitung beginnt - ein
+% häufiger Fehler - braucht man viel länger und wirft sie später doch
+% wieder weg). Sie hat als wesentliche Aufgabe, den Kontext für die
+% unterschiedlichen Klassen von Lesern herzustellen. Man muß hier die
+% Leser für sich gewinnen. Das Problem, mit dem sich die Arbeit befaßt,
+% sollte am Ende wenigstens in Grundzügen klar sein und dem Leser
+% interessant erscheinen. Das Kapitel schließt mit einer Übersicht über
+% den Rest der Arbeit ab. Meist braucht man mindestens 4 Seiten dafür, mehr
+% als 10 Seiten liest keiner.
+Die Digitalisierung zählt zu den großen Herausforderungen der gegenwärtigen Zeit und auch für die Zukunft. Es erfordert umfangreiche Anpassungen unter anderem in der Industrie.
+In der Bachelorarbeit sollen für diese zentrale Aufgabe zunächst einige Grundlagen dargestellt, um dann Lösungswege zur Verbesserung untersucht und herausgearbeitet werden.\\
+Es ist neben der Vernetzung von Systemen eines der Hauptziele der Industrie 4.0, die entstehenden Datenaufkommen zu sichern. Jedoch entstehen mit der zunehmenden Vernetzung von Komponenten innerhalb eines Unternehmens neue Möglichkeiten, um in ein Netzwerk einzudringen und Daten unerlaubt abzuschöpfen. Das fastvpn Projekt hat hierfür ein Sicherheitskonzept entwickelt, das sich diesem Problem widmet \cite{fastvpn2018}.
+Hierfür kommunizieren sicherheitsrelevante Systeme mit FastVPN-Boxen, die eine sichere Kommunikationsübertragung bereitstellen können und als Vermittler zwischen den sicherheitsrelevanten Systemen fungieren. 
+Mit der Anforderung der Echtzeitkommunikation in der Industrie 4.0 werden enorme Ansprüche an Netzwerksicherheitsstandards gesetzt. Diese müssen nicht nur die größtmöglichste Sicherheit gewährleisten, sondern auch geringe Auswirkungen auf die Übertragungszeit von Nachrichten haben. Daher wird die Performance von Netzwerkprotokollen zu einem entscheidenden Kriterium. 
+\\
+Eines der Netzwerkprotokolle, welches für die Sicherheit in den FastVPN-Boxen zuständig ist, ist der \gls{IEEE} Sicherheitsstandard \gls{MACsec}. \gls{MACsec} arbeitet auf der zweiten Schicht des \gls{OSI-Modell} und nutzt den  Betriebsmodus \gls{AEAD}. Dadurch können gleich mehrere Sicherheitsziele, darunter Vertraulichkeit und Integrität durch nur einen Verschlüsselungsalgorithmus erreicht werden. Der verwendete Verschlüsselungsalgorithmus ist der \gls{AES}, der im  \glspl{AES-GCM} betrieben wird. \gls{AES} ist einer der meistgenutzten Verschlüsselungsalgorithmen, der in diversen Sicherheitsprotokollen benutzt wird. Durch die weite Verbreitung von \gls{AES} findet sich in fast jedem Computer die Hardware Unterstützung \gls{AES-NI} wieder, von der der Algorithmus zusätzlich profitiert. Die Verbreitung von \gls{AES} bringt allerdings auch diverse Probleme mit sich. \gls{AES-GCM} nutzt eine der rechenaufwändigsten Operationen und kann ohne Hardware Unterstützung nicht mit anderen neueren Verschlüsselungsalgorithmen mithalten.\\  
+Mit Blick auf den Anwendungsfall der industriellen Kommunikation ist es daher sinnvoll, nach anderen Verschlüsselungsalgorithmen zu suchen, die möglicherweise eine bessere Performance erreichen können, da die Systeme im industriellen Bereich oft keine \gls{AES-NI} Hardware Unterstützung beherbergen. Um eine effiziente Alternative zu besitzen, sollte der Verschlüsselungsalgorithmus nicht von der Hardware Unterstützung abhängig sein, um eine gute Performance zu erreichen. 
+Diese Arbeit widmet sich dem Problemfall und setzt sich das Ziel nach einem vielversprechenden Verschlüsselungsalgorithmus zu suchen, der eine Alternative zu \gls{AES-GCM} bieten kann. \\
+Dafür muss eine Auswahl aus potentiellen Verschlüsselungsalgorithmen getroffen werden, die daraufhin in das \gls{MACsec} Modul implementiert werden. Des Weiteren muss überprüft werden, ob sich durch einen Austausch der Verschlüsselungskomponente eine Performancesteigerung des Sicherheitsstandards erreichen lässt. Dafür wird eine Testumgebung kreiert und Performance Tests durchgeführt.
+Um einen Einblick in die Thematik zu geben, werden im nächsten Kapitel die Grundlagen erklärt. Daraufhin werden Verschlüsselungsalgorithmen vorgestellt, die mögliche Kandidaten für eine Erweiterung in das MACsec Modul sind. Danach werden die Änderungen beschrieben, die im MACsec Modul getätigt werden müssen, um zusätzliche Verschlüsselungsalgorithmen nutzen zu können. Diese werden nach den Kriterien der Sicherheit, Funktionalität und Geschwindigkeit bewertet. Zum Schluss wird ein Fazit aus den Ergebnissen der Analyse gezogen.
+
+
+
+
+%\section{Forschungsstand} 
+%%\\
+%\\
+%Bisher wurde die MACsec Implementierung mit keinen weiteren %Verschlüsselungsalgorithmen erweitert.
+%Aber es existiert bereits ein \gls{IEEE} Standard, indem %MACsec um einen Algorithmus erweitert wird \cite{6047536}. Die Erfahrung zeit jedoch, dass eine Erweiterung der  Implementation viel Zeit in Anspruch nimmt, da allein schon der  Integration eines zusätzlichen Verschlüsselungsalgorithmus benötigt viel Zeit und derzeit gibt es noch keine Pläne diesen Standard in das Linux Betriebssystem zu integrieren. Allein
+
+%Zeitgleich läuft ein kryptografischer Wettbewerb namens \gls{CAESAR}, der nach Chiffren mit Vorteilen gegenüber \gls{AES-GCM} sucht. Auf die Resultate des Wettbewerbs wird ebenfalls eingegangen.
+% meistverbreiteste Verschlüsselungsalgorithmus. AES ist in fast jedem Netzwerkfähigen Gerät aufzufinden und das nicht ohne Grund. AES überzeugt mit einem gutem Design, von Hardware Unterstützungen wie AES-NI und einer hohen Performance. Deshalb wird AES in einer Vielzahl von Netzwerkprotokollen verwendet unter anderem auch im Sicherheitsstandard MACsec. MACsec ist ein Netzwerksicherungsprotokoll
+%Something with umlauts and a year/month date:
+%\cite{becher04:_feurig_hacken_mit_firew}.
+
+%And some online resources: \cite{green04}, \cite{patent:4819234}
+
+
+
+%%% Local Variables:
+%%% TeX-master: "diplom"
+%%% End:
