@@ -23,7 +23,6 @@ auto
 *~
 
 *.bcf
-*.pdf
 *.run.xml
 *.synctex.gz
 
