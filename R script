@@ -136,7 +136,7 @@ x[6] <- 1540
 
 options(scipen=999)
 
-plot(x, aesBytes, xlab="Paketlänge in Bytes",type="l", col="blue", ylab="Bandbreite in Mbytes/s",xaxt="n",yaxt="n",ylim=c(0,1220),xlim=c(0,1540), yaxs = "i",xaxs = "i")+ axis(side=1,at=seq(0,1540,256),tcl=-0.4,lwd.ticks=1,mgp=c(0,0.5,0))+axis(side=2,at=seq(0,1200,200),tcl=-0.4,lwd.ticks=1,mgp=c(0,0.5,0))+ lines(x,chachaBytes,col="red") +lines(x,nomacsecBytes,col="green") +lines(x,aegisBytes,col="orange") +lines(x,morusBytes,col="black") +legend("bottomright", inset=0.05, legend =c("AES-GCM","Chacha20-Poly1305","MORUS640","AEGIS128L","no-macsec"),col=c("blue", "red","black","orange","green"), lty=1, cex=0.8,box.lty=0)
+plot(x, aesBytes, xlab="Paketlänge in Bytes",type="l", col="blue", ylab="Bandbreite in Mbytes/s",xaxt="n",yaxt="n",ylim=c(0,1220),xlim=c(0,1540), yaxs = "i",xaxs = "i",lty=5)+ axis(side=1,at=seq(0,1540,256),tcl=-0.4,lwd.ticks=1,mgp=c(0,0.5,0))+axis(side=2,at=seq(0,1200,200),tcl=-0.4,lwd.ticks=1,mgp=c(0,0.5,0))+ lines(x,chachaBytes,col="red",lty=5) +lines(x,nomacsecBytes,col="green",lty=5) +lines(x,aegisBytes,col="orange",lty=5) +lines(x,morusBytes,col="black",lty=5) +legend("bottomright", inset=0.05, legend =c("AES-GCM","Chacha20-Poly1305","MORUS640","AEGIS128L","no-macsec"),col=c("blue", "red","black","orange","green"), lty=5, cex=0.8,box.lty=0)
 
 aeswe_file <- "aes-gcm-we.json"
 aeswe_data <- fromJSON(aeswe_file)
@@ -198,7 +198,7 @@ morusweBytes[6] <- mean(moruswe1[501:600])
 morusweBytesHumanReadable <- humanReadable(morusweBytes)
 morusweBytes<-morusweBytes/1000000
 
-plot(x, aesweBytes, xlab="Paketlänge in Bytes",type="l", col="blue", ylab="Bandbreite in Mbytes/s",xaxt="n",yaxt="n",ylim=c(0,1220),xlim=c(128,1540), yaxs = "i",xaxs = "i")+ axis(side=1,at=seq(0,1540,256),tcl=-0.4,lwd.ticks=1,mgp=c(0,0.5,0))+axis(side=2,at=seq(0,1200,200),tcl=-0.4,lwd.ticks=1,mgp=c(0,0.5,0))+ lines(x,chachaweBytes,col="red") +lines(x,nomacsecBytes,col="green") +lines(x,aegisweBytes,col="orange") +lines(x,morusweBytes,col="black") +legend("bottomright", inset=0.05, legend =c("AES-GCM","Chacha20-Poly1305","MORUS640","AEGIS128L","no-macsec"),col=c("blue", "red","black","orange","green"), lty=1, cex=0.8,box.lty=0)
+plot(x, aesweBytes, xlab="Paketlänge in Bytes",type="l", col="blue", ylab="Bandbreite in Mbytes/s",xaxt="n",yaxt="n",ylim=c(0,1220),xlim=c(0,1540), yaxs = "i",xaxs = "i",lty=5)+ axis(side=1,at=seq(0,1540,256),tcl=-0.4,lwd.ticks=1,mgp=c(0,0.5,0))+axis(side=2,at=seq(0,1200,200),tcl=-0.4,lwd.ticks=1,mgp=c(0,0.5,0))+ lines(x,chachaweBytes,col="red",lty=5) +lines(x,nomacsecBytes,col="green",lty=5) +lines(x,aegisweBytes,col="orange",lty=5) +lines(x,morusweBytes,col="black",lty=5) +legend("bottomright", inset=0.05, legend =c("AES-GCM","Chacha20-Poly1305","MORUS640","AEGIS128L","no-macsec"),col=c("blue", "red","black","orange","green"), lty=5, cex=0.8,box.lty=0)
 
 ////////////////////////////////////
 end.cpu_utilization_percent.host_system
@@ -256,7 +256,7 @@ nomacsecBytesCpu[5] <- mean(nomacsecCpu[401:500])
 nomacsecBytesCpu[6] <- mean(nomacsecCpu[501:600])
 nomacsecBytesCpuHumanReadable <- humanReadable(nomacsecBytesCpu)
 
-plot(x, aesBytesCpu, xlab="Paketlänge in Bytes",type="l", col="blue", ylab="CPU Auslastung in Mbytes/s",xaxt="n",yaxt="n",ylim=c(0,2.5),xlim=c(128,1540), yaxs = "i",xaxs = "i")+ axis(side=1,at=seq(0,1540,256),tcl=-0.4,lwd.ticks=1,mgp=c(0,0.5,0))+axis(side=2,at=seq(0,2.5,0.5),tcl=-0.4,lwd.ticks=1,mgp=c(0,0.5,0))+ lines(x,chachaBytesCpu,col="red") +lines(x,nomacsecBytesCpu,col="green") +lines(x,aegisBytesCpu,col="orange") +lines(x,morusBytesCpu,col="black") +legend("bottomright", inset=0.05, legend =c("AES-GCM","Chacha20-Poly1305","MORUS640","AEGIS128L","no-macsec"),col=c("blue", "red","black","orange","green"), lty=1, cex=0.8,box.lty=0)
+plot(x, aesBytesCpu, xlab="Paketlänge in Bytes",type="l", col="blue", ylab="CPU Auslastung in Prozent",xaxt="n",yaxt="n",ylim=c(0,100),xlim=c(0,1540), yaxs = "i",xaxs = "i", lty=5)+ axis(side=1,at=seq(0,1540,256),tcl=-0.4,lwd.ticks=1,mgp=c(0,0.5,0))+axis(side=2,at=seq(0,100,10),tcl=-0.4,lwd.ticks=1,mgp=c(0,0.5,0))+ lines(x,chachaBytesCpu,col="red",lty=5) +lines(x,nomacsecBytesCpu,col="green",lty=5) +lines(x,aegisBytesCpu,col="orange",lty=5) +lines(x,morusBytesCpu,col="black",lty=5) +legend("bottomright", inset=0.05, legend =c("AES-GCM","Chacha20-Poly1305","MORUS640","AEGIS128L","no-macsec"),col=c("blue", "red","black","orange","green"), lty=5, cex=0.8,box.lty=0)
 
 aesCpuwe <- aesweSet[[3]][[4]][[3]] 
 aesBytesCpuwe <- vector(mode="integer", length=6)
@@ -299,7 +299,186 @@ morusBytesCpuwe[6] <- mean(morusCpuwe[501:600])
 morusBytesCpuweHumanReadable <- humanReadable(morusBytesCpuwe)
 
 
-plot(x, aesBytesCpuwe, xlab="Paketlänge in Bytes",type="l", col="blue", ylab="CPU Auslastung in Mbytes/s",xaxt="n",yaxt="n",ylim=c(0,2.5),xlim=c(128,1540), yaxs = "i",xaxs = "i")+ axis(side=1,at=seq(0,1540,256),tcl=-0.4,lwd.ticks=1,mgp=c(0,0.5,0))+axis(side=2,at=seq(0,2.5,0.5),tcl=-0.4,lwd.ticks=1,mgp=c(0,0.5,0))+ lines(x,chachaBytesCpuwe,col="red") +lines(x,nomacsecBytesCpu,col="green") +lines(x,aegisBytesCpuwe,col="orange") +lines(x,morusBytesCpuwe,col="black") +legend("bottomright", inset=0.05, legend =c("AES-GCM","Chacha20-Poly1305","MORUS640","AEGIS128L","no-macsec"),col=c("blue", "red","black","orange","green"), lty=1, cex=0.8,box.lty=0)
+plot(x, aesBytesCpuwe, xlab="Paketlänge in Bytes",type="l", col="blue", ylab="CPU Auslastung in Prozent",xaxt="n",yaxt="n",ylim=c(0,100),xlim=c(0,1540), yaxs = "i",xaxs = "i",lty=5)+ axis(side=1,at=seq(0,1540,256),tcl=-0.4,lwd.ticks=1,mgp=c(0,0.5,0))+axis(side=2,at=seq(0,100,10),tcl=-0.4,lwd.ticks=1,mgp=c(0,0.5,0))+ lines(x,chachaBytesCpuwe,col="red",lty=5) +lines(x,nomacsecBytesCpu,col="green",lty=5) +lines(x,aegisBytesCpuwe,col="orange",lty=5) +lines(x,morusBytesCpuwe,col="black",lty=5) +legend("bottomright", inset=0.05, legend =c("AES-GCM","Chacha20-Poly1305","MORUS640","AEGIS128L","no-macsec"),col=c("blue", "red","black","orange","green"), lty=5, cex=0.8,box.lty=0)
+
+library(ggplot2)
+
+aesweping <- read.table("aesgcmweping.txt",stringsAsFactor = FALSE, header = F, fill = T )
+aesweping7<- gsub("time=", "", aesweping[[7]])
+aesweping7 <-as.numeric(aesweping7)
+aesweping7 <- aesweping7[!is.na(aesweping7)]
+
+a<- aesweping[[1]]
+a<-as.numeric(a)
+a<-a[!is.na(a)]
+a <- a[-50001]
+a <- a[-100001]
+a <- a[-150001]
+a <- a[-200001]
+a <- a[-250001]
 
 
-cpu bottleneck morus könnte noch besser sein
+dataforgg <- data.frame(a, aesweping)
+dataforgg$a <- factor(dataforgg$a,labels = c(86,214 , 470, 982, 1358))
+p <- ggplot(dataforgg , aes(x=a, y=aesweping7))+ geom_boxplot() +scale_y_continuous(name = "Latenz in ms",breaks = seq(0.1,0.2,0.01),limits=c(0.1, 0.2)) +scale_x_discrete(name = "Paketgröße in Bytes") + ggtitle("Ping Tests von AES-GCM-128 ohne Verschlüsselung")
+/////////////////////////////////
+aeseping <- read.table("aesgcmeping.txt",stringsAsFactor = FALSE, header = F, fill = T )
+aeseping7<- gsub("time=", "", aeseping[[7]])
+aeseping7 <-as.numeric(aeseping7)
+aeseping7 <- aeseping7[!is.na(aeseping7)]
+
+b<- aeseping[[1]]
+b<-as.numeric(b)
+b<-b[!is.na(b)]
+b <- b[-50001]
+b <- b[-100001]
+b <- b[-150001]
+b <- b[-200001]
+b <- b[-250001]
+
+
+aesEFrame <- data.frame(b, aeseping7)
+aesEFrame$b <- factor(aesEFrame$b,labels = c(86,214 , 470, 982, 1358))
+p1 <- ggplot(aesEFrame , aes(x=b, y=aeseping7))+ geom_boxplot() +scale_y_continuous(name = "Latenz in ms",breaks = seq(0.1,0.2,0.01),limits=c(0.1, 0.2)) +scale_x_discrete(name = "Paketgröße in Bytes") +
+    ggtitle("Ping Tests von AES-GCM-128 mit Verschlüsselung")
+/////////////////////////////////////////////////////////////////////////////
+chachaeping <- read.table("chachaeping.txt",stringsAsFactor = FALSE, header = F, fill = T )
+chachaeping7<- gsub("time=", "", chachaeping[[7]])
+chachaeping7 <-as.numeric(chachaeping7)
+chachaeping7 <- chachaeping7[!is.na(chachaeping7)]
+
+c<- chachaeping[[1]]
+c<-as.numeric(c)
+c<-c[!is.na(c)]
+c <- c[-50001]
+c <- c[-100001]
+c <- c[-150001]
+c <- c[-200001]
+c <- c[-250001]
+
+
+chachaEFrame <- data.frame(c, chachaeping7)
+chachaEFrame$c <- factor(chachaEFrame$c,labels = c(86,214 , 470, 982, 1358))
+p2 <- ggplot(chachaEFrame , aes(x=c, y=chachaeping7))+ geom_boxplot() +scale_y_continuous(name = "Latenz in ms",breaks = seq(0.1,0.2,0.01),limits=c(0.1, 0.2)) +scale_x_discrete(name = "Paketgröße in Bytes") +
+    ggtitle("Ping Tests von ChaCha20-Poly1305 mit Verschlüsselung")
+/////////////////////////////////////////////////////////////
+chachaweping <- read.table("chachaweping.txt",stringsAsFactor = FALSE, header = F, fill = T )
+chachaweping7<- gsub("time=", "", chachaweping[[7]])
+chachaweping7 <-as.numeric(chachaweping7)
+chachaweping7 <- chachaweping7[!is.na(chachaweping7)]
+
+d<- chachaweping[[1]]
+d<-as.numeric(d)
+d<-d[!is.na(d)]
+d <- d[-50001]
+d <- d[-100001]
+d <- d[-150001]
+d <- d[-200001]
+d <- d[-250001]
+
+
+chachaWEFrame <- data.frame(d, chachaweping7)
+chachaWEFrame$d <- factor(chachaWEFrame$d,labels = c(86,214 , 470, 982, 1358))
+p3 <- ggplot(chachaWEFrame , aes(x=d, y=chachaweping7))+ geom_boxplot() +scale_y_continuous(name = "Latenz in ms",breaks = seq(0.1,0.2,0.01),limits=c(0.1, 0.2)) +scale_x_discrete(name = "Paketgröße in Bytes") +
+    ggtitle("Ping Tests von ChaCha20-Poly1305 ohne Verschlüsselung")
+
+//////////////////////////////////////////////////////
+aegisweping <- read.table("aegisweping.txt",stringsAsFactor = FALSE, header = F, fill = T )
+aegisweping7<- gsub("time=", "", aegisweping[[7]])
+aegisweping7 <-as.numeric(aegisweping7)
+aegisweping7 <- aegisweping7[!is.na(aegisweping7)]
+
+e<- aegisweping[[1]]
+e<-as.numeric(e)
+e<-e[!is.na(e)]
+e <- e[-50001]
+e <- e[-100001]
+e <- e[-150001]
+e <- e[-200001]
+e <- e[-250001]
+
+
+aegisWEFrame <- data.frame(e, aegisweping7)
+aegisWEFrame$e <- factor(aegisWEFrame$e,labels = c(86,214 , 470, 982, 1358))
+p4 <- ggplot(aegisWEFrame , aes(x=e, y=aegisweping7))+ geom_boxplot() +scale_y_continuous(name = "Latenz in ms",breaks = seq(0.1,0.2,0.01),limits=c(0.1, 0.2)) +scale_x_discrete(name = "Paketgröße in Bytes") +
+    ggtitle("Ping Tests von AEGIS128L ohne Verschlüsselung")
+////////////////////////////////////////////////////////////////////////
+aegiseping <- read.table("aegiseping.txt",stringsAsFactor = FALSE, header = F, fill = T )
+aegiseping7<- gsub("time=", "", aegiseping[[7]])
+aegiseping7 <-as.numeric(aegiseping7)
+aegiseping7 <- aegiseping7[!is.na(aegiseping7)]
+
+f<- aegiseping[[1]]
+f<-as.numeric(f)
+f<-f[!is.na(f)]
+f <- f[-50001]
+f <- f[-100001]
+f <- f[-150001]
+f <- f[-200001]
+f <- f[-250001]
+
+
+aegisEFrame <- data.frame(f, aegiseping7)
+aegisEFrame$f <- factor(aegisEFrame$f,labels = c(86,214 , 470, 982, 1358))
+p5 <- ggplot(aegisEFrame , aes(x=f, y=aegiseping7))+ geom_boxplot() +scale_y_continuous(name = "Latenz in ms",breaks = seq(0.1,0.2,0.01),limits=c(0.1, 0.2)) +scale_x_discrete(name = "Paketgröße in Bytes") +
+    ggtitle("Ping Tests von AEGIS128L mit Verschlüsselung")
+////////////////////////////////////////////////////////////////////
+moruseping <- read.table("moruseping.txt",stringsAsFactor = FALSE, header = F, fill = T )
+moruseping7<- gsub("time=", "", moruseping[[7]])
+moruseping7 <-as.numeric(moruseping7)
+moruseping7 <- moruseping7[!is.na(moruseping7)]
+
+g<- moruseping[[1]]
+g<-as.numeric(g)
+g<-g[!is.na(g)]
+g <- g[-50001]
+g <- g[-100001] --> merkste selber gregor....
+g <- g[-150001]
+g <- g[-200001]
+g <- g[-250001]
+
+
+morusEFrame <- data.frame(g, moruseping7)
+morusEFrame$g <- factor(morusEFrame$g,labels = c(86,214 , 470, 982, 1358))
+p6 <- ggplot(morusEFrame , aes(x=g, y=moruseping7))+ geom_boxplot() +scale_y_continuous(name = "Latenz in ms",breaks = seq(0.1,0.2,0.01),limits=c(0.1, 0.2)) +scale_x_discrete(name = "Paketgröße in Bytes") +
+    ggtitle("Ping Tests von MORUS640 mit Verschlüsselung")
+//////////////////////////////////////////////////////////////////////////////
+morusweping <- read.table("morusweping.txt",stringsAsFactor = FALSE, header = F, fill = T )
+morusweping7<- gsub("time=", "", morusweping[[7]])
+morusweping7 <-as.numeric(morusweping7)
+morusweping7 <- morusweping7[!is.na(morusweping7)]
+
+h<- morusweping[[1]]
+h<-as.numeric(h)
+h<-h[!is.na(h)]
+h <- h[-50001]
+h <- h[-100001]
+h <- h[-150001]
+h <- h[-200001]
+h <- h[-250001]
+
+
+moruswEFrame <- data.frame(h, morusweping7)
+moruswEFrame$h <- factor(moruswEFrame$h,labels = c(86,214 , 470, 982, 1358))
+p7 <- ggplot(moruswEFrame , aes(x=h, y=morusweping7))+ geom_boxplot() +scale_y_continuous(name = "Latenz in ms",breaks = seq(0.1,0.2,0.01),limits=c(0.1, 0.2)) +scale_x_discrete(name = "Paketgröße in Bytes") +
+    ggtitle("Ping Tests von MORUS640 ohne Verschlüsselung")
+//////////////////////////////////////////////////////////////////////////////
+ethernetping <- read.table("ethernetping.txt",stringsAsFactor = FALSE, header = F, fill = T )
+ethernetping7<- gsub("time=", "", ethernetping[[7]])
+ethernetping7 <-as.numeric(ethernetping7)
+ethernetping7 <- ethernetping7[!is.na(ethernetping7)]
+
+i<- ethernetping[[1]]
+i<-as.numeric(i)
+i<-i[!is.na(i)]
+i <- i[-50001]
+i <- i[-100001]
+i <- i[-150001]
+i <- i[-200001]
+i <- i[-250001]
+
+
+ethernetFrame <- data.frame(i, ethernetping7)
+ethernetFrame$i <- factor(ethernetFrame$i,labels = c(86,214 , 470, 982, 1358))
+p8 <- ggplot(ethernetFrame , aes(x=i, y=ethernetping7))+ geom_boxplot() +scale_y_continuous(name = "Latenz in ms",breaks = seq(0.1,0.2,0.01),limits=c(0.1, 0.2)) +scale_x_discrete(name = "Paketgröße in Bytes") +
+    ggtitle("Ping Tests mit Ethernet")
