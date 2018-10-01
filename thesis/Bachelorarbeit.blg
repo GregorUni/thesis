@@ -1,0 +1,22 @@
+[0] Config.pm:302> INFO - This is Biber 2.11
+[0] Config.pm:305> INFO - Logfile is 'Bachelorarbeit.blg'
+[64] biber-MSWIN64:313> INFO - === 
+[134] Biber.pm:371> INFO - Reading 'Bachelorarbeit.bcf'
+[236] Biber.pm:857> INFO - Found 35 citekeys in bib section 0
+[254] Biber.pm:3976> INFO - Processing section 0
+[293] Biber.pm:4136> INFO - Looking for bibtex format file 'Literaturverzeichnis.bib' for section 0
+[303] bibtex.pm:1500> INFO - LaTeX decoding ...
+[464] bibtex.pm:1316> INFO - Found BibTeX data source 'Literaturverzeichnis.bib'
+[725] Utils.pm:193> WARN - month field 'Aug' in entry '1678345' is not an integer - this will probably not sort properly.
+[726] Utils.pm:193> WARN - month field 'Feb' in entry '5409813' is not an integer - this will probably not sort properly.
+[727] Utils.pm:193> WARN - month field 'Oct' in entry '6047536' is not an integer - this will probably not sort properly.
+[755] Utils.pm:193> WARN - Entry 'AEGIS' (Literaturverzeichnis.bib): Invalid format '25.09.' of date field 'urldate' - ignoring
+[843] Utils.pm:193> WARN - month field 'April' in entry '8383893' is not an integer - this will probably not sort properly.
+[949] Utils.pm:193> WARN - month field 'October' in entry 'cache-collision-timing-attacks-against-aes' is not an integer - this will probably not sort properly.
+[1093] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[1093] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'variable = shifted' with 'variable = non-ignorable'
+[1093] Biber.pm:3804> INFO - Sorting list 'anyt/global//global/global' of type 'entry' with template 'anyt' and locale 'de-DE'
+[1093] Biber.pm:3810> INFO - No sort tailoring available for locale 'de-DE'
+[1226] bbl.pm:617> INFO - Writing 'Bachelorarbeit.bbl' with encoding 'UTF-8'
+[1243] bbl.pm:720> INFO - Output to Bachelorarbeit.bbl
+[1247] Biber.pm:110> INFO - WARNINGS: 6

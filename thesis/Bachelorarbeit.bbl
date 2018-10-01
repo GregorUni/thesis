@@ -1,0 +1,1409 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 2.9 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{anyt/global//global/global}
+    \entry{1678345}{article}{}
+      \field{labelalpha}{06}
+      \field{sortinit}{0}
+      \field{sortinithash}{168ad0c7c5ed09f1d28c6675717b5b03}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Std 802.1AE-2006}
+      \field{month}{8}
+      \field{title}{IEEE Standard for Local and Metropolitan Area Networks: Media Access Control (MAC) Security}
+      \field{year}{2006}
+      \field{pages}{1\bibrangedash 150}
+      \range{pages}{150}
+      \verb{doi}
+      \verb 10.1109/IEEESTD.2006.245590
+      \endverb
+      \keyw{authorized port;data origin authenticity;integrity/confidentiality;LANs;local areanetworks;MAC Bridges;MAC security and tack;MAC Service;MANs;metropolitan areanetworks;MSAP;port-based network access control;secure association;security;service accesspoint;transparent bridging}
+    \endentry
+    \entry{5409813}{article}{}
+      \field{labelalpha}{10}
+      \field{sortinit}{1}
+      \field{sortinithash}{2174f786c6195e7fe2ee1c229b416e29}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Std 802.1X-2010 (Revision of IEEE Std 802.1X-2004)}
+      \field{month}{2}
+      \field{title}{IEEE Standard for Local and metropolitan area networks--Port-Based Network Access Control}
+      \field{year}{2010}
+      \field{pages}{1\bibrangedash 205}
+      \range{pages}{205}
+      \verb{doi}
+      \verb 10.1109/IEEESTD.2010.5409813
+      \endverb
+      \keyw{IEEE standards;Access control;Local area networks;Metropolitan area networks;802.1X-2010;access control;authentication;authorization;controlled port;key agreement;LANs;local area networks;MAC security;MAC Service;MANs;metropolitan area networks;port-based network access control;secure association;security;service access point;uncontrolled port}
+    \endentry
+    \entry{6047536}{article}{}
+      \field{labelalpha}{11}
+      \field{sortinit}{1}
+      \field{sortinithash}{2174f786c6195e7fe2ee1c229b416e29}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Std 802.1AEbn-2011 (Amendment to IEEE Std 802.1AE-2006)}
+      \field{month}{10}
+      \field{title}{IEEE Standard for Local and metropolitan area networks--Media Access Control (MAC) Security Amendment 1: Galois Counter Mode--Advanced Encryption Standard-- 256 (GCM-AES-256) Cipher Suite}
+      \field{year}{2011}
+      \field{pages}{1\bibrangedash 52}
+      \range{pages}{52}
+      \verb{doi}
+      \verb 10.1109/IEEESTD.2011.6047536
+      \endverb
+      \verb{urlraw}
+      \verb https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=6047536
+      \endverb
+      \verb{url}
+      \verb https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=6047536
+      \endverb
+      \keyw{access protocols;computer network security;cryptography;local area networks;metropolitan area networks;local area network;metropolitan area network;media access control security amendment;Galois counter mode;advanced encryption standard;GCM-AES-256 cipher suite;IEEE standards;Local area networks;Metropolitan area networks;Media Access Protocol;Security;Authentication;authenticity;authorized port;confidentiality;data origin integrity;IEEE 802.1AEbn;LANs;local area networks;MAC Bridges;MAC security;MAC Service;MANs;metropolitan area networks;port based network access control;secure association;security;transparent bridging}
+    \endentry
+    \entry{Ankele2016SoftwareBO}{article}{}
+      \name{author}{2}{}{%
+        {{hash=6fc6f2808382571f95e42c2e92e38468}{%
+           family={Ankele},
+           familyi={A\bibinitperiod},
+           given={Ralph},
+           giveni={R\bibinitperiod}}}%
+        {{hash=74093eab3ec2dcb80f85d0eb154daf9e}{%
+           family={Ankele},
+           familyi={A\bibinitperiod},
+           given={Robin},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{ef24df23c7864597461bb1eab89deec9}
+      \strng{fullhash}{ef24df23c7864597461bb1eab89deec9}
+      \strng{bibnamehash}{ef24df23c7864597461bb1eab89deec9}
+      \strng{authorbibnamehash}{ef24df23c7864597461bb1eab89deec9}
+      \strng{authornamehash}{ef24df23c7864597461bb1eab89deec9}
+      \strng{authorfullhash}{ef24df23c7864597461bb1eab89deec9}
+      \field{labelalpha}{AA16}
+      \field{sortinit}{A}
+      \field{sortinithash}{d77c7cdd82ff690d4c3ef13216f92f0b}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IACR Cryptology ePrint Archive}
+      \field{title}{Software Benchmarking of the 2nd round CAESAR Candidates}
+      \field{volume}{2016}
+      \field{year}{2016}
+      \field{pages}{740}
+      \range{pages}{1}
+      \verb{urlraw}
+      \verb https://eprint.iacr.org/2016/740.pdf
+      \endverb
+      \verb{url}
+      \verb https://eprint.iacr.org/2016/740.pdf
+      \endverb
+    \endentry
+    \entry{aumasson2015norx}{misc}{}
+      \name{author}{3}{}{%
+        {{hash=d22970cff3847c99fe4c6359ab16f241}{%
+           family={Aumasson},
+           familyi={A\bibinitperiod},
+           given={Jean-Philippe},
+           giveni={J\bibinithyphendelim P\bibinitperiod}}}%
+        {{hash=25ef4f3b5d7f6c9be25c588c8a28d102}{%
+           family={Jovanovic},
+           familyi={J\bibinitperiod},
+           given={Philipp},
+           giveni={P\bibinitperiod}}}%
+        {{hash=e308f5066e72ea6bac0690ff394b74c5}{%
+           family={Neves},
+           familyi={N\bibinitperiod},
+           given={Samuel},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{e6ea20552c346ad0a46b6b95c593d1c9}
+      \strng{fullhash}{e6ea20552c346ad0a46b6b95c593d1c9}
+      \strng{bibnamehash}{e6ea20552c346ad0a46b6b95c593d1c9}
+      \strng{authorbibnamehash}{e6ea20552c346ad0a46b6b95c593d1c9}
+      \strng{authornamehash}{e6ea20552c346ad0a46b6b95c593d1c9}
+      \strng{authorfullhash}{e6ea20552c346ad0a46b6b95c593d1c9}
+      \field{labelalpha}{AJN15}
+      \field{sortinit}{A}
+      \field{sortinithash}{d77c7cdd82ff690d4c3ef13216f92f0b}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{NORX v3. 0. Submission to CAESAR (2016)}
+      \field{year}{2015}
+      \verb{urlraw}
+      \verb https://competitions.cr.yp.to/round3/norxv30.pdf
+      \endverb
+      \verb{url}
+      \verb https://competitions.cr.yp.to/round3/norxv30.pdf
+      \endverb
+    \endentry
+    \entry{COLM}{article}{}
+      \name{author}{8}{}{%
+        {{hash=2aed7361d54349a4b996668b26d18465}{%
+           family={Andreeva},
+           familyi={A\bibinitperiod},
+           given={Elena},
+           giveni={E\bibinitperiod}}}%
+        {{hash=8e97e7a694c5daffce12d708ce1d7bc1}{%
+           family={Bogdanov},
+           familyi={B\bibinitperiod},
+           given={Andrey},
+           giveni={A\bibinitperiod}}}%
+        {{hash=73362bc8c25785cd8b53b4547c213440}{%
+           family={Datta},
+           familyi={D\bibinitperiod},
+           given={Nilanjan},
+           giveni={N\bibinitperiod}}}%
+        {{hash=f081070e5362278f49e9aef87908470f}{%
+           family={Luykx},
+           familyi={L\bibinitperiod},
+           given={Atul},
+           giveni={A\bibinitperiod}}}%
+        {{hash=93c5ea43740a6897c526f69497b104a8}{%
+           family={Mennink},
+           familyi={M\bibinitperiod},
+           given={Bart},
+           giveni={B\bibinitperiod}}}%
+        {{hash=37254c5e47f081e69343485b2ea531ff}{%
+           family={Nandi},
+           familyi={N\bibinitperiod},
+           given={Mridul},
+           giveni={M\bibinitperiod}}}%
+        {{hash=94dfcb7b4fc0f12d0c48ecac4079352a}{%
+           family={Tischhauser},
+           familyi={T\bibinitperiod},
+           given={Elmar},
+           giveni={E\bibinitperiod}}}%
+        {{hash=f8e4439c1ae760f5c3065f7689d685ef}{%
+           family={Yasuda},
+           familyi={Y\bibinitperiod},
+           given={Kan},
+           giveni={K\bibinitperiod}}}%
+      }
+      \strng{namehash}{ff05a8ad10f4c0b5069b08d2b9b9d9a5}
+      \strng{fullhash}{0e57d0f1df2db2193dbbfebffcff035d}
+      \strng{bibnamehash}{ff05a8ad10f4c0b5069b08d2b9b9d9a5}
+      \strng{authorbibnamehash}{ff05a8ad10f4c0b5069b08d2b9b9d9a5}
+      \strng{authornamehash}{ff05a8ad10f4c0b5069b08d2b9b9d9a5}
+      \strng{authorfullhash}{0e57d0f1df2db2193dbbfebffcff035d}
+      \field{labelalpha}{And+16}
+      \field{sortinit}{A}
+      \field{sortinithash}{d77c7cdd82ff690d4c3ef13216f92f0b}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{CAESAR competition proposal}
+      \field{title}{COLM v1}
+      \field{year}{2016}
+      \verb{urlraw}
+      \verb https://competitions.cr.yp.to/round3/colmv1.pdf
+      \endverb
+      \verb{url}
+      \verb https://competitions.cr.yp.to/round3/colmv1.pdf
+      \endverb
+    \endentry
+    \entry{10.1007/11502760_3}{inproceedings}{}
+      \name{author}{1}{}{%
+        {{hash=5f3bee3b8939320b1e0713b083800eac}{%
+           family={Bernstein},
+           familyi={B\bibinitperiod},
+           given={Daniel\bibnamedelima J.},
+           giveni={D\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \name{editor}{2}{}{%
+        {{hash=312359d3b416dc36d67dab0e5f171530}{%
+           family={Gilbert},
+           familyi={G\bibinitperiod},
+           given={Henri},
+           giveni={H\bibinitperiod}}}%
+        {{hash=7da25e384d92b0fa0f537b06c34754fb}{%
+           family={Handschuh},
+           familyi={H\bibinitperiod},
+           given={Helena},
+           giveni={H\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Berlin, Heidelberg}%
+      }
+      \list{publisher}{1}{%
+        {Springer Berlin Heidelberg}%
+      }
+      \strng{namehash}{5f3bee3b8939320b1e0713b083800eac}
+      \strng{fullhash}{5f3bee3b8939320b1e0713b083800eac}
+      \strng{bibnamehash}{5f3bee3b8939320b1e0713b083800eac}
+      \strng{authorbibnamehash}{5f3bee3b8939320b1e0713b083800eac}
+      \strng{authornamehash}{5f3bee3b8939320b1e0713b083800eac}
+      \strng{authorfullhash}{5f3bee3b8939320b1e0713b083800eac}
+      \strng{editorbibnamehash}{e648e42ce43c99b30d220d2aaeaaec79}
+      \strng{editornamehash}{e648e42ce43c99b30d220d2aaeaaec79}
+      \strng{editorfullhash}{e648e42ce43c99b30d220d2aaeaaec79}
+      \field{labelalpha}{Ber05}
+      \field{sortinit}{B}
+      \field{sortinithash}{276475738cc058478c1677046f857703}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Poly1305-AES is a state-of-the-art message-authentication code suitable for a wide variety of applications. Poly1305-AES computes a 16-byte authenticator of a variable-length message, using a 16-byte AES key, a 16-byte additional key, and a 16-byte nonce. The security of Poly1305-AES is very close to the security of AES; the security gap is at most 14D⌈L/16⌉/2106 if messages have at most L bytes, the attacker sees at most 264 authenticated messages, and the attacker attempts D forgeries. Poly1305-AES can be computed at extremely high speed: for example, fewer than 3.1l{\thinspace}+{\thinspace}780 Athlon cycles for an ℓ-byte message. This speed is achieved without precomputation; consequently, 1000 keys can be handled simultaneously without cache misses. Special-purpose hardware can compute Poly1305-AES at even higher speed. Poly1305-AES is parallelizable, incremental, and not subject to any intellectual-property claims.}
+      \field{booktitle}{Fast Software Encryption}
+      \field{isbn}{978-3-540-31669-5}
+      \field{title}{The Poly1305-AES Message-Authentication Code}
+      \field{year}{2005}
+      \field{pages}{32\bibrangedash 49}
+      \range{pages}{18}
+      \verb{urlraw}
+      \verb https://link.springer.com/chapter/10.1007%2F11502760_3
+      \endverb
+      \verb{url}
+      \verb https://link.springer.com/chapter/10.1007%2F11502760_3
+      \endverb
+    \endentry
+    \entry{bernstein2008chacha}{inproceedings}{}
+      \name{author}{1}{}{%
+        {{hash=dbc9c2504b80655f9de96edf5c43a55a}{%
+           family={Bernstein},
+           familyi={B\bibinitperiod},
+           given={Daniel\bibnamedelima J},
+           giveni={D\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \strng{namehash}{dbc9c2504b80655f9de96edf5c43a55a}
+      \strng{fullhash}{dbc9c2504b80655f9de96edf5c43a55a}
+      \strng{bibnamehash}{dbc9c2504b80655f9de96edf5c43a55a}
+      \strng{authorbibnamehash}{dbc9c2504b80655f9de96edf5c43a55a}
+      \strng{authornamehash}{dbc9c2504b80655f9de96edf5c43a55a}
+      \strng{authorfullhash}{dbc9c2504b80655f9de96edf5c43a55a}
+      \field{labelalpha}{Ber08}
+      \field{sortinit}{B}
+      \field{sortinithash}{276475738cc058478c1677046f857703}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Workshop Record of SASC}
+      \field{title}{ChaCha, a variant of Salsa20}
+      \field{volume}{8}
+      \field{year}{2008}
+      \field{pages}{3\bibrangedash 5}
+      \range{pages}{3}
+      \verb{urlraw}
+      \verb http://cr.yp.to/chacha/chacha-20080120.pdf
+      \endverb
+      \verb{url}
+      \verb http://cr.yp.to/chacha/chacha-20080120.pdf
+      \endverb
+    \endentry
+    \entry{bernstein2009supercop}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=dbc9c2504b80655f9de96edf5c43a55a}{%
+           family={Bernstein},
+           familyi={B\bibinitperiod},
+           given={Daniel\bibnamedelima J},
+           giveni={D\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \strng{namehash}{dbc9c2504b80655f9de96edf5c43a55a}
+      \strng{fullhash}{dbc9c2504b80655f9de96edf5c43a55a}
+      \strng{bibnamehash}{dbc9c2504b80655f9de96edf5c43a55a}
+      \strng{authorbibnamehash}{dbc9c2504b80655f9de96edf5c43a55a}
+      \strng{authornamehash}{dbc9c2504b80655f9de96edf5c43a55a}
+      \strng{authorfullhash}{dbc9c2504b80655f9de96edf5c43a55a}
+      \field{labelalpha}{Ber09}
+      \field{sortinit}{B}
+      \field{sortinithash}{276475738cc058478c1677046f857703}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Supercop: System for unified performance evaluation related to cryptographic operations and primitives}
+      \field{year}{2009}
+      \verb{urlraw}
+      \verb https://bench.cr.yp.to/supercop.html
+      \endverb
+      \verb{url}
+      \verb https://bench.cr.yp.to/supercop.html
+      \endverb
+    \endentry
+    \entry{bernstein2014caesar}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=dbc9c2504b80655f9de96edf5c43a55a}{%
+           family={Bernstein},
+           familyi={B\bibinitperiod},
+           given={Daniel\bibnamedelima J},
+           giveni={D\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \strng{namehash}{dbc9c2504b80655f9de96edf5c43a55a}
+      \strng{fullhash}{dbc9c2504b80655f9de96edf5c43a55a}
+      \strng{bibnamehash}{dbc9c2504b80655f9de96edf5c43a55a}
+      \strng{authorbibnamehash}{dbc9c2504b80655f9de96edf5c43a55a}
+      \strng{authornamehash}{dbc9c2504b80655f9de96edf5c43a55a}
+      \strng{authorfullhash}{dbc9c2504b80655f9de96edf5c43a55a}
+      \field{labelalpha}{Ber14}
+      \field{sortinit}{B}
+      \field{sortinithash}{276475738cc058478c1677046f857703}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Caesar: Competition for authenticated encryption: Security, applicability, and robustness}
+      \field{year}{2014}
+      \verb{urlraw}
+      \verb https://competitions.cr.yp.to/caesar.html
+      \endverb
+      \verb{url}
+      \verb https://competitions.cr.yp.to/caesar.html
+      \endverb
+    \endentry
+    \entry{CryptoList}{online}{}
+      \name{author}{1}{}{%
+        {{hash=5f3bee3b8939320b1e0713b083800eac}{%
+           family={Bernstein},
+           familyi={B\bibinitperiod},
+           given={Daniel\bibnamedelima J.},
+           giveni={D\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \strng{namehash}{5f3bee3b8939320b1e0713b083800eac}
+      \strng{fullhash}{5f3bee3b8939320b1e0713b083800eac}
+      \strng{bibnamehash}{5f3bee3b8939320b1e0713b083800eac}
+      \strng{authorbibnamehash}{5f3bee3b8939320b1e0713b083800eac}
+      \strng{authornamehash}{5f3bee3b8939320b1e0713b083800eac}
+      \strng{authorfullhash}{5f3bee3b8939320b1e0713b083800eac}
+      \field{labelalpha}{Ber18}
+      \field{sortinit}{B}
+      \field{sortinithash}{276475738cc058478c1677046f857703}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{SuperCop AEAD List}
+      \field{year}{2018}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb https://bench.cr.yp.to/primitives-aead.html
+      \endverb
+      \verb{url}
+      \verb https://bench.cr.yp.to/primitives-aead.html
+      \endverb
+    \endentry
+    \entry{fastvpn2018}{proceedings}{}
+      \name{author}{16}{}{%
+        {{hash=56d46c9034a5a188ae135350d9e7112c}{%
+           family={Bluschke},
+           familyi={B\bibinitperiod},
+           given={Andreas},
+           giveni={A\bibinitperiod}}}%
+        {{hash=5fc379f923392877086c939b8aa19143}{%
+           family={Büschel},
+           familyi={B\bibinitperiod},
+           given={Wolfgang},
+           giveni={W\bibinitperiod}}}%
+        {{hash=bcd007e642a2255a012537859b4b8395}{%
+           family={Rietzsch},
+           familyi={R\bibinitperiod},
+           given={Philipp},
+           giveni={P\bibinitperiod}}}%
+        {{hash=69000b821c6f5dc3b1116166e823e248}{%
+           family={Senier},
+           familyi={S\bibinitperiod},
+           given={Alexander},
+           giveni={A\bibinitperiod}}}%
+        {{hash=8ce1080afb10b0772d0f3c7eb67e0ae5}{%
+           family={Sieber},
+           familyi={S\bibinitperiod},
+           given={Peter},
+           giveni={P\bibinitperiod}}}%
+        {{hash=13a63509087f66f0171ba9720ea5c1ce}{%
+           family={Ulrich},
+           familyi={U\bibinitperiod},
+           given={Volker},
+           giveni={V\bibinitperiod}}}%
+        {{hash=0ed2e07345739af67ee89a86f4f0d840}{%
+           family={Wiggers},
+           familyi={W\bibinitperiod},
+           given={Rainer},
+           giveni={R\bibinitperiod}}}%
+        {{hash=ef344a19e4d4e80bf3a9b3a13e7e9b52}{%
+           family={Wolter},
+           familyi={W\bibinitperiod},
+           given={Jean},
+           giveni={J\bibinitperiod}}}%
+        {{hash=fdf1194d5498cc53f6b7f37275a8f909}{%
+           family={Hohmuth},
+           familyi={H\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod}}}%
+        {{hash=3d98c37142040e1f865a35a60fe13b5d}{%
+           family={Jehring},
+           familyi={J\bibinitperiod},
+           given={Frieder},
+           giveni={F\bibinitperiod}}}%
+        {{hash=a7dab1e6597df8cec45b1e2b13b7722c}{%
+           family={Kaminski},
+           familyi={K\bibinitperiod},
+           given={Rainer},
+           giveni={R\bibinitperiod}}}%
+        {{hash=e94cb6154b62d5cffd74c14b25ebcd7b}{%
+           family={Klamka},
+           familyi={K\bibinitperiod},
+           given={Konstantin},
+           giveni={K\bibinitperiod}}}%
+        {{hash=fe8c13045640a44f85f9ef0cefa81dd7}{%
+           family={Köpsell},
+           familyi={K\bibinitperiod},
+           given={Stefan},
+           giveni={S\bibinitperiod}}}%
+        {{hash=be39aeb1d021844fd84a7987af45d4df}{%
+           family={Lackorzynski},
+           familyi={L\bibinitperiod},
+           given={Adam},
+           giveni={A\bibinitperiod}}}%
+        {{hash=00badf247ca3ac90d9ba7061a5e376dd}{%
+           family={Lackorzynski},
+           familyi={L\bibinitperiod},
+           given={Tim},
+           giveni={T\bibinitperiod}}}%
+        {{hash=d81c8dee1fc55a6fae4a1ef1957768f6}{%
+           family={Matthews},
+           familyi={M\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Berlin, Germany.}%
+      }
+      \list{publisher}{1}{%
+        {VDE Verlag GmbH - Berlin - Offenbach}%
+      }
+      \strng{namehash}{c3e65bac6f821c3a8f1f93b35580514a}
+      \strng{fullhash}{73c8696d36fc19ec521bc2aec623abb1}
+      \strng{bibnamehash}{c3e65bac6f821c3a8f1f93b35580514a}
+      \strng{authorbibnamehash}{c3e65bac6f821c3a8f1f93b35580514a}
+      \strng{authornamehash}{c3e65bac6f821c3a8f1f93b35580514a}
+      \strng{authorfullhash}{73c8696d36fc19ec521bc2aec623abb1}
+      \field{labelalpha}{Blu+18}
+      \field{sortinit}{B}
+      \field{sortinithash}{276475738cc058478c1677046f857703}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Broadband Coverage in Germany; 12. ITG-Symposium.}
+      \field{isbn}{978-3-8007-4637-8}
+      \field{month}{4}
+      \field{title}{fastvpn – Secure and Flexible Networking for Industry 4.0}
+      \field{year}{2018}
+      \field{pages}{28\bibrangedash 35}
+      \range{pages}{8}
+    \endentry
+    \entry{cache-collision-timing-attacks-against-aes}{inproceedings}{}
+      \name{author}{2}{}{%
+        {{hash=e6eb78ec5f92eaff4e9d4b944aff4c9c}{%
+           family={Bonneau},
+           familyi={B\bibinitperiod},
+           given={Joseph},
+           giveni={J\bibinitperiod}}}%
+        {{hash=2eea0075441c4e9acfc378c1345323f2}{%
+           family={Mironov},
+           familyi={M\bibinitperiod},
+           given={Ilya},
+           giveni={I\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{de3b95826039e4b2ecf61c45ab1d3e89}
+      \strng{fullhash}{de3b95826039e4b2ecf61c45ab1d3e89}
+      \strng{bibnamehash}{de3b95826039e4b2ecf61c45ab1d3e89}
+      \strng{authorbibnamehash}{de3b95826039e4b2ecf61c45ab1d3e89}
+      \strng{authornamehash}{de3b95826039e4b2ecf61c45ab1d3e89}
+      \strng{authorfullhash}{de3b95826039e4b2ecf61c45ab1d3e89}
+      \field{labelalpha}{BM06}
+      \field{sortinit}{B}
+      \field{sortinithash}{276475738cc058478c1677046f857703}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{This paper describes several novel timing attacks against the common table-driven software implementation of the AES cipher. We deﬁne a general attack strategy using a simpliﬁed model of the cache to predict timing variation due to cache-collisions in the sequence of lookups performed by the encryption. The attacks presented should be applicable to most high-speed software AES implementations and computing platforms, we have implemented them against OpenSSL v. 0.9.8.(a) running on Pentium III, Pentium IV Xeon, and UltraSPARC III+ machines. The most powerful attack has been shown under optimal conditions to reliably recover a full 128-bit AES key with 213 timing samples, an improvement of almost four orders of magnitude over the best previously published attacks of this type [Ber05]. While the task of defending AES against all timing attacks is challenging, a small patch can signiﬁcantly reduce the vulnerability to these speciﬁc attacks with no performance penalty.}
+      \field{booktitle}{Cryptographic Hardware and Embedded Systems—CHES 2006}
+      \field{month}{10}
+      \field{title}{Cache-Collision Timing Attacks Against AES}
+      \field{volume}{4249}
+      \field{year}{2006}
+      \field{pages}{201\bibrangedash 215}
+      \range{pages}{15}
+      \verb{urlraw}
+      \verb https://www.microsoft.com/en-us/research/publication/cache-collision-timing-attacks-against-aes/
+      \endverb
+      \verb{url}
+      \verb https://www.microsoft.com/en-us/research/publication/cache-collision-timing-attacks-against-aes/
+      \endverb
+    \endentry
+    \entry{10.1007/3-540-44448-3_41}{inproceedings}{}
+      \name{author}{2}{}{%
+        {{hash=06e2bb2f83d8b669b46db64431509301}{%
+           family={Bellare},
+           familyi={B\bibinitperiod},
+           given={Mihir},
+           giveni={M\bibinitperiod}}}%
+        {{hash=4c08f6be4f60f471a298b7cf5dc76212}{%
+           family={Namprempre},
+           familyi={N\bibinitperiod},
+           given={Chanathip},
+           giveni={C\bibinitperiod}}}%
+      }
+      \name{editor}{1}{}{%
+        {{hash=b76adaf370f4255b09cd89400ccf3d15}{%
+           family={Okamoto},
+           familyi={O\bibinitperiod},
+           given={Tatsuaki},
+           giveni={T\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Berlin, Heidelberg}%
+      }
+      \list{publisher}{1}{%
+        {Springer Berlin Heidelberg}%
+      }
+      \strng{namehash}{37f7cada81cbe52ba43726b61f5ba678}
+      \strng{fullhash}{37f7cada81cbe52ba43726b61f5ba678}
+      \strng{bibnamehash}{37f7cada81cbe52ba43726b61f5ba678}
+      \strng{authorbibnamehash}{37f7cada81cbe52ba43726b61f5ba678}
+      \strng{authornamehash}{37f7cada81cbe52ba43726b61f5ba678}
+      \strng{authorfullhash}{37f7cada81cbe52ba43726b61f5ba678}
+      \strng{editorbibnamehash}{b76adaf370f4255b09cd89400ccf3d15}
+      \strng{editornamehash}{b76adaf370f4255b09cd89400ccf3d15}
+      \strng{editorfullhash}{b76adaf370f4255b09cd89400ccf3d15}
+      \field{labelalpha}{BN00}
+      \field{sortinit}{B}
+      \field{sortinithash}{276475738cc058478c1677046f857703}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{We consider two possible notions of authenticity for symmetric encryption schemes, namely integrity of plaintexts and integrity of ciphertexts, and relate them to the standard notions of privacy for symmetric encryption schemes by presenting implications and separations between all notions considered. We then analyze the security of authenticated encryption schemes designed by ``generic composition,'' meaning making black-box use of a given symmetric encryption scheme and a given MAC. Three composition methods are considered, namely Encrypt-and-MAC plaintext, MAC-then-encrypt, and Encrypt-then- MAC. For each of these, and for each notion of security, we indicate whether or not the resulting scheme meets the notion in question assuming the given symmetric encryption scheme is secure against chosen-plaintext attack and the given MAC is unforgeable under chosen-message attack. We provide proofs for the cases where the answer is ``yes'' and counter-examples for the cases where the answer is ``no.''}
+      \field{booktitle}{Advances in Cryptology --- ASIACRYPT 2000}
+      \field{isbn}{978-3-540-44448-0}
+      \field{title}{Authenticated Encryption: Relations among Notions and Analysis of the Generic Composition Paradigm}
+      \field{year}{2000}
+      \field{pages}{531\bibrangedash 545}
+      \range{pages}{15}
+    \endentry
+    \entry{Ascon}{article}{}
+      \name{author}{4}{}{%
+        {{hash=eca64bd23f98b4e78af64e1a24fd3872}{%
+           family={Dobraunig},
+           familyi={D\bibinitperiod},
+           given={Christoph},
+           giveni={C\bibinitperiod}}}%
+        {{hash=3265fb328d4a79028da67f536c0e02d7}{%
+           family={Eichlseder},
+           familyi={E\bibinitperiod},
+           given={Maria},
+           giveni={M\bibinitperiod}}}%
+        {{hash=e320abcdc96582fe2b9956c4e9dd4bc9}{%
+           family={Mendel},
+           familyi={M\bibinitperiod},
+           given={Florian},
+           giveni={F\bibinitperiod}}}%
+        {{hash=56365b71ae1d8e8950abf23d854c1a2c}{%
+           family={Schl{ä}ffer},
+           familyi={S\bibinitperiod},
+           given={Martin},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{ea7c84971b1613d356530f6a5bf25508}
+      \strng{fullhash}{fcdc4ceb2ede1b41177c5f634d07528f}
+      \strng{bibnamehash}{ea7c84971b1613d356530f6a5bf25508}
+      \strng{authorbibnamehash}{ea7c84971b1613d356530f6a5bf25508}
+      \strng{authornamehash}{ea7c84971b1613d356530f6a5bf25508}
+      \strng{authorfullhash}{fcdc4ceb2ede1b41177c5f634d07528f}
+      \field{labelalpha}{Dob+16}
+      \field{sortinit}{D}
+      \field{sortinithash}{2ef1bd9a78cc71eb74d7231c635177b8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Submission to the CAESAR Competition}
+      \field{title}{Ascon v1. 2}
+      \field{year}{2016}
+      \verb{urlraw}
+      \verb https://competitions.cr.yp.to/round3/asconv12.pdf
+      \endverb
+      \verb{url}
+      \verb https://competitions.cr.yp.to/round3/asconv12.pdf
+      \endverb
+    \endentry
+    \entry{Manpage}{online}{}
+      \name{author}{1}{}{%
+        {{hash=782dd683bfde9645f81aecc6bdf0b887}{%
+           family={Dubroca},
+           familyi={D\bibinitperiod},
+           given={Sabrina},
+           giveni={S\bibinitperiod}}}%
+      }
+      \name{editor}{1}{}{%
+        {{hash=782dd683bfde9645f81aecc6bdf0b887}{%
+           family={Dubroca},
+           familyi={D\bibinitperiod},
+           given={Sabrina},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{782dd683bfde9645f81aecc6bdf0b887}
+      \strng{fullhash}{782dd683bfde9645f81aecc6bdf0b887}
+      \strng{bibnamehash}{782dd683bfde9645f81aecc6bdf0b887}
+      \strng{authorbibnamehash}{782dd683bfde9645f81aecc6bdf0b887}
+      \strng{authornamehash}{782dd683bfde9645f81aecc6bdf0b887}
+      \strng{authorfullhash}{782dd683bfde9645f81aecc6bdf0b887}
+      \strng{editorbibnamehash}{782dd683bfde9645f81aecc6bdf0b887}
+      \strng{editornamehash}{782dd683bfde9645f81aecc6bdf0b887}
+      \strng{editorfullhash}{782dd683bfde9645f81aecc6bdf0b887}
+      \field{labelalpha}{Dub16}
+      \field{sortinit}{D}
+      \field{sortinithash}{2ef1bd9a78cc71eb74d7231c635177b8}
+      \field{extraalpha}{1}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{7}
+      \field{month}{5}
+      \field{title}{ip-macsec - MACsec device configuration}
+      \field{year}{2016}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb https://manpages.debian.org/stretch/iproute2/ip-macsec.8.en.html
+      \endverb
+      \verb{url}
+      \verb https://manpages.debian.org/stretch/iproute2/ip-macsec.8.en.html
+      \endverb
+    \endentry
+    \entry{dubroca}{online}{}
+      \name{author}{1}{}{%
+        {{hash=782dd683bfde9645f81aecc6bdf0b887}{%
+           family={Dubroca},
+           familyi={D\bibinitperiod},
+           given={Sabrina},
+           giveni={S\bibinitperiod}}}%
+      }
+      \name{editor}{1}{}{%
+        {{hash=782dd683bfde9645f81aecc6bdf0b887}{%
+           family={Dubroca},
+           familyi={D\bibinitperiod},
+           given={Sabrina},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{782dd683bfde9645f81aecc6bdf0b887}
+      \strng{fullhash}{782dd683bfde9645f81aecc6bdf0b887}
+      \strng{bibnamehash}{782dd683bfde9645f81aecc6bdf0b887}
+      \strng{authorbibnamehash}{782dd683bfde9645f81aecc6bdf0b887}
+      \strng{authornamehash}{782dd683bfde9645f81aecc6bdf0b887}
+      \strng{authorfullhash}{782dd683bfde9645f81aecc6bdf0b887}
+      \strng{editorbibnamehash}{782dd683bfde9645f81aecc6bdf0b887}
+      \strng{editornamehash}{782dd683bfde9645f81aecc6bdf0b887}
+      \strng{editorfullhash}{782dd683bfde9645f81aecc6bdf0b887}
+      \field{labelalpha}{Dub16}
+      \field{sortinit}{D}
+      \field{sortinithash}{2ef1bd9a78cc71eb74d7231c635177b8}
+      \field{extraalpha}{2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{12}
+      \field{month}{2}
+      \field{title}{MACsec: Encryption for the wired LAN}
+      \field{year}{2016}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb file:///C:/Users/Gregor/Desktop/Uni/Bachelorarbeit/Quellen/MACsec-Encryption-for-the-wired-LAN.pdf
+      \endverb
+      \verb{url}
+      \verb file:///C:/Users/Gregor/Desktop/Uni/Bachelorarbeit/Quellen/MACsec-Encryption-for-the-wired-LAN.pdf
+      \endverb
+    \endentry
+    \entry{gueron2010intel}{article}{}
+      \name{author}{1}{}{%
+        {{hash=74ca2f05d1125811a4211361255b1cf2}{%
+           family={Gueron},
+           familyi={G\bibinitperiod},
+           given={Shay},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{74ca2f05d1125811a4211361255b1cf2}
+      \strng{fullhash}{74ca2f05d1125811a4211361255b1cf2}
+      \strng{bibnamehash}{74ca2f05d1125811a4211361255b1cf2}
+      \strng{authorbibnamehash}{74ca2f05d1125811a4211361255b1cf2}
+      \strng{authornamehash}{74ca2f05d1125811a4211361255b1cf2}
+      \strng{authorfullhash}{74ca2f05d1125811a4211361255b1cf2}
+      \field{labelalpha}{Gue10}
+      \field{sortinit}{G}
+      \field{sortinithash}{5e8d2bf9d38de41b1528bd307546008f}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Intel Corporation}
+      \field{title}{Intel{®} advanced encryption standard (AES) new instructions set}
+      \field{year}{2010}
+      \verb{urlraw}
+      \verb https://www.intel.com.bo/content/dam/doc/white-paper/advanced-encryption-standard-new-instructions-set-paper.pdf
+      \endverb
+      \verb{url}
+      \verb https://www.intel.com.bo/content/dam/doc/white-paper/advanced-encryption-standard-new-instructions-set-paper.pdf
+      \endverb
+    \endentry
+    \entry{Jean2016}{article}{}
+      \name{author}{4}{}{%
+        {{hash=d9ba54273ce0b4f406c11eb77bbf1cdd}{%
+           family={Jean},
+           familyi={J\bibinitperiod},
+           given={J{é}r{é}my},
+           giveni={J\bibinitperiod}}}%
+        {{hash=e92df3bd9853c02ed990a24e0613ccb9}{%
+           family={Nikolic},
+           familyi={N\bibinitperiod},
+           given={Ivica},
+           giveni={I\bibinitperiod}}}%
+        {{hash=9c2e81cda27fe70a24fbccd7c5f70f13}{%
+           family={Peyrin},
+           familyi={P\bibinitperiod},
+           given={Thomas},
+           giveni={T\bibinitperiod}}}%
+        {{hash=1a883c1e2c83bb8c66190c9362b76392}{%
+           family={Seurin},
+           familyi={S\bibinitperiod},
+           given={Yannick},
+           giveni={Y\bibinitperiod}}}%
+      }
+      \strng{namehash}{d74ad390f6afa60b9803d9389976d29a}
+      \strng{fullhash}{d989ccc6949099935c183d2c48122144}
+      \strng{bibnamehash}{d74ad390f6afa60b9803d9389976d29a}
+      \strng{authorbibnamehash}{d74ad390f6afa60b9803d9389976d29a}
+      \strng{authornamehash}{d74ad390f6afa60b9803d9389976d29a}
+      \strng{authorfullhash}{d989ccc6949099935c183d2c48122144}
+      \field{labelalpha}{Jea+16}
+      \field{sortinit}{J}
+      \field{sortinithash}{fce5f8d0bd05e8d93f3dbe21c78897ca}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Submitted to CAESAR}
+      \field{title}{Deoxys v1. 41}
+      \field{year}{2016}
+      \verb{urlraw}
+      \verb http://www1.spms.ntu.edu.sg/~syllab/m/images/3/3b/Deoxysv141.pdf
+      \endverb
+      \verb{url}
+      \verb http://www1.spms.ntu.edu.sg/~syllab/m/images/3/3b/Deoxysv141.pdf
+      \endverb
+    \endentry
+    \entry{rfc7253}{misc}{}
+      \name{author}{2}{}{%
+        {{hash=b4d0db264360456baa3fdf49e37b92cd}{%
+           family={Krovetz},
+           familyi={K\bibinitperiod},
+           given={Ted},
+           giveni={T\bibinitperiod}}}%
+        {{hash=2198941c13b8201b0e0d2127034bb263}{%
+           family={Rogaway},
+           familyi={R\bibinitperiod},
+           given={Phillip},
+           giveni={P\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {RFC Editor}%
+      }
+      \strng{namehash}{52750f8a854abac68abb7c76e4d540f8}
+      \strng{fullhash}{52750f8a854abac68abb7c76e4d540f8}
+      \strng{bibnamehash}{52750f8a854abac68abb7c76e4d540f8}
+      \strng{authorbibnamehash}{52750f8a854abac68abb7c76e4d540f8}
+      \strng{authornamehash}{52750f8a854abac68abb7c76e4d540f8}
+      \strng{authorfullhash}{52750f8a854abac68abb7c76e4d540f8}
+      \field{labelalpha}{KR14}
+      \field{sortinit}{K}
+      \field{sortinithash}{9fd838a31ba64d981e8f44562bd33f89}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{This document specifies OCB, a shared-key blockcipher-based encryption scheme that provides confidentiality and authenticity for plaintexts and authenticity for associated data. This document is a product of the Crypto Forum Research Group (CFRG).}
+      \field{howpublished}{RFC 7253}
+      \field{month}{5}
+      \field{number}{7253}
+      \field{pagetotal}{19}
+      \field{series}{Request for Comments}
+      \field{title}{{The OCB Authenticated-Encryption Algorithm}}
+      \field{year}{2014}
+      \verb{doi}
+      \verb 10.17487/RFC7253
+      \endverb
+      \verb{urlraw}
+      \verb https://rfc-editor.org/rfc/rfc7253.txt
+      \endverb
+      \verb{url}
+      \verb https://rfc-editor.org/rfc/rfc7253.txt
+      \endverb
+    \endentry
+    \entry{krovetz2016ocb}{misc}{}
+      \name{author}{2}{}{%
+        {{hash=b4d0db264360456baa3fdf49e37b92cd}{%
+           family={Krovetz},
+           familyi={K\bibinitperiod},
+           given={Ted},
+           giveni={T\bibinitperiod}}}%
+        {{hash=2198941c13b8201b0e0d2127034bb263}{%
+           family={Rogaway},
+           familyi={R\bibinitperiod},
+           given={Phillip},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{52750f8a854abac68abb7c76e4d540f8}
+      \strng{fullhash}{52750f8a854abac68abb7c76e4d540f8}
+      \strng{bibnamehash}{52750f8a854abac68abb7c76e4d540f8}
+      \strng{authorbibnamehash}{52750f8a854abac68abb7c76e4d540f8}
+      \strng{authornamehash}{52750f8a854abac68abb7c76e4d540f8}
+      \strng{authorfullhash}{52750f8a854abac68abb7c76e4d540f8}
+      \field{labelalpha}{KR16}
+      \field{sortinit}{K}
+      \field{sortinithash}{9fd838a31ba64d981e8f44562bd33f89}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{OCB (v1. 1). Submission to CAESAR (2016)}
+      \field{year}{2016}
+      \verb{urlraw}
+      \verb https://competitions.cr.yp.to/round3/ocbv11.pdf
+      \endverb
+      \verb{url}
+      \verb https://competitions.cr.yp.to/round3/ocbv11.pdf
+      \endverb
+    \endentry
+    \entry{AdamLangley}{online}{}
+      \name{author}{1}{}{%
+        {{hash=9f7c1bea618246029e139c169baaf321}{%
+           family={Langley},
+           familyi={L\bibinitperiod},
+           given={Adam},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{9f7c1bea618246029e139c169baaf321}
+      \strng{fullhash}{9f7c1bea618246029e139c169baaf321}
+      \strng{bibnamehash}{9f7c1bea618246029e139c169baaf321}
+      \strng{authorbibnamehash}{9f7c1bea618246029e139c169baaf321}
+      \strng{authornamehash}{9f7c1bea618246029e139c169baaf321}
+      \strng{authorfullhash}{9f7c1bea618246029e139c169baaf321}
+      \field{labelalpha}{Lan13}
+      \field{sortinit}{L}
+      \field{sortinithash}{2c7981aaabc885868aba60f0c09ee20f}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{29}
+      \field{month}{7}
+      \field{title}{[TLS] Salsa20 and Poly1305 in TLS}
+      \field{year}{2013}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb https://www.ietf.org/mail-archive/web/tls/current/msg09707.html
+      \endverb
+      \verb{url}
+      \verb https://www.ietf.org/mail-archive/web/tls/current/msg09707.html
+      \endverb
+    \endentry
+    \entry{rfc5116}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=e85501d3bfb4d099222d43f6e2c02fab}{%
+           family={McGrew},
+           familyi={M\bibinitperiod},
+           given={Dr.\bibnamedelimi David\bibnamedelima A.},
+           giveni={D\bibinitperiod\bibinitdelim D\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {RFC Editor}%
+      }
+      \strng{namehash}{e85501d3bfb4d099222d43f6e2c02fab}
+      \strng{fullhash}{e85501d3bfb4d099222d43f6e2c02fab}
+      \strng{bibnamehash}{e85501d3bfb4d099222d43f6e2c02fab}
+      \strng{authorbibnamehash}{e85501d3bfb4d099222d43f6e2c02fab}
+      \strng{authornamehash}{e85501d3bfb4d099222d43f6e2c02fab}
+      \strng{authorfullhash}{e85501d3bfb4d099222d43f6e2c02fab}
+      \field{labelalpha}{McG08}
+      \field{sortinit}{M}
+      \field{sortinithash}{cfd219b90152c06204fab207bc6c7cab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{This document defines algorithms for Authenticated Encryption with Associated Data (AEAD), and defines a uniform interface and a registry for such algorithms. The interface and registry can be used as an application-independent set of cryptoalgorithm suites. This approach provides advantages in efficiency and security, and promotes the reuse of crypto implementations. {[}STANDARDS-TRACK{]}}
+      \field{howpublished}{RFC 5116}
+      \field{month}{1}
+      \field{number}{5116}
+      \field{pagetotal}{22}
+      \field{series}{Request for Comments}
+      \field{title}{{An Interface and Algorithms for Authenticated Encryption}}
+      \field{year}{2008}
+      \verb{doi}
+      \verb 10.17487/RFC5116
+      \endverb
+      \verb{urlraw}
+      \verb https://rfc-editor.org/rfc/rfc5116.txt
+      \endverb
+      \verb{url}
+      \verb https://rfc-editor.org/rfc/rfc5116.txt
+      \endverb
+    \endentry
+    \entry{mosnavcekoptimizing}{article}{}
+      \name{author}{1}{}{%
+        {{hash=472504a80e89abb4c6d491c89853c215}{%
+           family={Mosn{á}{č}ek},
+           familyi={M\bibinitperiod},
+           given={Ondrej},
+           giveni={O\bibinitperiod}}}%
+      }
+      \strng{namehash}{472504a80e89abb4c6d491c89853c215}
+      \strng{fullhash}{472504a80e89abb4c6d491c89853c215}
+      \strng{bibnamehash}{472504a80e89abb4c6d491c89853c215}
+      \strng{authorbibnamehash}{472504a80e89abb4c6d491c89853c215}
+      \strng{authornamehash}{472504a80e89abb4c6d491c89853c215}
+      \strng{authorfullhash}{472504a80e89abb4c6d491c89853c215}
+      \field{labelalpha}{Mos17}
+      \field{sortinit}{M}
+      \field{sortinithash}{cfd219b90152c06204fab207bc6c7cab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Optimizing authenticated encryption algorithms}
+      \field{year}{2017}
+      \verb{urlraw}
+      \verb https://is.muni.cz/th/qvh3t/masters-thesis.pdf?so=nx
+      \endverb
+      \verb{url}
+      \verb https://is.muni.cz/th/qvh3t/masters-thesis.pdf?so=nx
+      \endverb
+    \endentry
+    \entry{rfc7539}{misc}{}
+      \name{author}{2}{}{%
+        {{hash=14de5ea3aa4217cf6aa1601f73af32d8}{%
+           family={Nir},
+           familyi={N\bibinitperiod},
+           given={Yoav},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=9f7c1bea618246029e139c169baaf321}{%
+           family={Langley},
+           familyi={L\bibinitperiod},
+           given={Adam},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {RFC Editor}%
+      }
+      \strng{namehash}{5c62c25db8932d45c482f6273020745a}
+      \strng{fullhash}{5c62c25db8932d45c482f6273020745a}
+      \strng{bibnamehash}{5c62c25db8932d45c482f6273020745a}
+      \strng{authorbibnamehash}{5c62c25db8932d45c482f6273020745a}
+      \strng{authornamehash}{5c62c25db8932d45c482f6273020745a}
+      \strng{authorfullhash}{5c62c25db8932d45c482f6273020745a}
+      \field{labelalpha}{NL15}
+      \field{sortinit}{N}
+      \field{sortinithash}{f7242c3ed3dc50029fca1be76c497c7c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{This document defines the ChaCha20 stream cipher as well as the use of the Poly1305 authenticator, both as stand-alone algorithms and as a "combined mode", or Authenticated Encryption with Associated Data (AEAD) algorithm.}
+      \field{howpublished}{RFC 7539}
+      \field{month}{5}
+      \field{number}{7539}
+      \field{pagetotal}{45}
+      \field{series}{Request for Comments}
+      \field{title}{{ChaCha20 and Poly1305 for IETF Protocols}}
+      \field{year}{2015}
+      \verb{doi}
+      \verb 10.17487/RFC7539
+      \endverb
+      \verb{urlraw}
+      \verb https://rfc-editor.org/rfc/rfc7539.txt
+      \endverb
+      \verb{url}
+      \verb https://rfc-editor.org/rfc/rfc7539.txt
+      \endverb
+    \endentry
+    \entry{pfitzmann2000sicherheit}{article}{}
+      \name{author}{1}{}{%
+        {{hash=1c6456df62fd2e1879f99532a84b0e93}{%
+           family={Pfitzmann},
+           familyi={P\bibinitperiod},
+           given={Andreas},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Citeseer}%
+      }
+      \strng{namehash}{1c6456df62fd2e1879f99532a84b0e93}
+      \strng{fullhash}{1c6456df62fd2e1879f99532a84b0e93}
+      \strng{bibnamehash}{1c6456df62fd2e1879f99532a84b0e93}
+      \strng{authorbibnamehash}{1c6456df62fd2e1879f99532a84b0e93}
+      \strng{authornamehash}{1c6456df62fd2e1879f99532a84b0e93}
+      \strng{authorfullhash}{1c6456df62fd2e1879f99532a84b0e93}
+      \field{labelalpha}{Pfi00}
+      \field{sortinit}{P}
+      \field{sortinithash}{8d51b3d5b78d75b54308d706b9bbe285}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Lecture script}
+      \field{title}{Sicherheit in Rechnernetzen: Mehrseitige Sicherheit in verteilten und durch verteilte Systeme}
+      \field{year}{2000}
+      \verb{urlraw}
+      \verb https://dud.inf.tu-dresden.de/%7esk13/TUD-Web-CMS/LV/SaC-II/Skript.pdf
+      \endverb
+      \verb{url}
+      \verb https://dud.inf.tu-dresden.de/%7esk13/TUD-Web-CMS/LV/SaC-II/Skript.pdf
+      \endverb
+    \endentry
+    \entry{ICMP}{online}{}
+      \name{author}{5}{}{%
+        {{hash=02b8dba2b9241ee3cbe59775cce0328d}{%
+           family={Postel},
+           familyi={P\bibinitperiod},
+           given={Jon},
+           giveni={J\bibinitperiod}}}%
+        {{hash=e2089f792c7e0314a9d5734744414015}{%
+           family={Johnson},
+           familyi={J\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod}}}%
+        {{hash=7222bcbed9cbabf5fcd00f99314c06ce}{%
+           family={Markson},
+           familyi={M\bibinitperiod},
+           given={Tom},
+           giveni={T\bibinitperiod}}}%
+        {{hash=9ecb969036f90784654b1f9847a7ab23}{%
+           family={Simpson},
+           familyi={S\bibinitperiod},
+           given={Bill},
+           giveni={B\bibinitperiod}}}%
+        {{hash=de18a29a8b169cd068944c5b0b98346a}{%
+           family={Su},
+           familyi={S\bibinitperiod},
+           given={Zaw-Sing},
+           giveni={Z\bibinithyphendelim S\bibinitperiod}}}%
+      }
+      \strng{namehash}{c52fd6ef847982fd90ce07c9004d3a96}
+      \strng{fullhash}{212eba0966a1eab7192aed9be7ee3635}
+      \strng{bibnamehash}{c52fd6ef847982fd90ce07c9004d3a96}
+      \strng{authorbibnamehash}{c52fd6ef847982fd90ce07c9004d3a96}
+      \strng{authornamehash}{c52fd6ef847982fd90ce07c9004d3a96}
+      \strng{authorfullhash}{212eba0966a1eab7192aed9be7ee3635}
+      \field{labelalpha}{Pos+18}
+      \field{sortinit}{P}
+      \field{sortinithash}{8d51b3d5b78d75b54308d706b9bbe285}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{15}
+      \field{month}{6}
+      \field{title}{Internet Control Message Protocol (ICMP) Parameters}
+      \field{year}{2018}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb https://www.iana.org/assignments/icmp-parameters/icmp-parameters.xhtml
+      \endverb
+      \verb{url}
+      \verb https://www.iana.org/assignments/icmp-parameters/icmp-parameters.xhtml
+      \endverb
+    \endentry
+    \entry{procter2014security}{article}{}
+      \name{author}{1}{}{%
+        {{hash=8bd89aa94e0300079380a7b266c82286}{%
+           family={Procter},
+           familyi={P\bibinitperiod},
+           given={Gordon},
+           giveni={G\bibinitperiod}}}%
+      }
+      \strng{namehash}{8bd89aa94e0300079380a7b266c82286}
+      \strng{fullhash}{8bd89aa94e0300079380a7b266c82286}
+      \strng{bibnamehash}{8bd89aa94e0300079380a7b266c82286}
+      \strng{authorbibnamehash}{8bd89aa94e0300079380a7b266c82286}
+      \strng{authornamehash}{8bd89aa94e0300079380a7b266c82286}
+      \strng{authorfullhash}{8bd89aa94e0300079380a7b266c82286}
+      \field{labelalpha}{Pro14}
+      \field{sortinit}{P}
+      \field{sortinithash}{8d51b3d5b78d75b54308d706b9bbe285}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IACR Cryptology ePrint Archive}
+      \field{title}{A Security Analysis of the Composition of ChaCha20 and Poly1305.}
+      \field{volume}{2014}
+      \field{year}{2014}
+      \field{pages}{613}
+      \range{pages}{1}
+      \verb{urlraw}
+      \verb https://eprint.iacr.org/2014/613.pdf
+      \endverb
+      \verb{url}
+      \verb https://eprint.iacr.org/2014/613.pdf
+      \endverb
+    \endentry
+    \entry{kerneldoc}{online}{}
+      \name{author}{1}{}{%
+        {{hash=b2c06fb74010808f5c2b568be73e2319}{%
+           family={S.\bibnamedelimi Mueller},
+           familyi={S\bibinitperiod\bibinitdelim M\bibinitperiod},
+           given={M.\bibnamedelimi Vasut},
+           giveni={M\bibinitperiod\bibinitdelim V\bibinitperiod}}}%
+      }
+      \strng{namehash}{b2c06fb74010808f5c2b568be73e2319}
+      \strng{fullhash}{b2c06fb74010808f5c2b568be73e2319}
+      \strng{bibnamehash}{b2c06fb74010808f5c2b568be73e2319}
+      \strng{authorbibnamehash}{b2c06fb74010808f5c2b568be73e2319}
+      \strng{authornamehash}{b2c06fb74010808f5c2b568be73e2319}
+      \strng{authorfullhash}{b2c06fb74010808f5c2b568be73e2319}
+      \field{labelalpha}{S M18}
+      \field{sortinit}{S}
+      \field{sortinithash}{322b1d5276f2f6c1bccdcd15920dbee6}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{30}
+      \field{month}{9}
+      \field{title}{The Linux Kernel documentation. Kernel Crypto API Interface Specification}
+      \field{year}{2018}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb https://www.kernel.org/doc/html/latest/crypto/intro.html
+      \endverb
+      \verb{url}
+      \verb https://www.kernel.org/doc/html/latest/crypto/intro.html
+      \endverb
+    \endentry
+    \entry{8383893}{inproceedings}{}
+      \name{author}{4}{}{%
+        {{hash=cb1029a65b8b3b4c45af39541796edb8}{%
+           family={Tempelmeier},
+           familyi={T\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+        {{hash=6cac8f01e78242bffd61c94058b44ef6}{%
+           family={Santis},
+           familyi={S\bibinitperiod},
+           given={F.\bibnamedelimi De},
+           giveni={F\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=811a641d6dff4050f39bb38aac209ab6}{%
+           family={Sigl},
+           familyi={S\bibinitperiod},
+           given={G.},
+           giveni={G\bibinitperiod}}}%
+        {{hash=b4733c2da5658691f3b37397f200ca92}{%
+           family={Kaps},
+           familyi={K\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{1b8451658c962c075e8807c566af7ecb}
+      \strng{fullhash}{266888c8cf171b56c7a3c7d7d02e1b03}
+      \strng{bibnamehash}{1b8451658c962c075e8807c566af7ecb}
+      \strng{authorbibnamehash}{1b8451658c962c075e8807c566af7ecb}
+      \strng{authornamehash}{1b8451658c962c075e8807c566af7ecb}
+      \strng{authorfullhash}{266888c8cf171b56c7a3c7d7d02e1b03}
+      \field{labelalpha}{Tem+18}
+      \field{sortinit}{T}
+      \field{sortinithash}{6f7aff9db9dcfeb7f95fd5bbd2f78df9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2018 IEEE International Symposium on Hardware Oriented Security and Trust (HOST)}
+      \field{month}{4}
+      \field{title}{The CAESAR-API in the real world — Towards a fair evaluation of hardware CAESAR candidates}
+      \field{year}{2018}
+      \field{pages}{73\bibrangedash 80}
+      \range{pages}{8}
+      \verb{doi}
+      \verb 10.1109/HST.2018.8383893
+      \endverb
+      \verb{urlraw}
+      \verb https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8383893
+      \endverb
+      \verb{url}
+      \verb https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8383893
+      \endverb
+      \keyw{application program interfaces;cryptographic protocols;field programmable gate arrays;system-on-chip;CAESAR-API;hardware-accelerators;hardware platform;open source hardware;published hardware implementations;fair evaluation;hardware CAESAR candidates;authenticated encryption;standardized hardware API;benchmark performance figures;energy consumption;automatic test hardware implementations;Xilinx Zynq-7000;system on chip;ARM processors;Hardware;Ciphers;Encryption;Field programmable gate arrays;Standards}
+    \endentry
+    \entry{TN_libero_mab23259530}{book}{}
+      \name{author}{2}{}{%
+        {{hash=5fec945e2e4e128e1f94258b75085d2d}{%
+           family={Tanenbaum},
+           familyi={T\bibinitperiod},
+           given={Andrew\bibnamedelima S.},
+           giveni={A\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=ed3fc532903c051209e0750c2c89f2ac}{%
+           family={Wetherall},
+           familyi={W\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {München [u.a.] :}%
+      }
+      \list{publisher}{1}{%
+        {Pearson,}%
+      }
+      \strng{namehash}{40255b9b1382f8f4c44d68c7a013d2d1}
+      \strng{fullhash}{40255b9b1382f8f4c44d68c7a013d2d1}
+      \strng{bibnamehash}{40255b9b1382f8f4c44d68c7a013d2d1}
+      \strng{authorbibnamehash}{40255b9b1382f8f4c44d68c7a013d2d1}
+      \strng{authornamehash}{40255b9b1382f8f4c44d68c7a013d2d1}
+      \strng{authorfullhash}{40255b9b1382f8f4c44d68c7a013d2d1}
+      \field{labelalpha}{TW12}
+      \field{sortinit}{T}
+      \field{sortinithash}{6f7aff9db9dcfeb7f95fd5bbd2f78df9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Hier auch später erschienene, unveränderte Nachdrucke.}
+      \field{booktitle}{Always learning}
+      \field{edition}{5., aktualisierte Aufl.}
+      \field{isbn}{9783868941371}
+      \field{title}{Computernetzwerke /}
+      \field{year}{2012}
+      \verb{urlraw}
+      \verb http://slubdd.de/katalog?TN_libero_mab23259530
+      \endverb
+      \verb{url}
+      \verb http://slubdd.de/katalog?TN_libero_mab23259530
+      \endverb
+      \keyw{Rechnernetz}
+    \endentry
+    \entry{wuauthenticated}{misc}{}
+      \name{author}{2}{}{%
+        {{hash=48d7790b6f90698be74be559845cb27a}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Hongjun},
+           giveni={H\bibinitperiod}}}%
+        {{hash=f39d73c2040236ebf9896a42646cfa06}{%
+           family={Huang},
+           familyi={H\bibinitperiod},
+           given={Tao},
+           giveni={T\bibinitperiod}}}%
+      }
+      \strng{namehash}{e8812c62c04a38e842758b5f7160b66c}
+      \strng{fullhash}{e8812c62c04a38e842758b5f7160b66c}
+      \strng{bibnamehash}{e8812c62c04a38e842758b5f7160b66c}
+      \strng{authorbibnamehash}{e8812c62c04a38e842758b5f7160b66c}
+      \strng{authornamehash}{e8812c62c04a38e842758b5f7160b66c}
+      \strng{authorfullhash}{e8812c62c04a38e842758b5f7160b66c}
+      \field{labelalpha}{WH}
+      \field{sortinit}{W}
+      \field{sortinithash}{ecb89ff85896a47dc313960773ac311d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{The authenticated cipher MORUS (v2)(2016)}
+      \verb{urlraw}
+      \verb https://competitions.cr.yp.to/round3/morusv2.pdf
+      \endverb
+      \verb{url}
+      \verb https://competitions.cr.yp.to/round3/morusv2.pdf
+      \endverb
+    \endentry
+    \entry{AEGIS}{misc}{}
+      \name{author}{2}{}{%
+        {{hash=48d7790b6f90698be74be559845cb27a}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Hongjun},
+           giveni={H\bibinitperiod}}}%
+        {{hash=0b9d4896fca22178c881b5236f351e05}{%
+           family={Preneel},
+           familyi={P\bibinitperiod},
+           given={Bart},
+           giveni={B\bibinitperiod}}}%
+      }
+      \strng{namehash}{73482f6c10a2a7a495916faebb090b6f}
+      \strng{fullhash}{73482f6c10a2a7a495916faebb090b6f}
+      \strng{bibnamehash}{73482f6c10a2a7a495916faebb090b6f}
+      \strng{authorbibnamehash}{73482f6c10a2a7a495916faebb090b6f}
+      \strng{authornamehash}{73482f6c10a2a7a495916faebb090b6f}
+      \strng{authorfullhash}{73482f6c10a2a7a495916faebb090b6f}
+      \field{labelalpha}{WP}
+      \field{sortinit}{W}
+      \field{sortinithash}{ecb89ff85896a47dc313960773ac311d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{AEGIS: A Fast Authenticated Encryption Algorithm (v1. 1). Submission to CAESAR (2016)}
+      \verb{urlraw}
+      \verb https://competitions.cr.yp.to/round3/aegisv11.pdf
+      \endverb
+      \verb{url}
+      \verb https://competitions.cr.yp.to/round3/aegisv11.pdf
+      \endverb
+      \warn{\item Entry 'AEGIS' (Literaturverzeichnis.bib): Invalid format '25.09.' of date field 'urldate' - ignoring}
+    \endentry
+    \entry{10.1007/978-3-662-43414-7_10}{inproceedings}{}
+      \name{author}{2}{}{%
+        {{hash=48d7790b6f90698be74be559845cb27a}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Hongjun},
+           giveni={H\bibinitperiod}}}%
+        {{hash=0b9d4896fca22178c881b5236f351e05}{%
+           family={Preneel},
+           familyi={P\bibinitperiod},
+           given={Bart},
+           giveni={B\bibinitperiod}}}%
+      }
+      \name{editor}{3}{}{%
+        {{hash=2c76d81f56d9dce0a910572140690325}{%
+           family={Lange},
+           familyi={L\bibinitperiod},
+           given={Tanja},
+           giveni={T\bibinitperiod}}}%
+        {{hash=680b73bfd0dd39885486c8671a3d00c1}{%
+           family={Lauter},
+           familyi={L\bibinitperiod},
+           given={Kristin},
+           giveni={K\bibinitperiod}}}%
+        {{hash=273a292ca0da30504b34a1a1dfaae4a4}{%
+           family={Lison{ě}k},
+           familyi={L\bibinitperiod},
+           given={Petr},
+           giveni={P\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Berlin, Heidelberg}%
+      }
+      \list{publisher}{1}{%
+        {Springer Berlin Heidelberg}%
+      }
+      \strng{namehash}{73482f6c10a2a7a495916faebb090b6f}
+      \strng{fullhash}{73482f6c10a2a7a495916faebb090b6f}
+      \strng{bibnamehash}{73482f6c10a2a7a495916faebb090b6f}
+      \strng{authorbibnamehash}{73482f6c10a2a7a495916faebb090b6f}
+      \strng{authornamehash}{73482f6c10a2a7a495916faebb090b6f}
+      \strng{authorfullhash}{73482f6c10a2a7a495916faebb090b6f}
+      \strng{editorbibnamehash}{f37160ee6e8efafd8499fcf08b47d5df}
+      \strng{editornamehash}{f37160ee6e8efafd8499fcf08b47d5df}
+      \strng{editorfullhash}{f37160ee6e8efafd8499fcf08b47d5df}
+      \field{labelalpha}{WP14}
+      \field{sortinit}{W}
+      \field{sortinithash}{ecb89ff85896a47dc313960773ac311d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{This paper introduces a dedicated authenticated encryption algorithm AEGIS; AEGIS allows for the protection of associated data which makes it very suitable for protecting network packets. AEGIS-128 uses five AES round functions to process a 16-byte message block (one step); AES-256 uses six AES round functions. The security analysis shows that both algorithms offer a high level of security. On the Intel Sandy Bridge Core i5 processor, the speed of AEGIS is around 0.7 clock cycles/byte (cpb) for 4096-byte messages. This is comparable in speed to the CTR mode (that offers only encryption) and substantially faster than the CCM, GCM and OCB modes.}
+      \field{booktitle}{Selected Areas in Cryptography -- SAC 2013}
+      \field{isbn}{978-3-662-43414-7}
+      \field{title}{AEGIS: A Fast Authenticated Encryption Algorithm}
+      \field{year}{2014}
+      \field{pages}{185\bibrangedash 201}
+      \range{pages}{17}
+      \verb{urlraw}
+      \verb https://competitions.cr.yp.to/round3/aegisv11.pdf
+      \endverb
+      \verb{url}
+      \verb https://competitions.cr.yp.to/round3/aegisv11.pdf
+      \endverb
+    \endentry
+    \entry{ACORN}{article}{}
+      \name{author}{1}{}{%
+        {{hash=48d7790b6f90698be74be559845cb27a}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Hongjun},
+           giveni={H\bibinitperiod}}}%
+      }
+      \strng{namehash}{48d7790b6f90698be74be559845cb27a}
+      \strng{fullhash}{48d7790b6f90698be74be559845cb27a}
+      \strng{bibnamehash}{48d7790b6f90698be74be559845cb27a}
+      \strng{authorbibnamehash}{48d7790b6f90698be74be559845cb27a}
+      \strng{authornamehash}{48d7790b6f90698be74be559845cb27a}
+      \strng{authorfullhash}{48d7790b6f90698be74be559845cb27a}
+      \field{labelalpha}{Wu16}
+      \field{sortinit}{W}
+      \field{sortinithash}{ecb89ff85896a47dc313960773ac311d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Candidate for the CAESAR Competition. See also https://competitions. cr. yp. to/round3/acornv3. pdf}
+      \field{title}{ACORN: a lightweight authenticated cipher (v3)}
+      \field{year}{2016}
+      \verb{urlraw}
+      \verb https://competitions.cr.yp.to/round3/acornv3.pdf
+      \endverb
+      \verb{url}
+      \verb https://competitions.cr.yp.to/round3/acornv3.pdf
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

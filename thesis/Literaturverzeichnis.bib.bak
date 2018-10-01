@@ -1,0 +1,362 @@
+% Encoding: UTF-8
+
+@Proceedings{fastvpn2018,
+  title     = {fastvpn – Secure and Flexible Networking for Industry 4.0},
+  year      = {2018},
+  publisher = {VDE Verlag GmbH - Berlin - Offenbach},
+  location  = {Berlin, Germany.},
+  month     = {4},
+  isbn      = {978-3-8007-4637-8},
+  pages     = {28--35},
+  address   = {Berlin, Germany.},
+  author    = {Andreas Bluschke and Wolfgang B\"{u}schel and Philipp Rietzsch and Alexander Senier and Peter Sieber and Volker Ulrich and Rainer Wiggers and Jean Wolter and Michael Hohmuth and Frieder Jehring and Rainer Kaminski and Konstantin Klamka and Stefan K\"{o}psell and Adam Lackorzynski and Tim Lackorzynski and Michael Matthews},
+  booktitle = {Broadband Coverage in Germany; 12. ITG-Symposium.},
+  numpages  = {8},
+}
+
+@Misc{rfc7539,
+  author       = {Yoav Nir and Adam Langley},
+  title        = {{ChaCha20 and Poly1305 for IETF Protocols}},
+  year         = {2015},
+  howpublished = {RFC 7539},
+  month        = may,
+  doi          = {10.17487/RFC7539},
+  url          = {https://rfc-editor.org/rfc/rfc7539.txt},
+  abstract     = {This document defines the ChaCha20 stream cipher as well as the use of the Poly1305 authenticator, both as stand-alone algorithms and as a "combined mode", or Authenticated Encryption with Associated Data (AEAD) algorithm.},
+  number       = {7539},
+  pagetotal    = {45},
+  publisher    = {RFC Editor},
+  series       = {Request for Comments},
+}
+
+@InProceedings{10.1007/978-3-662-43414-7_10,
+  author    = {Wu, Hongjun and Preneel, Bart},
+  title     = {AEGIS: A Fast Authenticated Encryption Algorithm},
+  booktitle = {Selected Areas in Cryptography -- SAC 2013},
+  year      = {2014},
+  editor    = {Lange, Tanja and Lauter, Kristin and Lison{\v{e}}k, Petr},
+  publisher = {Springer Berlin Heidelberg},
+  isbn      = {978-3-662-43414-7},
+  pages     = {185--201},
+  url       = {https://competitions.cr.yp.to/round3/aegisv11.pdf},
+  abstract  = {This paper introduces a dedicated authenticated encryption algorithm AEGIS; AEGIS allows for the protection of associated data which makes it very suitable for protecting network packets. AEGIS-128 uses five AES round functions to process a 16-byte message block (one step); AES-256 uses six AES round functions. The security analysis shows that both algorithms offer a high level of security. On the Intel Sandy Bridge Core i5 processor, the speed of AEGIS is around 0.7 clock cycles/byte (cpb) for 4096-byte messages. This is comparable in speed to the CTR mode (that offers only encryption) and substantially faster than the CCM, GCM and OCB modes.},
+  address   = {Berlin, Heidelberg},
+}
+
+@Misc{rfc5116,
+  author       = {Dr. David A. McGrew},
+  title        = {{An Interface and Algorithms for Authenticated Encryption}},
+  year         = {2008},
+  howpublished = {RFC 5116},
+  month        = jan,
+  doi          = {10.17487/RFC5116},
+  url          = {https://rfc-editor.org/rfc/rfc5116.txt},
+  abstract     = {This document defines algorithms for Authenticated Encryption with Associated Data (AEAD), and defines a uniform interface and a registry for such algorithms. The interface and registry can be used as an application-independent set of cryptoalgorithm suites. This approach provides advantages in efficiency and security, and promotes the reuse of crypto implementations. {[}STANDARDS-TRACK{]}},
+  number       = {5116},
+  pagetotal    = {22},
+  publisher    = {RFC Editor},
+  series       = {Request for Comments},
+}
+
+@InProceedings{10.1007/3-540-44448-3_41,
+  author    = {Bellare, Mihir and Namprempre, Chanathip},
+  title     = {Authenticated Encryption: Relations among Notions and Analysis of the Generic Composition Paradigm},
+  booktitle = {Advances in Cryptology --- ASIACRYPT 2000},
+  year      = {2000},
+  editor    = {Okamoto, Tatsuaki},
+  publisher = {Springer Berlin Heidelberg},
+  isbn      = {978-3-540-44448-0},
+  pages     = {531--545},
+  abstract  = {We consider two possible notions of authenticity for symmetric encryption schemes, namely integrity of plaintexts and integrity of ciphertexts, and relate them to the standard notions of privacy for symmetric encryption schemes by presenting implications and separations between all notions considered. We then analyze the security of authenticated encryption schemes designed by ``generic composition,'' meaning making black-box use of a given symmetric encryption scheme and a given MAC. Three composition methods are considered, namely Encrypt-and-MAC plaintext, MAC-then-encrypt, and Encrypt-then- MAC. For each of these, and for each notion of security, we indicate whether or not the resulting scheme meets the notion in question assuming the given symmetric encryption scheme is secure against chosen-plaintext attack and the given MAC is unforgeable under chosen-message attack. We provide proofs for the cases where the answer is ``yes'' and counter-examples for the cases where the answer is ``no.''},
+  address   = {Berlin, Heidelberg},
+}
+
+@Book{TN_libero_mab23259530,
+  author    = {Tanenbaum, Andrew S. AND Wetherall, David},
+  title     = {Computernetzwerke /},
+  year      = {2012},
+  edition   = {5., aktualisierte Aufl.},
+  publisher = {Pearson,},
+  isbn      = {9783868941371},
+  url       = { http://slubdd.de/katalog?TN_libero_mab23259530 },
+  abstract  = {Hier auch später erschienene, unveränderte Nachdrucke.},
+  address   = {München [u.a.] :},
+  booktitle = {Always learning},
+  keywords  = { Rechnernetz },
+}
+
+@Article{5409813,
+  title    = {IEEE Standard for Local and metropolitan area networks--Port-Based Network Access Control},
+  journal  = {IEEE Std 802.1X-2010 (Revision of IEEE Std 802.1X-2004)},
+  year     = {2010},
+  month    = {Feb},
+  pages    = {1-205},
+  doi      = {10.1109/IEEESTD.2010.5409813},
+  keywords = {IEEE standards;Access control;Local area networks;Metropolitan area networks;802.1X-2010;access control;authentication;authorization;controlled port;key agreement;LANs;local area networks;MAC security;MAC Service;MANs;metropolitan area networks;port-based network access control;secure association;security;service access point;uncontrolled port},
+}
+
+@Article{1678345,
+  title    = {IEEE Standard for Local and Metropolitan Area Networks: Media Access Control (MAC) Security},
+  journal  = {IEEE Std 802.1AE-2006},
+  year     = {2006},
+  month    = {Aug},
+  pages    = {1-150},
+  doi      = {10.1109/IEEESTD.2006.245590},
+  keywords = {authorized port;data origin authenticity;integrity/confidentiality;LANs;local areanetworks;MAC Bridges;MAC security and tack;MAC Service;MANs;metropolitan areanetworks;MSAP;port-based network access control;secure association;security;service accesspoint;transparent bridging},
+}
+
+@Article{ACORN,
+  author  = {Wu, Hongjun},
+  title   = {ACORN: a lightweight authenticated cipher (v3)},
+  journal = {Candidate for the CAESAR Competition. See also https://competitions. cr. yp. to/round3/acornv3. pdf},
+  year    = {2016},
+  url     = {https://competitions.cr.yp.to/round3/acornv3.pdf},
+}
+
+@Misc{AEGIS,
+  author  = {Wu, Hongjun and Preneel, Bart},
+  title   = {AEGIS: A Fast Authenticated Encryption Algorithm (v1. 1). Submission to CAESAR (2016)},
+  url     = {https://competitions.cr.yp.to/round3/aegisv11.pdf},
+  urldate = {25.09.},
+}
+
+@Article{Ascon,
+  author  = {Dobraunig, Christoph and Eichlseder, Maria and Mendel, Florian and Schl{\"a}ffer, Martin},
+  title   = {Ascon v1. 2},
+  journal = {Submission to the CAESAR Competition},
+  year    = {2016},
+  url     = {https://competitions.cr.yp.to/round3/asconv12.pdf},
+}
+
+@Article{COLM,
+  author  = {Andreeva, Elena and Bogdanov, Andrey and Datta, Nilanjan and Luykx, Atul and Mennink, Bart and Nandi, Mridul and Tischhauser, Elmar and Yasuda, Kan},
+  title   = {COLM v1},
+  journal = {CAESAR competition proposal},
+  year    = {2016},
+  url     = {https://competitions.cr.yp.to/round3/colmv1.pdf},
+}
+
+@Article{Jean2016,
+  author  = {Jean, J{\'e}r{\'e}my and Nikolic, Ivica and Peyrin, Thomas and Seurin, Yannick},
+  title   = {Deoxys v1. 41},
+  journal = {Submitted to CAESAR},
+  year    = {2016},
+  url     = {http://www1.spms.ntu.edu.sg/~syllab/m/images/3/3b/Deoxysv141.pdf},
+}
+
+@Misc{wuauthenticated,
+  author = {Wu, Hongjun and Huang, Tao},
+  title  = {The authenticated cipher MORUS (v2)(2016)},
+  url    = {https://competitions.cr.yp.to/round3/morusv2.pdf},
+}
+
+@Misc{krovetz2016ocb,
+  author = {Krovetz, Ted and Rogaway, Phillip},
+  title  = {OCB (v1. 1). Submission to CAESAR (2016)},
+  year   = {2016},
+  url    = {https://competitions.cr.yp.to/round3/ocbv11.pdf},
+}
+
+@Misc{aumasson2015norx,
+  author = {Aumasson, Jean-Philippe and Jovanovic, Philipp and Neves, Samuel},
+  title  = {NORX v3. 0. Submission to CAESAR (2016)},
+  year   = {2015},
+  url    = {https://competitions.cr.yp.to/round3/norxv30.pdf},
+}
+
+@InProceedings{bernstein2008chacha,
+  author    = {Bernstein, Daniel J},
+  title     = {ChaCha, a variant of Salsa20},
+  booktitle = {Workshop Record of SASC},
+  year      = {2008},
+  volume    = {8},
+  pages     = {3--5},
+  url       = {http://cr.yp.to/chacha/chacha-20080120.pdf},
+}
+
+@InProceedings{10.1007/11502760_3,
+  author    = {Bernstein, Daniel J.},
+  title     = {The Poly1305-AES Message-Authentication Code},
+  booktitle = {Fast Software Encryption},
+  year      = {2005},
+  editor    = {Gilbert, Henri and Handschuh, Helena},
+  publisher = {Springer Berlin Heidelberg},
+  isbn      = {978-3-540-31669-5},
+  pages     = {32--49},
+  url       = {https://link.springer.com/chapter/10.1007%2F11502760_3},
+  abstract  = {Poly1305-AES is a state-of-the-art message-authentication code suitable for a wide variety of applications. Poly1305-AES computes a 16-byte authenticator of a variable-length message, using a 16-byte AES key, a 16-byte additional key, and a 16-byte nonce. The security of Poly1305-AES is very close to the security of AES; the security gap is at most 14D⌈L/16⌉/2106 if messages have at most L bytes, the attacker sees at most 264 authenticated messages, and the attacker attempts D forgeries. Poly1305-AES can be computed at extremely high speed: for example, fewer than 3.1l{\thinspace}+{\thinspace}780 Athlon cycles for an ℓ-byte message. This speed is achieved without precomputation; consequently, 1000 keys can be handled simultaneously without cache misses. Special-purpose hardware can compute Poly1305-AES at even higher speed. Poly1305-AES is parallelizable, incremental, and not subject to any intellectual-property claims.},
+  address   = {Berlin, Heidelberg},
+}
+
+@Article{Ankele2016SoftwareBO,
+  author  = {Ralph Ankele and Robin Ankele},
+  title   = {Software Benchmarking of the 2nd round CAESAR Candidates},
+  journal = {IACR Cryptology ePrint Archive},
+  year    = {2016},
+  volume  = {2016},
+  pages   = {740},
+  url     = {https://eprint.iacr.org/2016/740.pdf},
+}
+
+@InProceedings{8383893,
+  author    = {M. Tempelmeier and F. De Santis and G. Sigl and J. Kaps},
+  title     = {The CAESAR-API in the real world — Towards a fair evaluation of hardware CAESAR candidates},
+  booktitle = {2018 IEEE International Symposium on Hardware Oriented Security and Trust (HOST)},
+  year      = {2018},
+  month     = {April},
+  pages     = {73-80},
+  doi       = {10.1109/HST.2018.8383893},
+  url       = {https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8383893},
+  keywords  = {application program interfaces;cryptographic protocols;field programmable gate arrays;system-on-chip;CAESAR-API;hardware-accelerators;hardware platform;open source hardware;published hardware implementations;fair evaluation;hardware CAESAR candidates;authenticated encryption;standardized hardware API;benchmark performance figures;energy consumption;automatic test hardware implementations;Xilinx Zynq-7000;system on chip;ARM processors;Hardware;Ciphers;Encryption;Field programmable gate arrays;Standards},
+}
+
+@Article{mosnavcekoptimizing,
+  author = {Mosn{\'a}{\v{c}}ek, Ondrej},
+  title  = {Optimizing authenticated encryption algorithms},
+  year   = {2017},
+  url    = {https://is.muni.cz/th/qvh3t/masters-thesis.pdf?so=nx},
+}
+
+@Article{procter2014security,
+  author  = {Procter, Gordon},
+  title   = {A Security Analysis of the Composition of ChaCha20 and Poly1305.},
+  journal = {IACR Cryptology ePrint Archive},
+  year    = {2014},
+  volume  = {2014},
+  pages   = {613},
+  url     = {https://eprint.iacr.org/2014/613.pdf},
+}
+
+@InProceedings{cache-collision-timing-attacks-against-aes,
+  author    = {Bonneau, Joseph and Mironov, Ilya},
+  title     = {Cache-Collision Timing Attacks Against AES},
+  booktitle = {Cryptographic Hardware and Embedded Systems—CHES 2006},
+  year      = {2006},
+  volume    = {4249},
+  publisher = {Springer},
+  month     = {October},
+  pages     = {201–215},
+  url       = {https://www.microsoft.com/en-us/research/publication/cache-collision-timing-attacks-against-aes/},
+  abstract  = {This paper describes several novel timing attacks against the common table-driven software implementation of the AES cipher. We deﬁne a general attack strategy using a simpliﬁed model of the cache to predict timing variation due to cache-collisions in the sequence of lookups performed by the encryption. The attacks presented should be applicable to most high-speed software AES implementations and computing platforms, we have implemented them against OpenSSL v. 0.9.8.(a) running on Pentium III, Pentium IV Xeon, and UltraSPARC III+ machines. The most powerful attack has been shown under optimal conditions to reliably recover a full 128-bit AES key with 213 timing samples, an improvement of almost four orders of magnitude over the best previously published attacks of this type [Ber05]. While the task of defending AES against all timing attacks is challenging, a small patch can signiﬁcantly reduce the vulnerability to these speciﬁc attacks with no performance penalty.},
+}
+
+@Article{gueron2010intel,
+  author  = {Gueron, Shay},
+  title   = {Intel{\textregistered} advanced encryption standard (AES) new instructions set},
+  journal = {Intel Corporation},
+  year    = {2010},
+  url     = {https://www.intel.com.bo/content/dam/doc/white-paper/advanced-encryption-standard-new-instructions-set-paper.pdf},
+}
+
+@Article{6047536,
+  title    = {IEEE Standard for Local and metropolitan area networks--Media Access Control (MAC) Security Amendment 1: Galois Counter Mode--Advanced Encryption Standard-- 256 (GCM-AES-256) Cipher Suite},
+  journal  = {IEEE Std 802.1AEbn-2011 (Amendment to IEEE Std 802.1AE-2006)},
+  year     = {2011},
+  month    = {Oct},
+  pages    = {1-52},
+  doi      = {10.1109/IEEESTD.2011.6047536},
+  url      = {https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=6047536},
+  keywords = {access protocols;computer network security;cryptography;local area networks;metropolitan area networks;local area network;metropolitan area network;media access control security amendment;Galois counter mode;advanced encryption standard;GCM-AES-256 cipher suite;IEEE standards;Local area networks;Metropolitan area networks;Media Access Protocol;Security;Authentication;authenticity;authorized port;confidentiality;data origin integrity;IEEE 802.1AEbn;LANs;local area networks;MAC Bridges;MAC security;MAC Service;MANs;metropolitan area networks;port based network access control;secure association;security;transparent bridging},
+}
+
+@Misc{rfc7253,
+  author       = {Ted Krovetz and Phillip Rogaway},
+  title        = {{The OCB Authenticated-Encryption Algorithm}},
+  year         = {2014},
+  howpublished = {RFC 7253},
+  month        = may,
+  doi          = {10.17487/RFC7253},
+  url          = {https://rfc-editor.org/rfc/rfc7253.txt},
+  abstract     = {This document specifies OCB, a shared-key blockcipher-based encryption scheme that provides confidentiality and authenticity for plaintexts and authenticity for associated data. This document is a product of the Crypto Forum Research Group (CFRG).},
+  number       = {7253},
+  pagetotal    = {19},
+  publisher    = {RFC Editor},
+  series       = {Request for Comments},
+}
+
+@Article{pfitzmann2000sicherheit,
+  author    = {Pfitzmann, Andreas},
+  title     = {Sicherheit in Rechnernetzen: Mehrseitige Sicherheit in verteilten und durch verteilte Systeme},
+  journal   = {Lecture script},
+  year      = {2000},
+  url       = {https://dud.inf.tu-dresden.de/%7esk13/TUD-Web-CMS/LV/SaC-II/Skript.pdf},
+  publisher = {Citeseer},
+}
+
+@Misc{bernstein2009supercop,
+  author = {Bernstein, Daniel J},
+  title  = {Supercop: System for unified performance evaluation related to cryptographic operations and primitives},
+  year   = {2009},
+  url    = {https://bench.cr.yp.to/supercop.html},
+}
+
+@Misc{bernstein2014caesar,
+  author = {Bernstein, Daniel J},
+  title  = {Caesar: Competition for authenticated encryption: Security, applicability, and robustness},
+  year   = {2014},
+  url    = {https://competitions.cr.yp.to/caesar.html},
+}
+
+@Online{CryptoList,
+  author = {Daniel J. Bernstein},
+  title  = {SuperCop AEAD List},
+  date   = {2018},
+  url    = {https://bench.cr.yp.to/primitives-aead.html},
+}
+
+@Online{AdamLangley,
+  author = {Adam Langley},
+  title  = {[TLS] Salsa20 and Poly1305 in TLS},
+  year   = {2013},
+  date   = {2013-07-29},
+  url    = {https://www.ietf.org/mail-archive/web/tls/current/msg09707.html},
+}
+
+@Online{ICMP,
+  author = {Jon Postel and David Johnson and Tom Markson and Bill Simpson and Zaw-Sing Su},
+  title  = {Internet Control Message Protocol (ICMP) Parameters},
+  year   = {2018},
+  date   = {2018-06-15},
+  url    = {https://www.iana.org/assignments/icmp-parameters/icmp-parameters.xhtml},
+}
+
+@Online{Manpage,
+  author = {Sabrina Dubroca},
+  editor = {Sabrina Dubroca},
+  title  = {ip-macsec - MACsec device configuration},
+  year   = {2016},
+  date   = {2016-05-07},
+  url    = {https://manpages.debian.org/stretch/iproute2/ip-macsec.8.en.html},
+}
+
+@Online{Kernelmerge,
+  author = {Linux Torvalds},
+  title  = {Merge branch 'linus' of git: \url{//git.kernel.org/pub/scm/linux/kernel/git/herbert/crypto-2.6}},
+  year   = {2018},
+  date   = {2018-06-05},
+}
+
+@Online{d,
+  author = {Sabrina Dubroca},
+  editor = {Sabrina Dubroca},
+  title  = {MACsec: Encryption for the wired LAN},
+  year   = {2016},
+  date   = {2016-02-12},
+  url    = {file:///C:/Users/Gregor/Desktop/Uni/Bachelorarbeit/Quellen/MACsec-Encryption-for-the-wired-LAN.pdf},
+}
+
+@Thesis{,
+}
+
+@Online{,
+}
+
+@Online{kerneldoc,
+  author = {S. Mueller, M. Vasut},
+  title  = {The Linux Kernel documentation. Kernel Crypto API Interface Specification},
+  year   = {2018},
+  date   = {2018-09-30},
+  url    = {https://www.kernel.org/doc/html/latest/crypto/intro.html},
+}
+
+@Comment{jabref-meta: databaseType:biblatex;}
